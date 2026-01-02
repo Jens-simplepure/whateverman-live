@@ -1,0 +1,285 @@
+{%- style -%}
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--color-background);
+  }
+  
+  .hero__background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  
+  .hero__background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.4) 100%);
+  }
+  
+  .hero__glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(150px);
+    opacity: 0.4;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .hero__glow--primary {
+    top: 20%;
+    right: 10%;
+    background: var(--color-primary);
+  }
+  
+  .hero__glow--secondary {
+    bottom: 20%;
+    left: 10%;
+    background: var(--color-secondary);
+    animation-delay: -3s;
+  }
+  
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+  
+  @media (min-width: 768px) {
+    .hero__content {
+      text-align: left;
+      max-width: 60%;
+      margin: 0;
+      padding: 0 4rem;
+    }
+  }
+  
+  .hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(170, 255, 0, 0.1);
+    border: 1px solid var(--color-primary);
+    margin-bottom: 1.5rem;
+    animation: slide-up 0.6s ease-out;
+  }
+  
+  .hero__badge-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  .hero__badge-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+  }
+  
+  .hero__title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 12vw, 8rem);
+    line-height: 0.95;
+    margin-bottom: 1.5rem;
+    animation: slide-up 0.6s ease-out 0.1s both;
+  }
+  
+  .hero__title-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hero__description {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    max-width: 500px;
+    margin-bottom: 2rem;
+    animation: slide-up 0.6s ease-out 0.2s both;
+  }
+  
+  @media (min-width: 768px) {
+    .hero__description {
+      font-size: 1.25rem;
+    }
+  }
+  
+  .hero__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: slide-up 0.6s ease-out 0.3s both;
+  }
+  
+  @media (min-width: 480px) {
+    .hero__actions {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .hero__actions {
+      justify-content: flex-start;
+    }
+  }
+  
+  .hero__scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: float 2s ease-in-out infinite;
+  }
+  
+  .hero__scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--color-primary), transparent);
+  }
+{%- endstyle -%}
+
+<section class="hero">
+  {% if section.settings.background_image != blank %}
+    <div class="hero__background">
+      <img 
+        src="{{ section.settings.background_image | image_url: width: 1920 }}"
+        alt="{{ section.settings.background_image.alt | default: section.settings.heading }}"
+        class="hero__background-image"
+        loading="eager"
+      >
+      <div class="hero__overlay"></div>
+    </div>
+  {% endif %}
+  
+  <div class="hero__glow hero__glow--primary"></div>
+  <div class="hero__glow hero__glow--secondary"></div>
+  
+  <div class="hero__content">
+    {% if section.settings.badge_text != blank %}
+      <div class="hero__badge">
+        <span class="hero__badge-dot"></span>
+        <span class="hero__badge-text">{{ section.settings.badge_text }}</span>
+      </div>
+    {% endif %}
+    
+    <h1 class="hero__title">
+      {{ section.settings.heading_line1 }}<br>
+      <span class="hero__title-gradient">{{ section.settings.heading_line2 }}</span>
+    </h1>
+    
+    {% if section.settings.description != blank %}
+      <p class="hero__description">{{ section.settings.description }}</p>
+    {% endif %}
+    
+    <div class="hero__actions">
+      {% if section.settings.button_text != blank %}
+        <a href="{{ section.settings.button_link }}" class="btn btn-gradient">
+          {{ section.settings.button_text }}
+        </a>
+      {% endif %}
+      
+      {% if section.settings.secondary_button_text != blank %}
+        <a href="{{ section.settings.secondary_button_link }}" class="btn btn-outline">
+          {{ section.settings.secondary_button_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  
+  <div class="hero__scroll">
+    <span>Scroll</span>
+    <div class="hero__scroll-line"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "class": "section-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "New Drop"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Heading Line 1",
+      "default": "Define Your"
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "Heading Line 2 (Gradient)",
+      "default": "Style"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Bold streetwear for the next generation. Express yourself with pieces that hit different."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Primary Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_text",
+      "label": "Secondary Button Text",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}

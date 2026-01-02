@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <title>
+    {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {% if settings.favicon != blank %}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {% endif %}
+
+  {% render 'meta-tags' %}
+  
+  <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ 'component-variables.css' | asset_url | stylesheet_tag }}
+  
+  {%- unless settings.font_heading.system? -%}
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+  {%- endunless -%}
+  
+  <style>
+    {{ settings.font_heading | font_face: font_display: 'swap' }}
+    {{ settings.font_body | font_face: font_display: 'swap' }}
+  </style>
+  
+  <!-- Only load Permanent Marker from Google (not available in Shopify) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+  {{ content_for_header }}
+
+  <style>
+    :root {
+      /* Gen Z Color Palette */
+      --color-primary: {{ settings.color_primary }};
+      --color-secondary: {{ settings.color_secondary }};
+      --color-accent: {{ settings.color_accent }};
+      --color-background: {{ settings.color_background }};
+      --color-background-secondary: {{ settings.color_background_secondary }};
+      --color-text: {{ settings.color_text }};
+      --color-text-muted: {{ settings.color_text_muted }};
+      
+      /* Typography */
+      --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+      --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+      --font-accent: 'Permanent Marker', cursive;
+      --font-size-base: {{ settings.font_size_base }}px;
+      
+      /* Glow Effects */
+      --glow-primary: 0 0 20px {{ settings.color_primary }}80, 0 0 40px {{ settings.color_primary }}40;
+      --glow-secondary: 0 0 20px {{ settings.color_secondary }}80, 0 0 40px {{ settings.color_secondary }}40;
+      --glow-accent: 0 0 20px {{ settings.color_accent }}80, 0 0 40px {{ settings.color_accent }}40;
+      
+      /* Gradients */
+      --gradient-primary: linear-gradient(135deg, {{ settings.color_primary }}, {{ settings.color_secondary }});
+      --gradient-accent: linear-gradient(135deg, {{ settings.color_accent }}, {{ settings.color_primary }});
+      
+      /* Spacing */
+      --header-height: 80px;
+      --container-width: 1400px;
+    }
+  </style>
+</head>
+
+<body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
+  <a class="skip-to-content-link visually-hidden" href="#MainContent">
+    {{ "accessibility.skip_to_text" | t }}
+  </a>
+
+  {% sections 'header-group' %}
+
+  <main id="MainContent" class="main-content" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  {% render 'cart-drawer' %}
+  {% render 'login-drawer' %}
+
+  {{ 'main.js' | asset_url | script_tag }}
+</body>
+</html>

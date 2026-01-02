@@ -1,0 +1,120 @@
+{%- comment -%}
+  Product Card Snippet
+  Usage: {% render 'product-card', product: product %}
+{%- endcomment -%}
+
+<article class="product-card" data-animate>
+  <a href="{{ product.url }}" class="product-card__link">
+    <div class="product-card__image">
+      {% if product.featured_image != blank %}
+        <img 
+          src="{{ product.featured_image | image_url: width: 600 }}"
+          alt="{{ product.featured_image.alt | default: product.title }}"
+          width="600"
+          height="600"
+          loading="lazy"
+        >
+        {% if product.images[1] != blank %}
+          <img 
+            src="{{ product.images[1] | image_url: width: 600 }}"
+            alt="{{ product.images[1].alt | default: product.title }}"
+            width="600"
+            height="600"
+            loading="lazy"
+            class="product-card__image-hover"
+          >
+        {% endif %}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+      
+      {%- assign thirty_days_ago = 'now' | date: '%s' | minus: 2592000 -%}
+      {%- assign product_date = product.created_at | date: '%s' -%}
+      {% if product.available == false %}
+        <span class="product-card__badge product-card__badge--sold-out">Sold Out</span>
+      {% elsif product.compare_at_price > product.price %}
+        <span class="product-card__badge product-card__badge--sale">Sale</span>
+      {% elsif product_date > thirty_days_ago %}
+        <span class="product-card__badge">New</span>
+      {% endif %}
+    </div>
+    
+    <div class="product-card__quick-add">
+      <button 
+        type="button" 
+        class="btn btn-primary btn-pill"
+        data-quick-add="{{ product.variants.first.id }}"
+        {% if product.available == false %}disabled{% endif %}
+      >
+        {% if product.available %}
+          Quick Add
+        {% else %}
+          Sold Out
+        {% endif %}
+      </button>
+    </div>
+  </a>
+  
+  <div class="product-card__content">
+    <h3 class="product-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+    
+    <div class="product-card__price">
+      {% if product.compare_at_price > product.price %}
+        <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
+      {% endif %}
+      <span class="product-card__price-current">{{ product.price | money }}</span>
+    </div>
+    
+    {% if product.variants.size > 1 %}
+      <div class="product-card__variants">
+        {% for variant in product.variants limit: 4 %}
+          {% if variant.option1 %}
+            <span class="product-card__variant-option">{{ variant.option1 }}</span>
+          {% endif %}
+        {% endfor %}
+        {% if product.variants.size > 4 %}
+          <span class="product-card__variant-more">+{{ product.variants.size | minus: 4 }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</article>
+
+<style>
+  .product-card__image-hover {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  .product-card:hover .product-card__image-hover {
+    opacity: 1;
+  }
+  
+  .product-card__badge--sold-out {
+    background: var(--color-text-muted);
+  }
+  
+  .product-card__variants {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .product-card__variant-option {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--color-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-muted);
+  }
+  
+  .product-card__variant-more {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+</style>

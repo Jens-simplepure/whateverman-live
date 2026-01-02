@@ -1,0 +1,429 @@
+{%- style -%}
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--color-background);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .site-header.is-scrolled {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+  }
+  
+  .site-header.is-hidden {
+    transform: translateY(-100%);
+  }
+  
+  .header__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+    padding: 0 1rem;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  @media (min-width: 768px) {
+    .header__wrapper {
+      padding: 0 2rem;
+    }
+  }
+  
+  .header__nav {
+    display: none;
+  }
+  
+  @media (min-width: 1024px) {
+    .header__nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+  }
+  
+  .header__nav-link {
+    position: relative;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.125rem;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+  
+  .header__nav-link:hover {
+    color: var(--color-primary);
+    text-shadow: var(--glow-primary);
+  }
+  
+  .header__nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  
+  .header__nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+    box-shadow: 0 0 10px var(--color-primary);
+  }
+  
+  .header__nav-link--badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .header__logo {
+    position: static;
+    order: 0;
+  }
+  
+  @media (min-width: 1024px) {
+    .header__logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  
+  .header__logo-link {
+    display: block;
+    transition: all 0.3s ease;
+  }
+  
+  .header__logo-link:hover {
+    filter: drop-shadow(0 0 10px var(--color-primary));
+  }
+  
+  .header__logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  @media (min-width: 768px) {
+    .header__logo-text {
+      font-size: 2rem;
+    }
+  }
+  
+  .header__icons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .header__icons {
+      gap: 1.5rem;
+    }
+  }
+  
+  .header__text-link {
+    position: relative;
+    display: none;
+    align-items: center;
+    background: transparent;
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+  }
+  
+  @media (min-width: 480px) {
+    .header__text-link {
+      display: flex;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .header__text-link {
+      font-size: 1.125rem;
+    }
+  }
+  
+  .header__text-link:hover {
+    color: var(--color-primary);
+    text-shadow: var(--glow-primary);
+  }
+  
+  .header__text-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  
+  .header__text-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+    box-shadow: 0 0 10px var(--color-primary);
+  }
+  
+  .header__text-link--bag {
+    gap: 0.25rem;
+  }
+  
+  .header__cart-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    background: var(--color-primary);
+    color: var(--color-background);
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 50%;
+    margin-left: 0.25rem;
+  }
+  
+  .header__mobile-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    margin-left: 0.25rem;
+  }
+  
+  @media (min-width: 768px) {
+    .header__mobile-toggle {
+      gap: 5px;
+      padding: 8px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .header__mobile-toggle {
+      display: none;
+    }
+  }
+  
+  .header__mobile-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--color-text);
+    transition: all 0.3s ease;
+  }
+  
+  @media (min-width: 768px) {
+    .header__mobile-toggle span {
+      width: 24px;
+    }
+  }
+  
+  
+  /* Mobile Menu */
+  .mobile-menu {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-background);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+  
+  @media (min-width: 768px) {
+    .mobile-menu {
+      padding: 2rem;
+    }
+  }
+  
+  .mobile-menu.is-open {
+    transform: translateX(0);
+  }
+  
+  .mobile-menu__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .mobile-menu__link {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+  
+  @media (min-width: 768px) {
+    .mobile-menu__link {
+      font-size: 2rem;
+    }
+  }
+  
+  .mobile-menu__link:hover {
+    color: var(--color-primary);
+    text-shadow: var(--glow-primary);
+    transform: translateX(10px);
+  }
+  
+  /* Mobile menu icons for search/account */
+  .mobile-menu__icons {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  @media (min-width: 480px) {
+    .mobile-menu__icons {
+      display: none;
+    }
+  }
+  
+  .mobile-menu__icon-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-menu__icon-link:hover {
+    color: var(--color-primary);
+  }
+  
+  .mobile-menu__icon-link svg {
+    width: 20px;
+    height: 20px;
+  }
+{%- endstyle -%}
+
+<header class="site-header" data-sticky="{{ settings.header_sticky }}">
+  <div class="header__wrapper">
+    <!-- Left Nav -->
+    <nav class="header__nav header__nav--left">
+      {% for link in linklists.main-menu.links %}
+        {% if forloop.index <= 3 %}
+          <a href="{{ link.url }}" class="header__nav-link {% if link.title contains 'New' %}header__nav-link--badge{% endif %}">
+            {{ link.title }}
+            {% if link.title contains 'New' %}
+              <span class="badge badge-new">NEW</span>
+            {% endif %}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </nav>
+    
+    <!-- Logo -->
+    <div class="header__logo">
+      <a href="/" class="header__logo-link">
+        {% if settings.logo != blank %}
+          <img 
+            src="{{ settings.logo | image_url: width: settings.logo_width }}" 
+            alt="{{ shop.name }}"
+            width="{{ settings.logo_width }}"
+            loading="eager"
+          >
+        {% else %}
+          <span class="header__logo-text">{{ shop.name }}</span>
+        {% endif %}
+      </a>
+    </div>
+    
+    <!-- Right Nav & Icons -->
+    <div class="header__icons">
+      <nav class="header__nav header__nav--right">
+        {% for link in linklists.main-menu.links %}
+          {% if forloop.index > 3 %}
+            <a href="{{ link.url }}" class="header__nav-link">{{ link.title }}</a>
+          {% endif %}
+        {% endfor %}
+      </nav>
+      
+      <a href="{{ routes.search_url }}" class="header__text-link" aria-label="{{ 'general.header.search' | t }}">
+        {{ 'general.header.search' | t }}
+      </a>
+      
+      <button class="header__text-link" data-login-drawer-open aria-label="{{ 'general.header.login' | t }}">
+        {{ 'general.header.login' | t }}
+      </button>
+      
+      <button class="header__text-link header__text-link--bag" data-cart-drawer-open aria-label="{{ 'general.header.bag' | t }}">
+        {{ 'general.header.bag' | t }}
+        <span class="header__cart-count" data-cart-count>{{ cart.item_count }}</span>
+      </button>
+      
+      <button class="header__mobile-toggle" data-mobile-menu-toggle aria-label="Menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" data-mobile-menu>
+  <nav class="mobile-menu__nav">
+    {% for link in linklists.main-menu.links %}
+      <a href="{{ link.url }}" class="mobile-menu__link">{{ link.title }}</a>
+    {% endfor %}
+  </nav>
+  
+  <div class="mobile-menu__icons">
+    <a href="{{ routes.search_url }}" class="mobile-menu__icon-link">
+      {{ 'general.header.search' | t }}
+    </a>
+    <button class="mobile-menu__icon-link" data-login-drawer-open>
+      {{ 'general.header.login' | t }}
+    </button>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": []
+}
+{% endschema %}

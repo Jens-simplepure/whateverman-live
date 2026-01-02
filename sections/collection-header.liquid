@@ -1,0 +1,56 @@
+{%- style -%}
+  .collection-header {
+    padding: 4rem 0 2rem;
+    text-align: center;
+  }
+  
+  .collection-header__wrapper {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .collection-header__title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .collection-header__description {
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .collection-header__count {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+{%- endstyle -%}
+
+<header class="collection-header">
+  <div class="collection-header__wrapper">
+    <h1 class="collection-header__title">{{ collection.title }}</h1>
+    
+    {% if collection.description != blank %}
+      <div class="collection-header__description">
+        {{ collection.description }}
+      </div>
+    {% endif %}
+    
+    <p class="collection-header__count">{{ collection.products_count }} products</p>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Collection Header",
+  "class": "section-collection-header",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,599 @@
+{%- comment -%}
+  Login/Signup Drawer Snippet
+  Renders a slide-out login & registration drawer matching whateverman.com.au design
+{%- endcomment -%}
+
+<div class="auth-drawer__overlay" data-auth-drawer-overlay></div>
+
+<aside class="auth-drawer" data-auth-drawer aria-label="{{ 'customer.login.title' | t }}">
+  <header class="auth-drawer__header">
+    <span class="auth-drawer__header-title" data-auth-title>{{ 'customer.login.title' | t | default: 'Login' }}</span>
+    <button class="auth-drawer__close" data-auth-drawer-close aria-label="{{ 'general.accessibility.close' | t }}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </header>
+  
+  {%- comment -%} LOGIN VIEW {%- endcomment -%}
+  <div class="auth-drawer__view auth-drawer__view--active" data-auth-view="login">
+    <div class="auth-drawer__content">
+      <div class="auth-drawer__welcome">
+        <h2 class="auth-drawer__title">{{ 'customer.login.welcome_back' | t | default: 'Welcome back!' }}</h2>
+        <p class="auth-drawer__subtitle">{{ 'customer.login.subtitle' | t | default: 'Please login to access your account' }}</p>
+      </div>
+      
+      <form method="post" action="/account/login" class="auth-drawer__form" id="login-drawer-form">
+        <input type="hidden" name="form_type" value="customer_login">
+        <input type="hidden" name="utf8" value="✓">
+        
+        <div class="auth-drawer__field">
+          <label for="login-email" class="auth-drawer__label">{{ 'customer.login.email' | t | default: 'Email' }}</label>
+          <input 
+            type="email" 
+            id="login-email" 
+            name="customer[email]" 
+            class="auth-drawer__input"
+            autocomplete="email"
+            required
+          >
+        </div>
+        
+        <div class="auth-drawer__field">
+          <label for="login-password" class="auth-drawer__label">{{ 'customer.login.password' | t | default: 'Password' }}</label>
+          <input 
+            type="password" 
+            id="login-password" 
+            name="customer[password]" 
+            class="auth-drawer__input"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+        
+        <a href="/account/recover" class="auth-drawer__forgot">{{ 'customer.login.forgot_password' | t | default: 'Forgot your password?' }}</a>
+        
+        <button type="submit" class="auth-drawer__submit">
+          {{ 'customer.login.submit' | t | default: 'Login to your account' }}
+        </button>
+      </form>
+      
+      <div class="auth-drawer__switch">
+        <h3 class="auth-drawer__switch-title">{{ 'customer.login.not_customer_yet' | t | default: 'Not a customer yet?' }}</h3>
+        <button type="button" class="auth-drawer__switch-btn" data-auth-switch="signup">
+          {{ 'customer.register.create_account' | t | default: 'Create an account' }}
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  {%- comment -%} SIGNUP VIEW {%- endcomment -%}
+  <div class="auth-drawer__view" data-auth-view="signup">
+    <div class="auth-drawer__content">
+      <div class="auth-drawer__welcome">
+        <h2 class="auth-drawer__title">{{ 'customer.register.title' | t | default: 'Create an account' }}</h2>
+        <ul class="auth-drawer__benefits">
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            {{ 'customer.register.benefit_1' | t | default: 'Faster Checkout' }}
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            {{ 'customer.register.benefit_2' | t | default: 'Track your orders' }}
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            {{ 'customer.register.benefit_3' | t | default: 'View your order history' }}
+          </li>
+        </ul>
+      </div>
+      
+      <form method="post" action="/account" class="auth-drawer__form" id="signup-drawer-form">
+        <input type="hidden" name="form_type" value="create_customer">
+        <input type="hidden" name="utf8" value="✓">
+        
+        <div class="auth-drawer__field-row">
+          <div class="auth-drawer__field">
+            <label for="signup-first-name" class="auth-drawer__label">{{ 'customer.register.first_name' | t | default: 'First name' }}</label>
+            <input 
+              type="text" 
+              id="signup-first-name" 
+              name="customer[first_name]" 
+              class="auth-drawer__input"
+              autocomplete="given-name"
+            >
+          </div>
+          <div class="auth-drawer__field">
+            <label for="signup-last-name" class="auth-drawer__label">{{ 'customer.register.last_name' | t | default: 'Last name' }}</label>
+            <input 
+              type="text" 
+              id="signup-last-name" 
+              name="customer[last_name]" 
+              class="auth-drawer__input"
+              autocomplete="family-name"
+            >
+          </div>
+        </div>
+        
+        <div class="auth-drawer__field">
+          <label for="signup-email" class="auth-drawer__label">{{ 'customer.register.email' | t | default: 'Email' }}</label>
+          <input 
+            type="email" 
+            id="signup-email" 
+            name="customer[email]" 
+            class="auth-drawer__input"
+            autocomplete="email"
+            required
+          >
+        </div>
+        
+        <div class="auth-drawer__field">
+          <label for="signup-password" class="auth-drawer__label">{{ 'customer.register.password' | t | default: 'Password' }}</label>
+          <input 
+            type="password" 
+            id="signup-password" 
+            name="customer[password]" 
+            class="auth-drawer__input"
+            autocomplete="new-password"
+            required
+            minlength="6"
+          >
+          <span class="auth-drawer__hint">{{ 'customer.register.password_hint' | t | default: 'Your password should be a minimum of 6 characters.' }}</span>
+        </div>
+        
+        <div class="auth-drawer__checkbox-group">
+          <label class="auth-drawer__checkbox">
+            <input type="checkbox" name="customer[accepts_marketing]" value="1">
+            <span class="auth-drawer__checkbox-mark"></span>
+            <span>{{ 'customer.register.newsletter_signup' | t | default: 'Sign up for news and updates' }}</span>
+          </label>
+        </div>
+        
+        <div class="auth-drawer__checkbox-group">
+          <label class="auth-drawer__checkbox">
+            <input type="checkbox" required>
+            <span class="auth-drawer__checkbox-mark"></span>
+            <span>{{ 'customer.register.privacy_consent' | t | default: 'I consent to my data being processed as defined in the' }} <a href="/pages/privacy-policy" target="_blank">{{ 'customer.register.privacy_statement' | t | default: 'privacy statement' }}</a></span>
+          </label>
+        </div>
+        
+        <button type="submit" class="auth-drawer__submit auth-drawer__submit--signup">
+          {{ 'customer.register.submit' | t | default: 'Sign up' }}
+        </button>
+      </form>
+      
+      <div class="auth-drawer__switch">
+        <h3 class="auth-drawer__switch-title">{{ 'customer.register.already_have_account' | t | default: 'Already have an account?' }}</h3>
+        <button type="button" class="auth-drawer__switch-btn auth-drawer__switch-btn--outline" data-auth-switch="login">
+          {{ 'customer.login.submit_short' | t | default: 'Login' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .auth-drawer__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1001;
+  }
+  
+  body.auth-open .auth-drawer__overlay {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .auth-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 500px;
+    background: var(--color-background, #0A0A0A);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  .auth-drawer.is-open {
+    transform: translateX(0);
+  }
+  
+  .auth-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .auth-drawer__header-title {
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #999999);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  .auth-drawer__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    color: var(--color-text, #ffffff);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .auth-drawer__close:hover {
+    color: var(--color-primary, #AAFF00);
+  }
+  
+  /* Views */
+  .auth-drawer__view {
+    display: none;
+    flex: 1;
+  }
+  
+  .auth-drawer__view--active {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .auth-drawer__content {
+    flex: 1;
+    padding: 2rem 1.5rem;
+  }
+  
+  @media (min-width: 480px) {
+    .auth-drawer__content {
+      padding: 2.5rem 2rem;
+    }
+  }
+  
+  .auth-drawer__welcome {
+    margin-bottom: 2rem;
+  }
+  
+  .auth-drawer__title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--color-text, #ffffff);
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  
+  @media (min-width: 480px) {
+    .auth-drawer__title {
+      font-size: 2.5rem;
+    }
+  }
+  
+  .auth-drawer__subtitle {
+    font-size: 1rem;
+    color: var(--color-text-muted, #999999);
+    margin: 0;
+  }
+  
+  /* Benefits List */
+  .auth-drawer__benefits {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+  }
+  
+  .auth-drawer__benefits li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text, #ffffff);
+    font-size: 0.9375rem;
+    margin-bottom: 0.625rem;
+  }
+  
+  .auth-drawer__benefits svg {
+    color: var(--color-primary, #AAFF00);
+    flex-shrink: 0;
+  }
+  
+  /* Form */
+  .auth-drawer__form {
+    margin-bottom: 2rem;
+  }
+  
+  .auth-drawer__field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .auth-drawer__field {
+    margin-bottom: 1.25rem;
+  }
+  
+  .auth-drawer__label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text, #ffffff);
+    margin-bottom: 0.5rem;
+  }
+  
+  .auth-drawer__input {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    color: var(--color-text, #ffffff);
+    background: var(--color-background-secondary, #121212);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .auth-drawer__input:focus {
+    outline: none;
+    border-color: var(--color-primary, #AAFF00);
+    box-shadow: 0 0 0 3px rgba(170, 255, 0, 0.15);
+  }
+  
+  .auth-drawer__input::placeholder {
+    color: var(--color-text-muted, #999999);
+  }
+  
+  .auth-drawer__hint {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted, #999999);
+    margin-top: 0.5rem;
+  }
+  
+  .auth-drawer__forgot {
+    display: inline-block;
+    font-size: 0.875rem;
+    color: var(--color-text, #ffffff);
+    text-decoration: underline;
+    margin-bottom: 1.5rem;
+    transition: color 0.3s ease;
+  }
+  
+  .auth-drawer__forgot:hover {
+    color: var(--color-primary, #AAFF00);
+  }
+  
+  /* Checkbox */
+  .auth-drawer__checkbox-group {
+    margin-bottom: 1rem;
+  }
+  
+  .auth-drawer__checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #999999);
+    line-height: 1.5;
+  }
+  
+  .auth-drawer__checkbox input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .auth-drawer__checkbox-mark {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    background: transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    margin-top: 2px;
+  }
+  
+  .auth-drawer__checkbox input:checked + .auth-drawer__checkbox-mark {
+    border-color: var(--color-primary, #AAFF00);
+    background: var(--color-primary, #AAFF00);
+  }
+  
+  .auth-drawer__checkbox input:checked + .auth-drawer__checkbox-mark::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: var(--color-background, #0A0A0A);
+    border-radius: 50%;
+  }
+  
+  .auth-drawer__checkbox a {
+    color: var(--color-text, #ffffff);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+  }
+  
+  .auth-drawer__checkbox a:hover {
+    color: var(--color-primary, #AAFF00);
+  }
+  
+  /* Submit Button */
+  .auth-drawer__submit {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: var(--color-text-muted, #999999);
+    background: var(--color-background-secondary, #121212);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 1.5rem;
+  }
+  
+  .auth-drawer__submit:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text, #ffffff);
+  }
+  
+  /* Active state when form is filled */
+  .auth-drawer__form.is-valid .auth-drawer__submit {
+    background: var(--color-primary, #AAFF00);
+    color: var(--color-background, #0A0A0A);
+    border-color: var(--color-primary, #AAFF00);
+  }
+  
+  .auth-drawer__form.is-valid .auth-drawer__submit:hover {
+    box-shadow: 0 0 20px rgba(170, 255, 0, 0.4);
+  }
+  
+  /* Switch Section */
+  .auth-drawer__switch {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .auth-drawer__switch-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--color-text, #ffffff);
+    margin: 0 0 1rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  
+  .auth-drawer__switch-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: var(--color-background, #0A0A0A);
+    background: var(--color-primary, #AAFF00);
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .auth-drawer__switch-btn:hover {
+    box-shadow: 0 0 20px rgba(170, 255, 0, 0.4);
+  }
+  
+  .auth-drawer__switch-btn--outline {
+    background: transparent;
+    color: var(--color-text, #ffffff);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .auth-drawer__switch-btn--outline:hover {
+    border-color: var(--color-primary, #AAFF00);
+    color: var(--color-primary, #AAFF00);
+    box-shadow: none;
+  }
+</style>
+
+<script>
+  (function() {
+    const drawer = document.querySelector('[data-auth-drawer]');
+    const views = drawer.querySelectorAll('[data-auth-view]');
+    const switchBtns = drawer.querySelectorAll('[data-auth-switch]');
+    const titleEl = drawer.querySelector('[data-auth-title]');
+    
+    const titles = {
+      login: '{{ 'customer.login.title' | t | default: 'Login' }}',
+      signup: '{{ 'customer.register.title_short' | t | default: 'Sign up' }}'
+    };
+    
+    // Switch between views
+    switchBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetView = btn.dataset.authSwitch;
+        
+        views.forEach(view => {
+          view.classList.remove('auth-drawer__view--active');
+          if (view.dataset.authView === targetView) {
+            view.classList.add('auth-drawer__view--active');
+          }
+        });
+        
+        if (titleEl && titles[targetView]) {
+          titleEl.textContent = titles[targetView];
+        }
+      });
+    });
+    
+    // Form validation - Login
+    const loginForm = document.getElementById('login-drawer-form');
+    const loginEmail = document.getElementById('login-email');
+    const loginPassword = document.getElementById('login-password');
+    
+    function checkLoginValidity() {
+      if (loginEmail && loginPassword && loginForm) {
+        if (loginEmail.value.trim() !== '' && loginPassword.value.trim() !== '') {
+          loginForm.classList.add('is-valid');
+        } else {
+          loginForm.classList.remove('is-valid');
+        }
+      }
+    }
+    
+    if (loginEmail) loginEmail.addEventListener('input', checkLoginValidity);
+    if (loginPassword) loginPassword.addEventListener('input', checkLoginValidity);
+    
+    // Form validation - Signup
+    const signupForm = document.getElementById('signup-drawer-form');
+    const signupEmail = document.getElementById('signup-email');
+    const signupPassword = document.getElementById('signup-password');
+    
+    function checkSignupValidity() {
+      if (signupEmail && signupPassword && signupForm) {
+        const privacyCheckbox = signupForm.querySelector('input[required][type="checkbox"]');
+        const isPrivacyChecked = privacyCheckbox ? privacyCheckbox.checked : true;
+        
+        if (signupEmail.value.trim() !== '' && signupPassword.value.trim().length >= 6 && isPrivacyChecked) {
+          signupForm.classList.add('is-valid');
+        } else {
+          signupForm.classList.remove('is-valid');
+        }
+      }
+    }
+    
+    if (signupEmail) signupEmail.addEventListener('input', checkSignupValidity);
+    if (signupPassword) signupPassword.addEventListener('input', checkSignupValidity);
+    
+    const privacyCheckboxes = signupForm ? signupForm.querySelectorAll('input[type="checkbox"]') : [];
+    privacyCheckboxes.forEach(cb => cb.addEventListener('change', checkSignupValidity));
+  })();
+</script>

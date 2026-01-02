@@ -1,0 +1,165 @@
+{%- style -%}
+  .collection-products {
+    padding: 2rem 0 4rem;
+  }
+  
+  .collection-products__wrapper {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .collection-products__toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  @media (min-width: 768px) {
+    .collection-products__toolbar {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  
+  .collection-products__sort {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+  
+  .collection-products__sort-label {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+  
+  .collection-products__sort-select {
+    padding: 0.5rem 1rem;
+    background: var(--color-background-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-text);
+    font-size: 0.875rem;
+  }
+  
+  .collection-products__grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (min-width: 768px) {
+    .collection-products__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .collection-products__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  .collection-products__pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+  }
+  
+  .collection-products__pagination-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+  }
+  
+  .collection-products__pagination-link:hover,
+  .collection-products__pagination-link.is-current {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-background);
+  }
+{%- endstyle -%}
+
+<section class="collection-products">
+  <div class="collection-products__wrapper">
+    <div class="collection-products__toolbar">
+      <form class="collection-products__sort">
+        <label class="collection-products__sort-label" for="sort-by">Sort by:</label>
+        <select 
+          name="sort_by" 
+          id="sort-by" 
+          class="collection-products__sort-select"
+          onchange="this.form.submit()"
+        >
+          {% for option in collection.sort_options %}
+            <option 
+              value="{{ option.value }}"
+              {% if collection.sort_by == option.value %}selected{% endif %}
+            >
+              {{ option.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+    
+    <div class="collection-products__grid">
+      {% for product in collection.products %}
+        {% render 'product-card', product: product %}
+      {% else %}
+        <p>No products found in this collection.</p>
+      {% endfor %}
+    </div>
+    
+    {% if paginate.pages > 1 %}
+      <nav class="collection-products__pagination">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="collection-products__pagination-link">←</a>
+        {% endif %}
+        
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="collection-products__pagination-link">{{ part.title }}</a>
+          {% else %}
+            <span class="collection-products__pagination-link is-current">{{ part.title }}</span>
+          {% endif %}
+        {% endfor %}
+        
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="collection-products__pagination-link">→</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection Products",
+  "class": "section-collection-products",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 24,
+      "step": 4,
+      "default": 12
+    }
+  ]
+}
+{% endschema %}

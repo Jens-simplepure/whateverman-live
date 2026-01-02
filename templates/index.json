@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "badge_text": "New Drop",
+        "heading_line1": "Define Your",
+        "heading_line2": "Style",
+        "description": "Bold streetwear for the next generation. Express yourself with pieces that hit different.",
+        "button_text": "Shop Now",
+        "button_link": "shopify://collections/all",
+        "secondary_button_text": "New Arrivals",
+        "secondary_button_link": "shopify://collections/new-arrivals"
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "heading_prefix": "Fresh",
+        "heading_highlight": "Drops",
+        "products_to_show": 4
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "featured-collection"
+  ]
+}

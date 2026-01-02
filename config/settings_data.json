@@ -1,0 +1,32 @@
+{
+  "current": {
+    "color_primary": "#AAFF00",
+    "color_secondary": "#FF6B47",
+    "color_accent": "#00FFFF",
+    "color_background": "#0A0A0A",
+    "color_background_secondary": "#121212",
+    "color_text": "#FFFFFF",
+    "color_text_muted": "#999999",
+    "font_heading": "bebas_neue_n4",
+    "font_body": "inter_n4",
+    "font_size_base": 16,
+    "logo_width": 120,
+    "header_sticky": true,
+    "header_glow": true,
+    "footer_newsletter": true,
+    "footer_newsletter_heading": "Join the Movement",
+    "footer_newsletter_text": "Get exclusive drops, early access & vibes straight to your inbox.",
+    "footer_copyright": "Made with ♥ for the culture",
+    "cart_type": "drawer",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    }
+  }
+}

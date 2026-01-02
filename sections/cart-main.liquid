@@ -1,0 +1,368 @@
+{%- style -%}
+  .cart-main {
+    padding: 4rem 0;
+    min-height: 60vh;
+  }
+  
+  .cart-main__wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .cart-main__title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-align: center;
+    margin-bottom: 3rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .cart-main__empty {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  
+  .cart-main__empty-text {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+  
+  .cart-main__items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .cart-main__item {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--color-background-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  @media (max-width: 640px) {
+    .cart-main__item {
+      grid-template-columns: 80px 1fr;
+      gap: 1rem;
+    }
+  }
+  
+  .cart-main__item-image {
+    aspect-ratio: 1;
+    background: var(--color-background);
+  }
+  
+  .cart-main__item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .cart-main__item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .cart-main__item-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+  
+  .cart-main__item-variant {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+  
+  .cart-main__item-price {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  
+  .cart-main__item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+  }
+  
+  @media (max-width: 640px) {
+    .cart-main__item-actions {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  
+  .cart-main__quantity {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .cart-main__quantity-btn {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .cart-main__quantity-btn:hover {
+    background: var(--color-primary);
+    color: var(--color-background);
+  }
+  
+  .cart-main__quantity-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .cart-main__quantity-input {
+    width: 48px;
+    height: 40px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-text);
+    font-size: 1rem;
+    -moz-appearance: textfield;
+  }
+  
+  .cart-main__quantity-input::-webkit-inner-spin-button,
+  .cart-main__quantity-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+  
+  .cart-main__item-remove {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    transition: color 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .cart-main__item-remove:hover {
+    color: var(--color-secondary);
+  }
+  
+  .cart-main__summary {
+    padding: 2rem;
+    background: var(--color-background-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .cart-main__subtotal {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .cart-main__subtotal-price {
+    color: var(--color-primary);
+  }
+  
+  .cart-main__note {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cart-main__checkout {
+    width: 100%;
+  }
+  
+  .cart-main__continue {
+    display: block;
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+  
+  .cart-main__continue:hover {
+    color: var(--color-primary);
+  }
+  
+  .cart-main__loading {
+    position: relative;
+  }
+  
+  .cart-main__loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+{%- endstyle -%}
+
+<section class="cart-main">
+  <div class="cart-main__wrapper">
+    <h1 class="cart-main__title">Your Bag</h1>
+    
+    {% if cart.item_count > 0 %}
+      <form action="/cart" method="post">
+        <div class="cart-main__items">
+          {% for item in cart.items %}
+            <div class="cart-main__item">
+              <a href="{{ item.url }}" class="cart-main__item-image">
+                {% if item.image != blank %}
+                  <img 
+                    src="{{ item.image | image_url: width: 200 }}"
+                    alt="{{ item.image.alt | default: item.title }}"
+                    width="100"
+                    height="100"
+                    loading="lazy"
+                  >
+                {% endif %}
+              </a>
+              
+              <div class="cart-main__item-details">
+                <a href="{{ item.url }}" class="cart-main__item-title">{{ item.product.title }}</a>
+                
+                {% if item.variant.title != 'Default Title' %}
+                  <p class="cart-main__item-variant">{{ item.variant.title }}</p>
+                {% endif %}
+                
+                <div class="cart-main__item-price">{{ item.final_line_price | money }}</div>
+              </div>
+              
+              <div class="cart-main__item-actions">
+                <div class="cart-main__quantity" data-cart-quantity>
+                  <button type="button" class="cart-main__quantity-btn" data-cart-minus data-line="{{ forloop.index }}" aria-label="Decrease quantity">−</button>
+                  <input 
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    min="1"
+                    class="cart-main__quantity-input"
+                    data-cart-input
+                    data-line="{{ forloop.index }}"
+                    aria-label="Quantity"
+                  >
+                  <button type="button" class="cart-main__quantity-btn" data-cart-plus data-line="{{ forloop.index }}" aria-label="Increase quantity">+</button>
+                </div>
+                
+                <button type="button" class="cart-main__item-remove" data-cart-remove data-line="{{ forloop.index }}" aria-label="Remove {{ item.title }}">
+                  Remove
+                </button>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        
+        <div class="cart-main__summary">
+          <div class="cart-main__subtotal">
+            <span>Subtotal</span>
+            <span class="cart-main__subtotal-price">{{ cart.total_price | money }}</span>
+          </div>
+          
+          <p class="cart-main__note">Shipping & taxes calculated at checkout</p>
+          
+          <a href="/checkout" class="btn btn-gradient cart-main__checkout">
+            Checkout →
+          </a>
+          
+          <a href="/collections/all" class="cart-main__continue">Continue Shopping</a>
+        </div>
+      </form>
+    {% else %}
+      <div class="cart-main__empty">
+        <p class="cart-main__empty-text">Your bag is empty</p>
+        <a href="/collections/all" class="btn btn-gradient">Start Shopping</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+(function() {
+  function updateCartLine(line, quantity) {
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ line: line, quantity: quantity })
+    })
+    .then(response => response.json())
+    .then(() => {
+      window.location.reload();
+    })
+    .catch(error => {
+      console.error('Error updating cart:', error);
+      window.location.reload();
+    });
+  }
+
+  // Minus buttons
+  document.querySelectorAll('[data-cart-minus]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const line = parseInt(this.dataset.line);
+      const input = this.closest('[data-cart-quantity]').querySelector('[data-cart-input]');
+      const currentQty = parseInt(input.value) || 1;
+      if (currentQty > 1) {
+        updateCartLine(line, currentQty - 1);
+      }
+    });
+  });
+
+  // Plus buttons
+  document.querySelectorAll('[data-cart-plus]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const line = parseInt(this.dataset.line);
+      const input = this.closest('[data-cart-quantity]').querySelector('[data-cart-input]');
+      const currentQty = parseInt(input.value) || 1;
+      updateCartLine(line, currentQty + 1);
+    });
+  });
+
+  // Remove buttons
+  document.querySelectorAll('[data-cart-remove]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const line = parseInt(this.dataset.line);
+      updateCartLine(line, 0);
+    });
+  });
+
+  // Input change
+  document.querySelectorAll('[data-cart-input]').forEach(input => {
+    input.addEventListener('change', function() {
+      const line = parseInt(this.dataset.line);
+      const quantity = parseInt(this.value) || 1;
+      updateCartLine(line, quantity);
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Cart Main",
+  "class": "section-cart-main",
+  "settings": []
+}
+{% endschema %}
