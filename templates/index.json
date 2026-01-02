@@ -12,7 +12,7 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "background_image": "shopify://shop_images/Whateverman_Miami_White_Transparent.webp",
+        "background_image": "shopify://shop_images/Whateverman_Miami_White_Transparent.png",
         "badge_text": "",
         "heading_line1": "A Mindset",
         "heading_line2": "Worn Daily",
@@ -27,8 +27,8 @@
       "type": "featured-collection",
       "settings": {
         "heading_prefix": "Fresh",
-        "heading_highlight": "Drops",
-        "collection": "",
+        "heading_highlight": "Shirts Shirts",
+        "collection": "featuredproducts",
         "products_to_show": 4
       }
     }
