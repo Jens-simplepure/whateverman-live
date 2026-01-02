@@ -31,10 +31,21 @@
         "collection": "t-shirts",
         "products_to_show": 8
       }
+    },
+    "featured_collection_az9AHD": {
+      "type": "featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "heading_prefix": "Featured ",
+        "heading_highlight": "Headwear",
+        "collection": "headwear",
+        "products_to_show": 4
+      }
     }
   },
   "order": [
     "hero",
-    "featured-collection"
+    "featured-collection",
+    "featured_collection_az9AHD"
   ]
 }
