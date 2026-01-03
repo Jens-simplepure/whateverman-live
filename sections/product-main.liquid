@@ -1,84 +1,88 @@
 {%- style -%}
-  /* --- GRUNDLAYOUT --- */
-  .product-main {
-    background: var(--color-background, #ffffff);
-    padding-bottom: 40px;
-  }
-
-  .product-main__wrapper {
+  /* --- LAYOUT & STRUKTUR (Carhartt Architektur) --- */
+  
+  /* Container übernimmt Theme-Breite, erzwingt keine Hintergrundfarbe */
+  .product-section-wrapper {
     max-width: 100%;
     margin: 0 auto;
+    /* Hintergrundfarbe entfernt, damit dein Theme-Grau bleibt */
+  }
+
+  .product-grid-container {
     display: flex;
     flex-direction: column;
   }
 
-  /* Desktop Split: 65% Bilder / 35% Info */
+  /* Desktop Split: Links Bilder, Rechts Info */
   @media (min-width: 1024px) {
-    .product-main__wrapper {
+    .product-grid-container {
       display: grid;
-      grid-template-columns: 65% 35%; 
+      grid-template-columns: 65% 35%; /* Carhartt Verhältnis */
       align-items: start;
       gap: 0;
     }
   }
 
-  /* --- LINKIE SEITE: GALERIE (Carhartt Grid) --- */
-  .product-main__gallery {
+  /* --- LINKE SPALTE: GALERIE --- */
+  .gallery-column {
     width: 100%;
     position: relative;
-    /* Hintergrund vom Theme übernehmen */
-    background: var(--color-background-secondary, #f5f5f5); 
   }
 
-  /* Desktop Grid */
-  .product-main__desktop-gallery {
+  /* Desktop Grid: 2 Bilder nebeneinander */
+  .gallery-desktop-grid {
     display: none;
   }
 
   @media (min-width: 1024px) {
-    .product-main__desktop-gallery {
+    .gallery-desktop-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr; /* Exakt 2 Spalten */
-      /* Der Carhartt-Abstand: Ein sauberes Kreuz aus Lücken */
-      gap: 3px; 
-      padding-right: 3px; /* Abstand zur Info-Spalte */
+      grid-template-columns: 1fr 1fr;
+      gap: 4px; /* Feiner Abstand zwischen Bildern */
+      padding-right: 20px;
     }
     
-    .product-main__image-item {
+    .gallery-item {
       cursor: zoom-in;
       display: block;
-      position: relative;
-      line-height: 0;
+      line-height: 0; /* Entfernt Lücken unter Bildern */
     }
 
-    .product-main__image-item img {
+    .gallery-item img {
       width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: cover;
       display: block;
-      /* Optional: Leichter Hover Effekt */
-      transition: opacity 0.3s ease;
-    }
-    .product-main__image-item:hover img {
-      opacity: 0.95;
     }
   }
 
-  /* Mobile: Stack */
-  .product-main__mobile-gallery {
+  /* Mobile: Standard Bild */
+  .gallery-mobile-stack {
     display: block;
   }
-  @media (min-width: 1024px) { .product-main__mobile-gallery { display: none; } }
-  .product-main__mobile-image img { width: 100%; display: block; }
+  @media (min-width: 1024px) { .gallery-mobile-stack { display: none; } }
+  .gallery-mobile-stack img { width: 100%; display: block; margin-bottom: 4px; }
 
+  /* --- RECHTE SPALTE: INFO (Sticky) --- */
+  .info-column {
+    padding: 20px;
+  }
 
-  /* --- LIGHTBOX (Overlay) --- */
+  @media (min-width: 1024px) {
+    .info-column {
+      position: sticky;
+      top: 20px; /* Bleibt beim Scrollen stehen */
+      padding: 40px 50px; 
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+  }
+
+  /* --- LIGHTBOX (Zoom Overlay) --- */
   .lightbox-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    /* Punkt 2: Leicht abgedunkelter Hintergrund */
-    background: rgba(30, 30, 30, 0.4); 
-    backdrop-filter: blur(2px); /* Modernes Blur (optional) */
+    background: rgba(255, 255, 255, 0.98); /* Fast deckendes Weiß */
     z-index: 99999;
     display: flex;
     align-items: center;
@@ -87,181 +91,106 @@
     pointer-events: none;
     transition: opacity 0.3s ease;
   }
-
-  .lightbox-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .lightbox-img {
-    max-height: 90vh;
-    max-width: 90vw;
-    object-fit: contain;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-  }
-
-  .lightbox-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    color: white; /* Weißes X auf dunklem Grund */
-    font-size: 2.5rem;
-    cursor: pointer;
-    line-height: 1;
-  }
-
-  .lightbox-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: white;
-    font-size: 3rem;
-    cursor: pointer;
-    padding: 20px;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-  .lightbox-nav:hover { opacity: 1; }
+  .lightbox-overlay.active { opacity: 1; pointer-events: all; }
+  .lightbox-img { max-height: 90vh; max-width: 90vw; object-fit: contain; }
+  .lightbox-close { position: absolute; top: 20px; right: 20px; font-size: 2rem; background:none; border:none; cursor:pointer; }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2rem; background:none; border:none; cursor:pointer; padding:20px; }
   .lightbox-prev { left: 10px; }
   .lightbox-next { right: 10px; }
 
-
-  /* --- RECHTE SEITE: INFO --- */
-  .product-main__info {
-    padding: 20px;
-    background: var(--color-background);
+  /* --- ELEMENTE & ABSTÄNDE --- */
+  
+  /* Titel & Preis erben vom Theme (h1, h2...), wir regeln nur den Abstand */
+  .product-header {
+    margin-bottom: 0;
   }
+  
+  .spacer-large { height: 40px; }
+  .spacer-medium { height: 25px; }
 
-  @media (min-width: 1024px) {
-    .product-main__info {
-      position: sticky;
-      top: 40px;
-      padding: 40px 50px; /* Großzügiges Padding innen */
-      max-height: 95vh;
-      overflow-y: auto;
-    }
-  }
-
-  /* TYPOGRAFIE & ABSTÄNDE */
-  .product-main__title {
-    font-family: 'Bebas Neue', sans-serif; /* Dein Font */
-    font-size: 1.8rem;
-    margin: 0 0 5px 0;
-    line-height: 1.1;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-  }
-
-  .product-main__price {
-    font-size: 1rem;
-    color: var(--color-text);
-    margin: 0;
-  }
-
-  /* Punkt 3: Definierte Abstände */
-  .spacer-block-1 { height: 35px; } /* Zwischen Preis und Farben */
-  .spacer-block-2 { height: 25px; } /* Zwischen Farbname und Größen */
-
-  /* SWATCHES (Bilder) */
-  .product-main__swatch-grid {
+  /* SWATCHES (Die Farb-Bilder) */
+  .swatch-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 8px; /* Kleiner Abstand zum Text darunter */
+    margin-bottom: 8px;
   }
 
-  .product-main__swatch-btn {
-    width: 46px;
-    height: 46px;
+  .swatch-item {
+    width: 48px; /* Größe der Farbbilder */
+    height: 48px;
     padding: 0;
-    border: 1px solid transparent;
+    border: 1px solid transparent; /* Unsichtbarer Rahmen */
     cursor: pointer;
-    background: var(--color-background-secondary, #f5f5f5);
+    background: transparent;
     overflow: hidden;
     transition: border-color 0.2s;
   }
-
-  .product-main__swatch-btn img {
+  
+  .swatch-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  /* Hover & Active Styles */
-  .product-main__swatch-btn:hover { border-color: #999; }
-  .product-main__swatch-btn.is-active { 
-    border-color: #000; 
-    box-shadow: inset 0 0 0 1px #fff; 
+  /* Border-Logik für "Whateverman" Style */
+  .swatch-item:hover { border-color: #999; }
+  .swatch-item.is-active { 
+    border-color: #000; /* Aktiv = Schwarzer Rahmen */
+    box-shadow: inset 0 0 0 1px #fff; /* Kleiner Innenabstand für Lesbarkeit */
   }
 
-  .product-main__color-name {
-    font-size: 0.85rem;
-    color: var(--color-text-muted, #666);
-  }
-
-  /* GRÖSSEN */
-  .product-main__size-label {
-    display: block;
-    margin-bottom: 10px;
+  .color-name-display {
     font-size: 0.9rem;
-    color: var(--color-text);
+    color: var(--color-base-text); /* Theme Textfarbe */
+    opacity: 0.8;
   }
 
-  .product-main__size-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 pro Zeile */
+  /* GRÖSSEN BUTTONS */
+  .size-grid {
+    display: flex;
+    flex-wrap: wrap;
     gap: 8px;
   }
 
-  .product-main__size-btn {
-    padding: 10px 0;
-    background: transparent;
-    border: 1px solid rgba(0,0,0,0.15);
-    color: var(--color-text);
+  .size-btn {
+    min-width: 50px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0,0,0,0.1); /* Subtiler Rahmen */
+    background: transparent; /* Theme Hintergrund durchlassen */
+    color: var(--color-base-text);
     cursor: pointer;
     font-size: 0.9rem;
-    transition: all 0.2s;
   }
 
-  .product-main__size-btn:hover:not(:disabled) { border-color: #000; }
+  .size-btn:hover { border-color: #000; }
   
-  .product-main__size-btn.is-active {
-    background: #000; /* Carhartt Style Active */
+  .size-btn.is-active {
+    background: #000; /* Oder Theme Primary Color */
     color: #fff;
     border-color: #000;
   }
   
-  .product-main__size-btn:disabled {
+  .size-btn:disabled {
     opacity: 0.4;
     text-decoration: line-through;
     cursor: not-allowed;
-    background: #f9f9f9;
   }
 
   /* ADD BUTTON */
-  .product-main__add-btn {
+  .add-to-cart-btn {
     width: 100%;
     margin-top: 30px;
     padding: 15px;
-    /* Nutzt Theme Button Styles, erzwingt aber Breite */
+    /* Style wird vom Theme Button geerbt, aber volle Breite erzwungen */
   }
-
-  /* ACCORDION */
-  .product-main__accordion {
-    margin-top: 40px;
-    border-top: 1px solid rgba(0,0,0,0.1);
-  }
-  .product-main__accordion details { padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
-  .product-main__accordion summary { cursor: pointer; font-size: 0.9rem; list-style: none; display: flex; justify-content: space-between; }
-  .product-main__accordion summary::-webkit-details-marker { display: none; }
 
 {%- endstyle -%}
 
-<div class="product-main">
+<div class="product-section-wrapper">
   
   <div id="lightbox" class="lightbox-overlay">
     <button class="lightbox-close" onclick="closeLightbox()">✕</button>
@@ -270,42 +199,41 @@
     <button class="lightbox-nav lightbox-next" onclick="changeSlide(1)">❯</button>
   </div>
 
-  <div class="product-main__wrapper">
+  <div class="product-grid-container">
     
-    <div class="product-main__gallery">
-      <div class="product-main__mobile-gallery">
+    <div class="gallery-column">
+      <div class="gallery-mobile-stack">
         {% if product.featured_image %}
           <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title }}">
         {% endif %}
       </div>
-      
-      <div class="product-main__desktop-gallery">
+      <div class="gallery-desktop-grid">
         {% for image in product.images %}
-          <div class="product-main__image-item" onclick="openLightbox({{ forloop.index0 }})">
+          <div class="gallery-item" onclick="openLightbox({{ forloop.index0 }})">
             <img src="{{ image | image_url: width: 1200 }}" alt="{{ image.alt | escape }}" loading="lazy">
           </div>
         {% endfor %}
       </div>
     </div>
 
-
-    <div class="product-main__info">
+    <div class="info-column">
       
-      <h1 class="product-main__title">{{ product.title }}</h1>
-      
-      <div class="product-main__price">
-        {{ product.price | money }}
-        {% if product.compare_at_price > product.price %}
-          <s style="opacity: 0.5; margin-left: 8px;">{{ product.compare_at_price | money }}</s>
-        {% endif %}
-      </div>
-
-      <div class="spacer-block-1"></div>
-
       <form action="/cart/add" method="post" enctype="multipart/form-data" id="add-to-cart-form">
+        
+        <h1 class="product-title h2">{{ product.title }}</h1>
+        
+        <div class="product-price h4">
+          {{ product.price | money }}
+          {% if product.compare_at_price > product.price %}
+            <s style="opacity: 0.6; font-size: 0.9em; margin-left: 8px;">{{ product.compare_at_price | money }}</s>
+          {% endif %}
+        </div>
+
+        <div class="spacer-large"></div>
+
         {% unless product.has_only_default_variant %}
           
-          {%- comment -%} LOGIK: Optionen zuweisen {%- endcomment -%}
+          {%- comment -%} OPTIONEN FINDEN (Color & Size) {%- endcomment -%}
           {% assign color_opt = nil %}
           {% assign size_opt = nil %}
           
@@ -320,45 +248,44 @@
           {% endfor %}
 
           {% if color_opt %}
-            <div class="product-main__swatch-grid">
+            <div class="swatch-grid">
               {% for value in color_opt.values %}
                 
-                {%- comment -%} PUNKT 1: Bild finden {%- endcomment -%}
-                {% assign swatch_img = nil %}
+                {% assign swatch_image_url = nil %}
+                
                 {% for variant in product.variants %}
                   {% if variant.option1 == value or variant.option2 == value or variant.option3 == value %}
                     {% if variant.featured_image %}
-                      {% assign swatch_img = variant.featured_image | image_url: width: 200, height: 200, crop: 'center' %}
-                      {% break %}
-                    {% endif %}
+                      {% assign swatch_image_url = variant.featured_image | image_url: width: 200, height: 200, crop: 'center' %}
+                      {% break %} {% endif %}
                   {% endif %}
                 {% endfor %}
 
                 <button type="button" 
-                  class="product-main__swatch-btn {% if forloop.first %}is-active{% endif %}" 
+                  class="swatch-item {% if forloop.first %}is-active{% endif %}" 
                   data-value="{{ value }}"
                   onclick="selectColor(this, '{{ value }}')"
                   title="{{ value }}"
                 >
-                  {% if swatch_img %}
-                    <img src="{{ swatch_img }}" alt="{{ value }}">
+                  {% if swatch_image_url %}
+                    <img src="{{ swatch_image_url }}" alt="{{ value }}">
                   {% else %}
-                    <span style="display:block; width:100%; height:100%; background-color: #ddd;"></span>
+                    <span style="display:block; width:100%; height:100%; background-color: #ddd; display:flex; align-items:center; justify-content:center; font-size:0.6rem;">{{ value | slice: 0, 3 }}</span>
                   {% endif %}
                 </button>
               {% endfor %}
             </div>
             
-            <div class="product-main__color-name" id="color-name-text">{{ color_opt.values.first }}</div>
+            <div class="color-name-display" id="color-name-text">{{ color_opt.values.first }}</div>
           {% endif %}
 
-          <div class="spacer-block-2"></div>
+          <div class="spacer-medium"></div>
 
           {% if size_opt %}
-            <span class="product-main__size-label">Select Size</span>
-            <div class="product-main__size-grid">
+            <div style="margin-bottom: 8px; font-size: 0.9rem;">Select Size</div>
+            <div class="size-grid">
               {% for value in size_opt.values %}
-                <button type="button" class="product-main__size-btn" data-value="{{ value }}" onclick="selectSize(this, '{{ value }}')">
+                <button type="button" class="size-btn" data-value="{{ value }}" onclick="selectSize(this, '{{ value }}')">
                   {{ value }}
                 </button>
               {% endfor %}
@@ -380,21 +307,14 @@
 
         {% endunless %}
 
-        <button type="submit" id="main-add-btn" class="product-main__add-btn btn btn--primary" disabled>
+        <button type="submit" id="main-add-btn" class="add-to-cart-btn button btn btn--primary" disabled>
           Select Size
         </button>
 
-        <div class="product-main__accordion">
+        <div style="margin-top: 40px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px;">
            <details>
-             <summary>Details <span>+</span></summary>
-             <div style="font-size:0.9rem; line-height:1.6; padding-top:10px;">{{ product.description }}</div>
-           </details>
-           <details>
-             <summary>Shipping & Returns <span>+</span></summary>
-             <div style="font-size:0.9rem; line-height:1.6; padding-top:10px;">
-               Free standard shipping on orders over $100 AUD.<br>
-               30-day easy returns for unworn items.
-             </div>
+             <summary style="cursor:pointer; padding: 10px 0;">Details</summary>
+             <div style="padding: 10px 0; font-size: 0.9rem; line-height: 1.6;">{{ product.description }}</div>
            </details>
         </div>
 
@@ -404,7 +324,7 @@
 </div>
 
 <script>
-  /* --- LIGHTBOX LOGIK --- */
+  /* --- LIGHTBOX (Zoom) --- */
   const lbImages = [
     {% for image in product.images %}
       "{{ image | image_url: width: 2000 }}"{% unless forloop.last %},{% endunless %}
@@ -414,49 +334,45 @@
   const lbOverlay = document.getElementById('lightbox');
   const lbImg = document.getElementById('lightbox-image');
 
-  window.openLightbox = function(idx) {
+  function openLightbox(idx) {
     lbIndex = idx;
     lbImg.src = lbImages[idx];
     lbOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-  window.closeLightbox = function() {
+  function closeLightbox() {
     lbOverlay.classList.remove('active');
     document.body.style.overflow = '';
   }
-  window.changeSlide = function(dir) {
+  function changeSlide(dir) {
     lbIndex += dir;
     if(lbIndex >= lbImages.length) lbIndex = 0;
     if(lbIndex < 0) lbIndex = lbImages.length - 1;
     lbImg.src = lbImages[lbIndex];
   }
   
-  // Tastatur & Klick außerhalb
+  // Tastatursteuerung
   document.addEventListener('keydown', e => {
     if(!lbOverlay.classList.contains('active')) return;
     if(e.key === "Escape") closeLightbox();
     if(e.key === "ArrowRight") changeSlide(1);
     if(e.key === "ArrowLeft") changeSlide(-1);
   });
-  
-  lbOverlay.addEventListener('click', e => {
-     if(e.target === lbOverlay) closeLightbox();
-  });
 
   /* --- VARIANTEN LOGIK --- */
   let curColor = "{{ color_opt.values.first }}";
   let curSize = null;
 
-  window.selectColor = function(btn, val) {
-    document.querySelectorAll('.product-main__swatch-btn').forEach(b => b.classList.remove('is-active'));
+  function selectColor(btn, val) {
+    document.querySelectorAll('.swatch-item').forEach(b => b.classList.remove('is-active'));
     btn.classList.add('is-active');
     document.getElementById('color-name-text').textContent = val;
     curColor = val;
     updateState();
   }
 
-  window.selectSize = function(btn, val) {
-    document.querySelectorAll('.product-main__size-btn').forEach(b => b.classList.remove('is-active'));
+  function selectSize(btn, val) {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('is-active'));
     btn.classList.add('is-active');
     curSize = val;
     updateState();
@@ -482,6 +398,7 @@
       }
     }
     
+    // Update Button Text & Verfügbarkeit
     if(validVariant && !validVariant.disabled) {
       btn.disabled = false;
       btn.textContent = "Add to Bag";
@@ -496,11 +413,3 @@
     }
   }
 </script>
-
-{% schema %}
-{
-  "name": "Product Main Final",
-  "class": "section-product-main",
-  "settings": []
-}
-{% endschema %}
