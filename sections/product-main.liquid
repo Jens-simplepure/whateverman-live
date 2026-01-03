@@ -1,415 +1,1139 @@
 {%- style -%}
-  /* --- LAYOUT & STRUKTUR (Carhartt Architektur) --- */
+  .product-main {
+    padding: 0;
+    background: var(--color-background-secondary, #f5f5f5);
+  }
   
-  /* Container übernimmt Theme-Breite, erzwingt keine Hintergrundfarbe */
-  .product-section-wrapper {
+  @media (min-width: 768px) {
+    .product-main {
+      padding: 0;
+    }
+  }
+  
+  .product-main__wrapper {
     max-width: 100%;
     margin: 0 auto;
-    /* Hintergrundfarbe entfernt, damit dein Theme-Grau bleibt */
+    display: grid;
+    gap: 0;
   }
-
-  .product-grid-container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Desktop Split: Links Bilder, Rechts Info */
+  
   @media (min-width: 1024px) {
-    .product-grid-container {
-      display: grid;
-      grid-template-columns: 65% 35%; /* Carhartt Verhältnis */
-      align-items: start;
+    .product-main__wrapper {
+      grid-template-columns: 1fr 400px;
       gap: 0;
+      align-items: start;
     }
   }
-
-  /* --- LINKE SPALTE: GALERIE --- */
-  .gallery-column {
-    width: 100%;
-    position: relative;
+  
+  @media (min-width: 1280px) {
+    .product-main__wrapper {
+      grid-template-columns: 1fr 420px;
+    }
   }
-
-  /* Desktop Grid: 2 Bilder nebeneinander */
-  .gallery-desktop-grid {
+  
+  /* Gallery - Carhartt Style: 2 columns grid, light background */
+  .product-main__gallery {
+    background: var(--color-background-secondary, #f5f5f5);
+  }
+  
+  .product-main__desktop-gallery {
     display: none;
   }
-
-  @media (min-width: 1024px) {
-    .gallery-desktop-grid {
+  
+  @media (min-width: 768px) {
+    .product-main__desktop-gallery {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4px; /* Feiner Abstand zwischen Bildern */
-      padding-right: 20px;
-    }
-    
-    .gallery-item {
-      cursor: zoom-in;
-      display: block;
-      line-height: 0; /* Entfernt Lücken unter Bildern */
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      display: block;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
     }
   }
+  
+  .product-main__image-item {
+    aspect-ratio: 3/4;
+    background: var(--color-background-secondary, #f5f5f5);
+    overflow: hidden;
+  }
+  
+  .product-main__image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-main__image-item:hover img {
+    transform: scale(1.02);
+  }
 
-  /* Mobile: Standard Bild */
-  .gallery-mobile-stack {
+  /* Mobile: Single image with arrows */
+  .product-main__mobile-gallery {
+    position: relative;
     display: block;
   }
-  @media (min-width: 1024px) { .gallery-mobile-stack { display: none; } }
-  .gallery-mobile-stack img { width: 100%; display: block; margin-bottom: 4px; }
 
-  /* --- RECHTE SPALTE: INFO (Sticky) --- */
-  .info-column {
-    padding: 20px;
-  }
-
-  @media (min-width: 1024px) {
-    .info-column {
-      position: sticky;
-      top: 20px; /* Bleibt beim Scrollen stehen */
-      padding: 40px 50px; 
-      max-height: 100vh;
-      overflow-y: auto;
+  @media (min-width: 768px) {
+    .product-main__mobile-gallery {
+      display: none;
     }
   }
 
-  /* --- LIGHTBOX (Zoom Overlay) --- */
-  .lightbox-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(255, 255, 255, 0.98); /* Fast deckendes Weiß */
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .lightbox-overlay.active { opacity: 1; pointer-events: all; }
-  .lightbox-img { max-height: 90vh; max-width: 90vw; object-fit: contain; }
-  .lightbox-close { position: absolute; top: 20px; right: 20px; font-size: 2rem; background:none; border:none; cursor:pointer; }
-  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2rem; background:none; border:none; cursor:pointer; padding:20px; }
-  .lightbox-prev { left: 10px; }
-  .lightbox-next { right: 10px; }
-
-  /* --- ELEMENTE & ABSTÄNDE --- */
-  
-  /* Titel & Preis erben vom Theme (h1, h2...), wir regeln nur den Abstand */
-  .product-header {
-    margin-bottom: 0;
-  }
-  
-  .spacer-large { height: 40px; }
-  .spacer-medium { height: 25px; }
-
-  /* SWATCHES (Die Farb-Bilder) */
-  .swatch-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .swatch-item {
-    width: 48px; /* Größe der Farbbilder */
-    height: 48px;
-    padding: 0;
-    border: 1px solid transparent; /* Unsichtbarer Rahmen */
-    cursor: pointer;
-    background: transparent;
+  .product-main__mobile-image {
+    aspect-ratio: 3/4;
+    background: var(--color-background-secondary, #f5f5f5);
     overflow: hidden;
-    transition: border-color 0.2s;
   }
-  
-  .swatch-item img {
+
+  .product-main__mobile-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  /* Border-Logik für "Whateverman" Style */
-  .swatch-item:hover { border-color: #999; }
-  .swatch-item.is-active { 
-    border-color: #000; /* Aktiv = Schwarzer Rahmen */
-    box-shadow: inset 0 0 0 1px #fff; /* Kleiner Innenabstand für Lesbarkeit */
-  }
-
-  .color-name-display {
-    font-size: 0.9rem;
-    color: var(--color-base-text); /* Theme Textfarbe */
-    opacity: 0.8;
-  }
-
-  /* GRÖSSEN BUTTONS */
-  .size-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .size-btn {
-    min-width: 50px;
-    height: 40px;
+  .product-main__mobile-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    color: #000;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(0,0,0,0.1); /* Subtiler Rahmen */
-    background: transparent; /* Theme Hintergrund durchlassen */
-    color: var(--color-base-text);
-    cursor: pointer;
-    font-size: 0.9rem;
+    z-index: 10;
   }
 
-  .size-btn:hover { border-color: #000; }
-  
-  .size-btn.is-active {
-    background: #000; /* Oder Theme Primary Color */
-    color: #fff;
-    border-color: #000;
+  .product-main__mobile-nav--prev {
+    left: 12px;
+  }
+
+  .product-main__mobile-nav--next {
+    right: 12px;
+  }
+
+  .product-main__mobile-nav svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .product-main__mobile-counter {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.35rem 1rem;
+    border-radius: 2px;
+    letter-spacing: 0.1em;
   }
   
-  .size-btn:disabled {
-    opacity: 0.4;
+  /* Product Info - Sticky sidebar on Desktop */
+  .product-main__info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--color-background);
+  }
+  
+  @media (min-width: 768px) {
+    .product-main__info {
+      padding: 2rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .product-main__info {
+      position: sticky;
+      top: 80px;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding: 2rem 2.5rem;
+    }
+  }
+  
+  .product-main__header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .product-main__title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    line-height: 1.2;
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  
+  .product-main__price {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.125rem;
+  }
+  
+  .product-main__price-current {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  
+  .product-main__price-compare {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
     text-decoration: line-through;
+    opacity: 0.6;
+  }
+  
+  .product-main__price-badge {
+    padding: 0.15rem 0.4rem;
+    background: var(--color-secondary);
+    color: var(--color-background);
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  /* Color Swatches - Product Image Style like Carhartt */
+  .product-main__colors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .product-main__color-swatches {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  
+  @media (min-width: 768px) {
+    .product-main__color-swatches {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+  }
+  
+  .product-main__color-swatch {
+    aspect-ratio: 1/1;
+    width: 100%;
+    padding: 0;
+    border: 1px solid transparent;
+    background: var(--color-background-secondary, #f5f5f5);
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+  
+  .product-main__color-swatch:hover,
+  .product-main__color-swatch.is-active {
+    border-color: var(--color-text);
+  }
+  
+  .product-main__color-swatch img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Fallback for colors without images - colored circle */
+  .product-main__color-swatch--fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .product-main__color-dot {
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+  
+  .product-main__color-name {
+    font-size: 0.85rem;
+    color: var(--color-text);
+  }
+  
+  /* Size Options - Button Grid like Carhartt */
+  .product-main__sizes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .product-main__size-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  @media (min-width: 400px) {
+    .product-main__size-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .product-main__size-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .product-main__size-btn {
+    padding: 0.875rem 0.5rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-text);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+  }
+  
+  .product-main__size-btn:hover:not(:disabled) {
+    border-color: var(--color-text);
+  }
+  
+  .product-main__size-btn.is-active {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+  
+  .product-main__size-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  
+  /* Other Variants (non-color, non-size) */
+  .product-main__variant-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .product-main__variant-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .product-main__variant-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+  
+  .product-main__variant-btn {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-text);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .product-main__variant-btn:hover,
+  .product-main__variant-btn.is-active {
+    border-color: var(--color-text);
+    background: var(--color-text);
+    color: var(--color-background);
+  }
+  
+  /* Add to Cart Button - Gray disabled style like Carhartt */
+  .product-main__add-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    transition: opacity 0.2s ease;
+  }
+  
+  .product-main__add-btn:disabled,
+  .product-main__add-btn.is-disabled {
+    background: rgba(255,255,255,0.1);
+    color: var(--color-text-muted);
     cursor: not-allowed;
   }
-
-  /* ADD BUTTON */
-  .add-to-cart-btn {
-    width: 100%;
-    margin-top: 30px;
-    padding: 15px;
-    /* Style wird vom Theme Button geerbt, aber volle Breite erzwungen */
+  
+  .product-main__size-prompt {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    text-align: center;
   }
-
+  
+  /* Info List */
+  .product-main__info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .product-main__info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+  
+  .product-main__info-item svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--color-primary);
+    margin-top: 1px;
+  }
+  
+  /* Accordion Details */
+  .product-main__details {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+  }
+  
+  .product-main__accordion {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .product-main__accordion:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .product-main__accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 0;
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .product-main__accordion-header:hover {
+    color: var(--color-primary);
+  }
+  
+  .product-main__accordion-icon {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-main__accordion.is-open .product-main__accordion-icon {
+    transform: rotate(90deg);
+  }
+  
+  .product-main__accordion-content {
+    display: none;
+    padding-bottom: 1rem;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    line-height: 1.7;
+  }
+  
+  .product-main__accordion.is-open .product-main__accordion-content {
+    display: block;
+  }
+  
+  .product-main__accordion-content ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+  
+  .product-main__accordion-content li {
+    margin-bottom: 0.25rem;
+  }
+  
+  /* Sticky Mobile Add to Cart */
+  .product-main__sticky-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.75rem 1rem;
+    background: var(--color-background);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .product-main__sticky-bar.is-visible {
+    display: block;
+  }
+  
+  .product-main__sticky-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: var(--container-width);
+    margin: 0 auto;
+  }
+  
+  .product-main__sticky-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .product-main__sticky-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .product-main__sticky-price {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+  
+  .product-main__sticky-btn {
+    flex-shrink: 0;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.8rem;
+  }
+  
+  @media (min-width: 768px) {
+    .product-main__sticky-bar {
+      display: none !important;
+    }
+  }
+  
+  /* Hidden select */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
 {%- endstyle -%}
 
-<div class="product-section-wrapper">
-  
-  <div id="lightbox" class="lightbox-overlay">
-    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-    <button class="lightbox-nav lightbox-prev" onclick="changeSlide(-1)">❮</button>
-    <img id="lightbox-image" class="lightbox-img" src="" alt="Zoom">
-    <button class="lightbox-nav lightbox-next" onclick="changeSlide(1)">❯</button>
-  </div>
+{%- comment -%} Detect options {%- endcomment -%}
+{% assign color_option = nil %}
+{% assign size_option = nil %}
+{% assign other_options = '' %}
 
-  <div class="product-grid-container">
-    
-    <div class="gallery-column">
-      <div class="gallery-mobile-stack">
-        {% if product.featured_image %}
-          <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title }}">
+{% for option in product.options_with_values %}
+  {% assign option_name_downcase = option.name | downcase %}
+  {% if option_name_downcase == 'color' or option_name_downcase == 'colour' or option_name_downcase == 'farbe' %}
+    {% assign color_option = option %}
+  {% elsif option_name_downcase == 'size' or option_name_downcase == 'größe' or option_name_downcase == 'groesse' %}
+    {% assign size_option = option %}
+  {% else %}
+    {% if other_options != '' %}
+      {% assign other_options = other_options | append: ',' %}
+    {% endif %}
+    {% assign other_options = other_options | append: option.name %}
+  {% endif %}
+{% endfor %}
+
+{%- comment -%} Get selected color (first by default) {%- endcomment -%}
+{% assign selected_color = nil %}
+{% if color_option %}
+  {% assign selected_color = color_option.values.first %}
+{% endif %}
+
+{%- comment -%} Build color-to-images mapping {%- endcomment -%}
+{% assign color_images_map = '' %}
+{% if color_option %}
+  {% for color_value in color_option.values %}
+    {% assign color_image_urls = '' %}
+    {% for variant in product.variants %}
+      {% assign has_this_color = false %}
+      {% if variant.option1 == color_value or variant.option2 == color_value or variant.option3 == color_value %}
+        {% assign has_this_color = true %}
+      {% endif %}
+      {% if has_this_color and variant.featured_image != blank %}
+        {% if color_image_urls == '' %}
+          {% assign color_image_urls = variant.featured_image | image_url: width: 800 %}
+        {% else %}
+          {% assign color_image_urls = color_image_urls | append: '|||' | append: variant.featured_image | image_url: width: 800 %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    {% if color_images_map != '' %}
+      {% assign color_images_map = color_images_map | append: '###' %}
+    {% endif %}
+    {% assign color_images_map = color_images_map | append: color_value | append: ':::' | append: color_image_urls %}
+  {% endfor %}
+{% endif %}
+
+<section class="product-main">
+  <div class="product-main__wrapper">
+    <!-- Gallery - Desktop: 2-column grid, Mobile: Swiper -->
+    <div class="product-main__gallery">
+      <!-- Mobile Gallery -->
+      <div class="product-main__mobile-gallery">
+        <div class="product-main__mobile-image">
+          {% if product.featured_image != blank %}
+            <img 
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.featured_image.alt | default: product.title }}"
+              id="product-mobile-image"
+              data-current-index="0"
+            >
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+        {% if product.images.size > 1 %}
+          <button type="button" class="product-main__mobile-nav product-main__mobile-nav--prev" data-mobile-nav="prev">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button type="button" class="product-main__mobile-nav product-main__mobile-nav--next" data-mobile-nav="next">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          <div class="product-main__mobile-counter">
+            <span id="mobile-image-current">1</span> / <span id="mobile-image-total">{{ product.images.size }}</span>
+          </div>
         {% endif %}
       </div>
-      <div class="gallery-desktop-grid">
+
+      <!-- Desktop Gallery - shows images for selected color -->
+      <div class="product-main__desktop-gallery" id="desktop-gallery">
         {% for image in product.images %}
-          <div class="gallery-item" onclick="openLightbox({{ forloop.index0 }})">
-            <img src="{{ image | image_url: width: 1200 }}" alt="{{ image.alt | escape }}" loading="lazy">
+          <div class="product-main__image-item">
+            <img 
+              src="{{ image | image_url: width: 800 }}"
+              alt="{{ image.alt | default: product.title }}"
+              loading="{% if forloop.index <= 2 %}eager{% else %}lazy{% endif %}"
+            >
           </div>
         {% endfor %}
       </div>
     </div>
-
-    <div class="info-column">
-      
-      <form action="/cart/add" method="post" enctype="multipart/form-data" id="add-to-cart-form">
-        
-        <h1 class="product-title h2">{{ product.title }}</h1>
-        
-        <div class="product-price h4">
-          {{ product.price | money }}
+    
+    <!-- Product Info -->
+    <div class="product-main__info">
+      <div class="product-main__header">
+        <h1 class="product-main__title">{{ product.title }}</h1>
+        <div class="product-main__price">
+          <span class="product-main__price-current">{{ product.price | money }}</span>
           {% if product.compare_at_price > product.price %}
-            <s style="opacity: 0.6; font-size: 0.9em; margin-left: 8px;">{{ product.compare_at_price | money }}</s>
+            <span class="product-main__price-compare">{{ product.compare_at_price | money }}</span>
+            {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+            <span class="product-main__price-badge">-{{ discount }}%</span>
           {% endif %}
         </div>
-
-        <div class="spacer-large"></div>
-
+      </div>
+      
+      <form action="/cart/add" method="post" enctype="multipart/form-data" id="product-form">
         {% unless product.has_only_default_variant %}
           
-          {%- comment -%} OPTIONEN FINDEN (Color & Size) {%- endcomment -%}
-          {% assign color_opt = nil %}
-          {% assign size_opt = nil %}
-          
-          {% for option in product.options_with_values %}
-             {% assign opt_name = option.name | downcase %}
-             {% if opt_name contains 'color' or opt_name contains 'colour' or opt_name contains 'farbe' %}
-               {% assign color_opt = option %}
-             {% endif %}
-             {% if opt_name contains 'size' or opt_name contains 'größe' %}
-               {% assign size_opt = option %}
-             {% endif %}
-          {% endfor %}
-
-          {% if color_opt %}
-            <div class="swatch-grid">
-              {% for value in color_opt.values %}
-                
-                {% assign swatch_image_url = nil %}
-                
-                {% for variant in product.variants %}
-                  {% if variant.option1 == value or variant.option2 == value or variant.option3 == value %}
-                    {% if variant.featured_image %}
-                      {% assign swatch_image_url = variant.featured_image | image_url: width: 200, height: 200, crop: 'center' %}
-                      {% break %} {% endif %}
-                  {% endif %}
+          {%- comment -%} Color Options - Product Image Swatches like Carhartt {%- endcomment -%}
+          {% if color_option %}
+            <div class="product-main__colors">
+              <div class="product-main__color-swatches">
+                {% for value in color_option.values %}
+                  {%- comment -%} Find variant image for this color {%- endcomment -%}
+                  {% assign color_image = nil %}
+                  {% assign color_images_for_gallery = '' %}
+                  {% for variant in product.variants %}
+                    {% if variant.option1 == value or variant.option2 == value or variant.option3 == value %}
+                      {% if variant.featured_image != blank %}
+                        {% if color_image == nil %}
+                          {% assign color_image = variant.featured_image %}
+                        {% endif %}
+                        {% if color_images_for_gallery != '' %}
+                          {% assign color_images_for_gallery = color_images_for_gallery | append: ',' %}
+                        {% endif %}
+                        {% assign color_images_for_gallery = color_images_for_gallery | append: variant.featured_image | image_url: width: 800 %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                  
+                  {% assign color_handle = value | handleize %}
+                  
+                  <button 
+                    type="button"
+                    class="product-main__color-swatch {% if forloop.first %}is-active{% endif %} {% unless color_image %}product-main__color-swatch--fallback{% endunless %}"
+                    data-option="{{ color_option.name }}"
+                    data-value="{{ value }}"
+                    data-color-handle="{{ color_handle }}"
+                    {% if color_image %}data-image="{{ color_image | image_url: width: 800 }}"{% endif %}
+                    data-gallery-images="{{ color_images_for_gallery }}"
+                    title="{{ value }}"
+                  >
+                    {% if color_image %}
+                      <img src="{{ color_image | image_url: width: 150 }}" alt="{{ value }}" loading="lazy">
+                    {% else %}
+                      <span class="product-main__color-dot" style="background-color: {{ color_handle }};"></span>
+                    {% endif %}
+                  </button>
                 {% endfor %}
-
-                <button type="button" 
-                  class="swatch-item {% if forloop.first %}is-active{% endif %}" 
-                  data-value="{{ value }}"
-                  onclick="selectColor(this, '{{ value }}')"
-                  title="{{ value }}"
-                >
-                  {% if swatch_image_url %}
-                    <img src="{{ swatch_image_url }}" alt="{{ value }}">
-                  {% else %}
-                    <span style="display:block; width:100%; height:100%; background-color: #ddd; display:flex; align-items:center; justify-content:center; font-size:0.6rem;">{{ value | slice: 0, 3 }}</span>
-                  {% endif %}
-                </button>
-              {% endfor %}
-            </div>
-            
-            <div class="color-name-display" id="color-name-text">{{ color_opt.values.first }}</div>
-          {% endif %}
-
-          <div class="spacer-medium"></div>
-
-          {% if size_opt %}
-            <div style="margin-bottom: 8px; font-size: 0.9rem;">Select Size</div>
-            <div class="size-grid">
-              {% for value in size_opt.values %}
-                <button type="button" class="size-btn" data-value="{{ value }}" onclick="selectSize(this, '{{ value }}')">
-                  {{ value }}
-                </button>
-              {% endfor %}
+              </div>
+              <span class="product-main__color-name" id="selected-color-name">{{ color_option.values.first }}</span>
             </div>
           {% endif %}
-
-          <select name="id" id="shopify-master-select" style="display:none;">
-            {% for variant in product.variants %}
-              <option value="{{ variant.id }}" 
-                data-opt1="{{ variant.option1 }}" 
-                data-opt2="{{ variant.option2 }}" 
-                data-opt3="{{ variant.option3 }}"
-                {% unless variant.available %}disabled{% endunless %}
-              >
-                {{ variant.title }}
-              </option>
-            {% endfor %}
-          </select>
-
+          
+          {%- comment -%} Size Options - Button Grid {%- endcomment -%}
+          {% if size_option %}
+            <div class="product-main__sizes">
+              <div class="product-main__size-grid">
+                {% for value in size_option.values %}
+                  <button 
+                    type="button"
+                    class="product-main__size-btn"
+                    data-option="{{ size_option.name }}"
+                    data-value="{{ value }}"
+                  >
+                    {{ value }}
+                  </button>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+          
+          {%- comment -%} Other Options {%- endcomment -%}
+          {% for option in product.options_with_values %}
+            {% assign option_name_downcase = option.name | downcase %}
+            {% unless option_name_downcase == 'color' or option_name_downcase == 'colour' or option_name_downcase == 'farbe' or option_name_downcase == 'size' or option_name_downcase == 'größe' or option_name_downcase == 'groesse' %}
+              <div class="product-main__variant-group">
+                <span class="product-main__variant-label">{{ option.name }}</span>
+                <div class="product-main__variant-options">
+                  {% for value in option.values %}
+                    <button 
+                      type="button"
+                      class="product-main__variant-btn {% if forloop.first %}is-active{% endif %}"
+                      data-option="{{ option.name }}"
+                      data-value="{{ value }}"
+                    >
+                      {{ value }}
+                    </button>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endunless %}
+          {% endfor %}
+          
         {% endunless %}
-
-        <button type="submit" id="main-add-btn" class="add-to-cart-btn button btn btn--primary" disabled>
-          Select Size
+        
+        <select name="id" id="product-select" class="visually-hidden">
+          {% for variant in product.variants %}
+            <option 
+              value="{{ variant.id }}"
+              {% unless variant.available %}disabled{% endunless %}
+              data-option1="{{ variant.option1 }}"
+              data-option2="{{ variant.option2 }}"
+              data-option3="{{ variant.option3 }}"
+            >
+              {{ variant.title }} - {{ variant.price | money }}
+            </option>
+          {% endfor %}
+        </select>
+        
+        <input type="hidden" name="quantity" value="1">
+        
+        <button 
+          type="submit" 
+          class="btn btn-gradient product-main__add-btn is-disabled"
+          data-add-to-cart
+          id="add-to-cart-btn"
+          disabled
+          data-select-size="{{ 'products.product.select_size' | t }}"
+          data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
+          data-sold-out="{{ 'products.product.sold_out' | t }}"
+        >
+          {{ 'products.product.select_size' | t }}
         </button>
-
-        <div style="margin-top: 40px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px;">
-           <details>
-             <summary style="cursor:pointer; padding: 10px 0;">Details</summary>
-             <div style="padding: 10px 0; font-size: 0.9rem; line-height: 1.6;">{{ product.description }}</div>
-           </details>
-        </div>
-
       </form>
+      
+      <!-- Info List -->
+      <ul class="product-main__info-list">
+        <li class="product-main__info-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>Free shipping $100+</span>
+        </li>
+        <li class="product-main__info-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span>30-day returns</span>
+        </li>
+        <li class="product-main__info-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          <span>Secure checkout</span>
+        </li>
+      </ul>
+      
+      <!-- Accordion Details -->
+      <div class="product-main__details">
+        {% if product.description != blank %}
+          <div class="product-main__accordion">
+            <button type="button" class="product-main__accordion-header">
+              <span>Details</span>
+              <svg class="product-main__accordion-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+            <div class="product-main__accordion-content">
+              {{ product.description }}
+            </div>
+          </div>
+        {% endif %}
+        
+        <div class="product-main__accordion">
+          <button type="button" class="product-main__accordion-header">
+            <span>Shipping & Returns</span>
+            <svg class="product-main__accordion-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          <div class="product-main__accordion-content">
+            <ul>
+              <li>Free standard shipping on orders over $100 AUD</li>
+              <li>Express shipping available at checkout</li>
+              <li>International shipping to select countries</li>
+              <li>30-day easy returns for unworn items</li>
+              <li>Please allow 2-5 business days for processing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+  
+  <!-- Sticky Mobile Add to Cart -->
+  <div class="product-main__sticky-bar" id="sticky-add-to-cart">
+    <div class="product-main__sticky-inner">
+      <div class="product-main__sticky-info">
+        <div class="product-main__sticky-title">{{ product.title }}</div>
+        <div class="product-main__sticky-price">{{ product.price | money }}</div>
+      </div>
+      <button 
+        type="button" 
+        class="btn btn-gradient product-main__sticky-btn"
+        data-sticky-add-to-cart
+        {% unless product.available %}disabled{% endunless %}
+      >
+        {% if product.available %}Add to Bag{% else %}Sold Out{% endif %}
+      </button>
+    </div>
+  </div>
+</section>
 
 <script>
-  /* --- LIGHTBOX (Zoom) --- */
-  const lbImages = [
+  // Product data - all images
+  const allProductImages = [
     {% for image in product.images %}
-      "{{ image | image_url: width: 2000 }}"{% unless forloop.last %},{% endunless %}
+      {
+        url: "{{ image | image_url: width: 800 }}",
+        alt: "{{ image.alt | default: product.title | escape }}"
+      }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ];
-  let lbIndex = 0;
-  const lbOverlay = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightbox-image');
-
-  function openLightbox(idx) {
-    lbIndex = idx;
-    lbImg.src = lbImages[idx];
-    lbOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLightbox() {
-    lbOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-  function changeSlide(dir) {
-    lbIndex += dir;
-    if(lbIndex >= lbImages.length) lbIndex = 0;
-    if(lbIndex < 0) lbIndex = lbImages.length - 1;
-    lbImg.src = lbImages[lbIndex];
+  
+  // Current gallery images (filtered by color)
+  let currentGalleryImages = [...allProductImages];
+  let currentMobileIndex = 0;
+  
+  // Initialize gallery based on first color
+  document.addEventListener('DOMContentLoaded', function() {
+    const firstColorSwatch = document.querySelector('.product-main__color-swatch.is-active');
+    if (firstColorSwatch) {
+      updateGalleryForColor(firstColorSwatch);
+    }
+  });
+  
+  // Update desktop gallery with new images
+  function updateDesktopGallery(images) {
+    const gallery = document.getElementById('desktop-gallery');
+    if (!gallery || images.length === 0) return;
+    
+    gallery.innerHTML = images.map((img, index) => `
+      <div class="product-main__image-item">
+        <img 
+          src="${img.url}"
+          alt="${img.alt}"
+          loading="${index <= 1 ? 'eager' : 'lazy'}"
+        >
+      </div>
+    `).join('');
   }
   
-  // Tastatursteuerung
-  document.addEventListener('keydown', e => {
-    if(!lbOverlay.classList.contains('active')) return;
-    if(e.key === "Escape") closeLightbox();
-    if(e.key === "ArrowRight") changeSlide(1);
-    if(e.key === "ArrowLeft") changeSlide(-1);
+  // Update mobile gallery
+  function updateMobileGallery(images) {
+    if (images.length === 0) return;
+    
+    currentGalleryImages = images;
+    currentMobileIndex = 0;
+    
+    const mobileImage = document.getElementById('product-mobile-image');
+    const totalCounter = document.getElementById('mobile-image-total');
+    const currentCounter = document.getElementById('mobile-image-current');
+    
+    if (mobileImage) {
+      mobileImage.src = images[0].url;
+      mobileImage.alt = images[0].alt;
+    }
+    if (totalCounter) totalCounter.textContent = images.length;
+    if (currentCounter) currentCounter.textContent = 1;
+  }
+  
+  // Mobile gallery navigation
+  function updateMobileImage(index) {
+    if (currentGalleryImages.length === 0) return;
+    currentMobileIndex = index;
+    const mobileImage = document.getElementById('product-mobile-image');
+    if (mobileImage) {
+      mobileImage.src = currentGalleryImages[index].url;
+      mobileImage.alt = currentGalleryImages[index].alt;
+    }
+    const counter = document.getElementById('mobile-image-current');
+    if (counter) {
+      counter.textContent = index + 1;
+    }
+  }
+  
+  document.querySelectorAll('.product-main__mobile-nav').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const direction = this.dataset.mobileNav;
+      if (direction === 'prev') {
+        currentMobileIndex = (currentMobileIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+      } else {
+        currentMobileIndex = (currentMobileIndex + 1) % currentGalleryImages.length;
+      }
+      updateMobileImage(currentMobileIndex);
+    });
   });
-
-  /* --- VARIANTEN LOGIK --- */
-  let curColor = "{{ color_opt.values.first }}";
-  let curSize = null;
-
-  function selectColor(btn, val) {
-    document.querySelectorAll('.swatch-item').forEach(b => b.classList.remove('is-active'));
-    btn.classList.add('is-active');
-    document.getElementById('color-name-text').textContent = val;
-    curColor = val;
-    updateState();
-  }
-
-  function selectSize(btn, val) {
-    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('is-active'));
-    btn.classList.add('is-active');
-    curSize = val;
-    updateState();
-  }
-
-  function updateState() {
-    const select = document.getElementById('shopify-master-select');
-    const btn = document.getElementById('main-add-btn');
-    let validVariant = null;
-
-    // Finde passende Variante
-    for(let opt of select.options) {
-      const o1 = opt.getAttribute('data-opt1');
-      const o2 = opt.getAttribute('data-opt2');
-      const o3 = opt.getAttribute('data-opt3');
+  
+  // Update gallery for selected color
+  function updateGalleryForColor(swatch) {
+    const galleryImagesStr = swatch.dataset.galleryImages;
+    
+    if (galleryImagesStr && galleryImagesStr.length > 0) {
+      const imageUrls = galleryImagesStr.split(',').filter(url => url.trim());
+      const colorImages = imageUrls.map(url => ({
+        url: url.trim(),
+        alt: swatch.dataset.value
+      }));
       
-      const matchC = (o1 === curColor || o2 === curColor || o3 === curColor);
-      const matchS = (o1 === curSize || o2 === curSize || o3 === curSize);
-
-      if(matchC && matchS) {
-        validVariant = opt;
-        break;
+      if (colorImages.length > 0) {
+        updateDesktopGallery(colorImages);
+        updateMobileGallery(colorImages);
+        return;
       }
     }
     
-    // Update Button Text & Verfügbarkeit
-    if(validVariant && !validVariant.disabled) {
-      btn.disabled = false;
-      btn.textContent = "Add to Bag";
-      select.value = validVariant.value;
-    } else {
-      btn.disabled = true;
-      if(validVariant && validVariant.disabled) {
-        btn.textContent = "Sold Out";
-      } else {
-        btn.textContent = curSize ? "Unavailable" : "Select Size";
+    // Fallback: show all images
+    updateDesktopGallery(allProductImages);
+    updateMobileGallery(allProductImages);
+  }
+  
+  // Color swatch selection
+  document.querySelectorAll('.product-main__color-swatch').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const value = this.dataset.value;
+      
+      // Update active state
+      document.querySelectorAll('.product-main__color-swatch').forEach(b => b.classList.remove('is-active'));
+      this.classList.add('is-active');
+      
+      // Update color name
+      const colorName = document.getElementById('selected-color-name');
+      if (colorName) {
+        colorName.textContent = value;
+      }
+      
+      // Update gallery
+      updateGalleryForColor(this);
+      
+      // Update available sizes for this color
+      updateSizeAvailability();
+      updateSelectedVariant();
+    });
+  });
+  
+  // Size button selection
+  document.querySelectorAll('.product-main__size-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      if (this.disabled) return;
+      
+      document.querySelectorAll('.product-main__size-btn').forEach(b => b.classList.remove('is-active'));
+      this.classList.add('is-active');
+      
+      updateSelectedVariant();
+    });
+  });
+  
+  // Other variant selection
+  document.querySelectorAll('.product-main__variant-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const group = this.closest('.product-main__variant-group');
+      group.querySelectorAll('.product-main__variant-btn').forEach(b => b.classList.remove('is-active'));
+      this.classList.add('is-active');
+      
+      updateSelectedVariant();
+    });
+  });
+  
+  // Update size availability based on selected color
+  function updateSizeAvailability() {
+    const activeColor = document.querySelector('.product-main__color-swatch.is-active');
+    if (!activeColor) return;
+    
+    const selectedColor = activeColor.dataset.value;
+    const select = document.getElementById('product-select');
+    const options = select.querySelectorAll('option');
+    
+    document.querySelectorAll('.product-main__size-btn').forEach(sizeBtn => {
+      const sizeValue = sizeBtn.dataset.value;
+      let isAvailable = false;
+      
+      for (const option of options) {
+        const opt1 = option.dataset.option1;
+        const opt2 = option.dataset.option2;
+        const opt3 = option.dataset.option3;
+        
+        const hasColor = (opt1 === selectedColor || opt2 === selectedColor || opt3 === selectedColor);
+        const hasSize = (opt1 === sizeValue || opt2 === sizeValue || opt3 === sizeValue);
+        
+        if (hasColor && hasSize && !option.disabled) {
+          isAvailable = true;
+          break;
+        }
+      }
+      
+      sizeBtn.disabled = !isAvailable;
+    });
+  }
+  
+  // Update selected variant in hidden select
+  function updateSelectedVariant() {
+    const selectedOptions = {};
+    
+    // Get selected color
+    const activeColor = document.querySelector('.product-main__color-swatch.is-active');
+    if (activeColor) {
+      selectedOptions[activeColor.dataset.option] = activeColor.dataset.value;
+    }
+    
+    // Get selected size
+    const activeSize = document.querySelector('.product-main__size-btn.is-active');
+    if (activeSize) {
+      selectedOptions[activeSize.dataset.option] = activeSize.dataset.value;
+    }
+    
+    // Get other options
+    document.querySelectorAll('.product-main__variant-btn.is-active').forEach(btn => {
+      selectedOptions[btn.dataset.option] = btn.dataset.value;
+    });
+    
+    const addBtn = document.getElementById('add-to-cart-btn');
+    
+    // Check if size is selected
+    const hasSizeOption = document.querySelectorAll('.product-main__size-btn').length > 0;
+    if (hasSizeOption && !activeSize) {
+      addBtn.disabled = true;
+      addBtn.classList.add('is-disabled');
+      addBtn.textContent = addBtn.dataset.selectSize;
+      return;
+    }
+    
+    // Find matching variant
+    const select = document.getElementById('product-select');
+    const options = select.querySelectorAll('option');
+    
+    for (const option of options) {
+      let match = true;
+      for (const [key, value] of Object.entries(selectedOptions)) {
+        const opt1 = option.dataset.option1;
+        const opt2 = option.dataset.option2;
+        const opt3 = option.dataset.option3;
+        
+        if (opt1 !== value && opt2 !== value && opt3 !== value) {
+          match = false;
+          break;
+        }
+      }
+      
+      if (match) {
+        select.value = option.value;
+        
+        // Update button state
+        if (option.disabled) {
+          addBtn.disabled = true;
+          addBtn.classList.add('is-disabled');
+          addBtn.textContent = addBtn.dataset.soldOut;
+        } else {
+          addBtn.disabled = false;
+          addBtn.classList.remove('is-disabled');
+          addBtn.textContent = addBtn.dataset.addToCartText;
+        }
+        break;
       }
     }
   }
+  
+  // Initialize size availability
+  updateSizeAvailability();
+  
+  // Accordion toggle
+  document.querySelectorAll('.product-main__accordion-header').forEach(header => {
+    header.addEventListener('click', function() {
+      this.parentElement.classList.toggle('is-open');
+    });
+  });
+  
+  // Sticky add to cart visibility
+  const form = document.getElementById('product-form');
+  const stickyBar = document.getElementById('sticky-add-to-cart');
+  
+  if (form && stickyBar) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          stickyBar.classList.remove('is-visible');
+        } else {
+          stickyBar.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
+    
+    observer.observe(form);
+  }
+  
+  // Sticky button scrolls to form
+  document.querySelector('[data-sticky-add-to-cart]')?.addEventListener('click', () => {
+    document.getElementById('product-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
 </script>
+
+{% schema %}
+{
+  "name": "Product Main",
+  "class": "section-product-main",
+  "settings": []
+}
+{% endschema %}
