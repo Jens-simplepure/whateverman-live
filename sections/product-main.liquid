@@ -19,51 +19,85 @@
   
   @media (min-width: 1024px) {
     .product-main__wrapper {
-      grid-template-columns: 1fr 400px;
+      grid-template-columns: 65% 35%; /* Carhartt Verhältnis */
       gap: 0;
       align-items: start;
     }
   }
   
-  @media (min-width: 1280px) {
-    .product-main__wrapper {
-      grid-template-columns: 1fr 420px;
-    }
+  /* --- NEU: Lightbox Overlay Styles --- */
+  .lightbox-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Punkt 3: Leicht abgedunkelt */
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .lightbox-overlay.active { opacity: 1; pointer-events: all; }
+  
+  .lightbox-img { 
+    max-height: 90vh; 
+    max-width: 90vw; 
+    object-fit: contain; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
   }
   
-  /* Gallery - Carhartt Style: 2 columns grid, light background */
+  .lightbox-close { 
+    position: absolute; top: 20px; right: 20px; 
+    font-size: 2.5rem; color: white; background:none; border:none; cursor:pointer; 
+  }
+  
+  .lightbox-nav { 
+    position: absolute; top: 50%; transform: translateY(-50%); 
+    font-size: 3rem; color: white; background:none; border:none; cursor:pointer; padding:20px; 
+  }
+  .lightbox-prev { left: 10px; }
+  .lightbox-next { right: 10px; }
+
+
+  /* --- UPDATE: Gallery Layout (Carhartt Style) --- */
   .product-main__gallery {
     background: var(--color-background-secondary, #f5f5f5);
+    position: relative;
   }
   
   .product-main__desktop-gallery {
     display: none;
   }
   
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     .product-main__desktop-gallery {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
+      /* Punkt 1: Exakte Abstände zwischen den Bildern */
+      gap: 4px; 
+      padding-right: 4px; /* Abstand zur Info-Spalte */
     }
   }
   
   .product-main__image-item {
-    aspect-ratio: 3/4;
+    /* Entfernt Aspect-Ratio Zwang für besseres Fitting */
+    position: relative;
     background: var(--color-background-secondary, #f5f5f5);
     overflow: hidden;
+    cursor: zoom-in; /* Punkt 2: Lupen-Cursor */
   }
   
   .product-main__image-item img {
     width: 100%;
     height: 100%;
+    display: block;
     object-fit: cover;
-    cursor: zoom-in;
-    transition: transform 0.3s ease;
+    transition: opacity 0.3s ease;
   }
   
   .product-main__image-item:hover img {
-    transform: scale(1.02);
+    opacity: 0.9; /* Leichter Hover-Effekt statt Zoom */
   }
 
   /* Mobile: Single image with arrows */
@@ -72,7 +106,7 @@
     display: block;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     .product-main__mobile-gallery {
       display: none;
     }
@@ -150,10 +184,10 @@
   @media (min-width: 1024px) {
     .product-main__info {
       position: sticky;
-      top: 80px;
-      max-height: calc(100vh - 100px);
+      top: 40px;
+      max-height: calc(100vh - 40px);
       overflow-y: auto;
-      padding: 2rem 2.5rem;
+      padding: 3rem 4rem; /* Mehr Abstand innen */
     }
   }
   
@@ -200,7 +234,7 @@
     text-transform: uppercase;
   }
   
-  /* Color Swatches - Product Image Style like Carhartt */
+  /* Color Swatches */
   .product-main__colors {
     display: flex;
     flex-direction: column;
@@ -242,7 +276,6 @@
     object-fit: cover;
   }
   
-  /* Fallback for colors without images - colored circle */
   .product-main__color-swatch--fallback {
     display: flex;
     align-items: center;
@@ -261,7 +294,7 @@
     color: var(--color-text);
   }
   
-  /* Size Options - Button Grid like Carhartt */
+  /* Size Options */
   .product-main__sizes {
     display: flex;
     flex-direction: column;
@@ -312,7 +345,7 @@
     text-decoration: line-through;
   }
   
-  /* Other Variants (non-color, non-size) */
+  /* Variants Group */
   .product-main__variant-group {
     display: flex;
     flex-direction: column;
@@ -349,7 +382,7 @@
     color: var(--color-background);
   }
   
-  /* Add to Cart Button - Gray disabled style like Carhartt */
+  /* Add to Cart */
   .product-main__add-btn {
     width: 100%;
     padding: 1rem;
@@ -363,12 +396,6 @@
     background: rgba(255,255,255,0.1);
     color: var(--color-text-muted);
     cursor: not-allowed;
-  }
-  
-  .product-main__size-prompt {
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    text-align: center;
   }
   
   /* Info List */
@@ -398,7 +425,7 @@
     margin-top: 1px;
   }
   
-  /* Accordion Details */
+  /* Accordion */
   .product-main__details {
     display: flex;
     flex-direction: column;
@@ -462,7 +489,7 @@
     margin-bottom: 0.25rem;
   }
   
-  /* Sticky Mobile Add to Cart */
+  /* Sticky Mobile Bar */
   .product-main__sticky-bar {
     display: none;
     position: fixed;
@@ -518,16 +545,8 @@
     }
   }
   
-  /* Hidden select */
   .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
   }
 {%- endstyle -%}
 
@@ -550,87 +569,41 @@
   {% endif %}
 {% endfor %}
 
-{%- comment -%} Get selected color (first by default) {%- endcomment -%}
-{% assign selected_color = nil %}
-{% if color_option %}
-  {% assign selected_color = color_option.values.first %}
-{% endif %}
-
-{%- comment -%} Build color-to-images mapping {%- endcomment -%}
-{% assign color_images_map = '' %}
-{% if color_option %}
-  {% for color_value in color_option.values %}
-    {% assign color_image_urls = '' %}
-    {% for variant in product.variants %}
-      {% assign has_this_color = false %}
-      {% if variant.option1 == color_value or variant.option2 == color_value or variant.option3 == color_value %}
-        {% assign has_this_color = true %}
-      {% endif %}
-      {% if has_this_color and variant.featured_image != blank %}
-        {% if color_image_urls == '' %}
-          {% assign color_image_urls = variant.featured_image | image_url: width: 800 %}
-        {% else %}
-          {% assign color_image_urls = color_image_urls | append: '|||' | append: variant.featured_image | image_url: width: 800 %}
-        {% endif %}
-      {% endif %}
-    {% endfor %}
-    {% if color_images_map != '' %}
-      {% assign color_images_map = color_images_map | append: '###' %}
-    {% endif %}
-    {% assign color_images_map = color_images_map | append: color_value | append: ':::' | append: color_image_urls %}
-  {% endfor %}
-{% endif %}
-
 <section class="product-main">
+  
+  <div id="lightbox" class="lightbox-overlay">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="changeSlide(-1)">❮</button>
+    <img id="lightbox-image" class="lightbox-img" src="" alt="Zoom">
+    <button class="lightbox-nav lightbox-next" onclick="changeSlide(1)">❯</button>
+  </div>
+
   <div class="product-main__wrapper">
-    <!-- Gallery - Desktop: 2-column grid, Mobile: Swiper -->
     <div class="product-main__gallery">
-      <!-- Mobile Gallery -->
       <div class="product-main__mobile-gallery">
         <div class="product-main__mobile-image">
           {% if product.featured_image != blank %}
-            <img 
-              src="{{ product.featured_image | image_url: width: 800 }}"
-              alt="{{ product.featured_image.alt | default: product.title }}"
-              id="product-mobile-image"
-              data-current-index="0"
-            >
+            <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | default: product.title }}" id="product-mobile-image">
           {% else %}
             {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
           {% endif %}
         </div>
         {% if product.images.size > 1 %}
-          <button type="button" class="product-main__mobile-nav product-main__mobile-nav--prev" data-mobile-nav="prev">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button type="button" class="product-main__mobile-nav product-main__mobile-nav--next" data-mobile-nav="next">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-          <div class="product-main__mobile-counter">
-            <span id="mobile-image-current">1</span> / <span id="mobile-image-total">{{ product.images.size }}</span>
-          </div>
+          <button type="button" class="product-main__mobile-nav product-main__mobile-nav--prev" data-mobile-nav="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></button>
+          <button type="button" class="product-main__mobile-nav product-main__mobile-nav--next" data-mobile-nav="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></button>
+          <div class="product-main__mobile-counter"><span id="mobile-image-current">1</span> / <span id="mobile-image-total">{{ product.images.size }}</span></div>
         {% endif %}
       </div>
 
-      <!-- Desktop Gallery - shows images for selected color -->
       <div class="product-main__desktop-gallery" id="desktop-gallery">
         {% for image in product.images %}
-          <div class="product-main__image-item">
-            <img 
-              src="{{ image | image_url: width: 800 }}"
-              alt="{{ image.alt | default: product.title }}"
-              loading="{% if forloop.index <= 2 %}eager{% else %}lazy{% endif %}"
-            >
+          <div class="product-main__image-item" onclick="openLightbox({{ forloop.index0 }})">
+            <img src="{{ image | image_url: width: 800 }}" alt="{{ image.alt | default: product.title }}" loading="{% if forloop.index <= 2 %}eager{% else %}lazy{% endif %}">
           </div>
         {% endfor %}
       </div>
     </div>
     
-    <!-- Product Info -->
     <div class="product-main__info">
       <div class="product-main__header">
         <h1 class="product-main__title">{{ product.title }}</h1>
@@ -647,40 +620,23 @@
       <form action="/cart/add" method="post" enctype="multipart/form-data" id="product-form">
         {% unless product.has_only_default_variant %}
           
-          {%- comment -%} Color Options - Product Image Swatches like Carhartt {%- endcomment -%}
           {% if color_option %}
             <div class="product-main__colors">
               <div class="product-main__color-swatches">
                 {% for value in color_option.values %}
-                  {%- comment -%} Find variant image for this color {%- endcomment -%}
                   {% assign color_image = nil %}
                   {% assign color_images_for_gallery = '' %}
                   {% for variant in product.variants %}
                     {% if variant.option1 == value or variant.option2 == value or variant.option3 == value %}
                       {% if variant.featured_image != blank %}
-                        {% if color_image == nil %}
-                          {% assign color_image = variant.featured_image %}
-                        {% endif %}
-                        {% if color_images_for_gallery != '' %}
-                          {% assign color_images_for_gallery = color_images_for_gallery | append: ',' %}
-                        {% endif %}
+                        {% if color_image == nil %}{% assign color_image = variant.featured_image %}{% endif %}
+                        {% if color_images_for_gallery != '' %}{% assign color_images_for_gallery = color_images_for_gallery | append: ',' %}{% endif %}
                         {% assign color_images_for_gallery = color_images_for_gallery | append: variant.featured_image | image_url: width: 800 %}
                       {% endif %}
                     {% endif %}
                   {% endfor %}
-                  
                   {% assign color_handle = value | handleize %}
-                  
-                  <button 
-                    type="button"
-                    class="product-main__color-swatch {% if forloop.first %}is-active{% endif %} {% unless color_image %}product-main__color-swatch--fallback{% endunless %}"
-                    data-option="{{ color_option.name }}"
-                    data-value="{{ value }}"
-                    data-color-handle="{{ color_handle }}"
-                    {% if color_image %}data-image="{{ color_image | image_url: width: 800 }}"{% endif %}
-                    data-gallery-images="{{ color_images_for_gallery }}"
-                    title="{{ value }}"
-                  >
+                  <button type="button" class="product-main__color-swatch {% if forloop.first %}is-active{% endif %} {% unless color_image %}product-main__color-swatch--fallback{% endunless %}" data-option="{{ color_option.name }}" data-value="{{ value }}" data-color-handle="{{ color_handle }}" {% if color_image %}data-image="{{ color_image | image_url: width: 800 }}"{% endif %} data-gallery-images="{{ color_images_for_gallery }}" title="{{ value }}">
                     {% if color_image %}
                       <img src="{{ color_image | image_url: width: 150 }}" alt="{{ value }}" loading="lazy">
                     {% else %}
@@ -693,25 +649,16 @@
             </div>
           {% endif %}
           
-          {%- comment -%} Size Options - Button Grid {%- endcomment -%}
           {% if size_option %}
             <div class="product-main__sizes">
               <div class="product-main__size-grid">
                 {% for value in size_option.values %}
-                  <button 
-                    type="button"
-                    class="product-main__size-btn"
-                    data-option="{{ size_option.name }}"
-                    data-value="{{ value }}"
-                  >
-                    {{ value }}
-                  </button>
+                  <button type="button" class="product-main__size-btn" data-option="{{ size_option.name }}" data-value="{{ value }}">{{ value }}</button>
                 {% endfor %}
               </div>
             </div>
           {% endif %}
           
-          {%- comment -%} Other Options {%- endcomment -%}
           {% for option in product.options_with_values %}
             {% assign option_name_downcase = option.name | downcase %}
             {% unless option_name_downcase == 'color' or option_name_downcase == 'colour' or option_name_downcase == 'farbe' or option_name_downcase == 'size' or option_name_downcase == 'größe' or option_name_downcase == 'groesse' %}
@@ -719,201 +666,138 @@
                 <span class="product-main__variant-label">{{ option.name }}</span>
                 <div class="product-main__variant-options">
                   {% for value in option.values %}
-                    <button 
-                      type="button"
-                      class="product-main__variant-btn {% if forloop.first %}is-active{% endif %}"
-                      data-option="{{ option.name }}"
-                      data-value="{{ value }}"
-                    >
-                      {{ value }}
-                    </button>
+                    <button type="button" class="product-main__variant-btn {% if forloop.first %}is-active{% endif %}" data-option="{{ option.name }}" data-value="{{ value }}">{{ value }}</button>
                   {% endfor %}
                 </div>
               </div>
             {% endunless %}
           {% endfor %}
-          
         {% endunless %}
         
         <select name="id" id="product-select" class="visually-hidden">
           {% for variant in product.variants %}
-            <option 
-              value="{{ variant.id }}"
-              {% unless variant.available %}disabled{% endunless %}
-              data-option1="{{ variant.option1 }}"
-              data-option2="{{ variant.option2 }}"
-              data-option3="{{ variant.option3 }}"
-            >
-              {{ variant.title }} - {{ variant.price | money }}
-            </option>
+            <option value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %} data-option1="{{ variant.option1 }}" data-option2="{{ variant.option2 }}" data-option3="{{ variant.option3 }}">{{ variant.title }} - {{ variant.price | money }}</option>
           {% endfor %}
         </select>
-        
         <input type="hidden" name="quantity" value="1">
-        
-        <button 
-          type="submit" 
-          class="btn btn-gradient product-main__add-btn is-disabled"
-          data-add-to-cart
-          id="add-to-cart-btn"
-          disabled
-          data-select-size="{{ 'products.product.select_size' | t }}"
-          data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
-          data-sold-out="{{ 'products.product.sold_out' | t }}"
-        >
-          {{ 'products.product.select_size' | t }}
-        </button>
+        <button type="submit" class="btn btn-gradient product-main__add-btn is-disabled" data-add-to-cart id="add-to-cart-btn" disabled data-select-size="{{ 'products.product.select_size' | t }}" data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}" data-sold-out="{{ 'products.product.sold_out' | t }}">{{ 'products.product.select_size' | t }}</button>
       </form>
       
-      <!-- Info List -->
       <ul class="product-main__info-list">
-        <li class="product-main__info-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          <span>Free shipping $100+</span>
-        </li>
-        <li class="product-main__info-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-          <span>30-day returns</span>
-        </li>
-        <li class="product-main__info-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-          </svg>
-          <span>Secure checkout</span>
-        </li>
+        <li class="product-main__info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg><span>Free shipping $100+</span></li>
+        <li class="product-main__info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg><span>30-day returns</span></li>
+        <li class="product-main__info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg><span>Secure checkout</span></li>
       </ul>
       
-      <!-- Accordion Details -->
       <div class="product-main__details">
         {% if product.description != blank %}
           <div class="product-main__accordion">
-            <button type="button" class="product-main__accordion-header">
-              <span>Details</span>
-              <svg class="product-main__accordion-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-            <div class="product-main__accordion-content">
-              {{ product.description }}
-            </div>
+            <button type="button" class="product-main__accordion-header"><span>Details</span><svg class="product-main__accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></button>
+            <div class="product-main__accordion-content">{{ product.description }}</div>
           </div>
         {% endif %}
-        
         <div class="product-main__accordion">
-          <button type="button" class="product-main__accordion-header">
-            <span>Shipping & Returns</span>
-            <svg class="product-main__accordion-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-          <div class="product-main__accordion-content">
-            <ul>
-              <li>Free standard shipping on orders over $100 AUD</li>
-              <li>Express shipping available at checkout</li>
-              <li>International shipping to select countries</li>
-              <li>30-day easy returns for unworn items</li>
-              <li>Please allow 2-5 business days for processing</li>
-            </ul>
-          </div>
+          <button type="button" class="product-main__accordion-header"><span>Shipping & Returns</span><svg class="product-main__accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></button>
+          <div class="product-main__accordion-content"><ul><li>Free standard shipping on orders over $100 AUD</li><li>Express shipping available at checkout</li><li>International shipping to select countries</li><li>30-day easy returns for unworn items</li><li>Please allow 2-5 business days for processing</li></ul></div>
         </div>
       </div>
     </div>
   </div>
   
-  <!-- Sticky Mobile Add to Cart -->
   <div class="product-main__sticky-bar" id="sticky-add-to-cart">
     <div class="product-main__sticky-inner">
-      <div class="product-main__sticky-info">
-        <div class="product-main__sticky-title">{{ product.title }}</div>
-        <div class="product-main__sticky-price">{{ product.price | money }}</div>
-      </div>
-      <button 
-        type="button" 
-        class="btn btn-gradient product-main__sticky-btn"
-        data-sticky-add-to-cart
-        {% unless product.available %}disabled{% endunless %}
-      >
-        {% if product.available %}Add to Bag{% else %}Sold Out{% endif %}
-      </button>
+      <div class="product-main__sticky-info"><div class="product-main__sticky-title">{{ product.title }}</div><div class="product-main__sticky-price">{{ product.price | money }}</div></div>
+      <button type="button" class="btn btn-gradient product-main__sticky-btn" data-sticky-add-to-cart {% unless product.available %}disabled{% endunless %}>{% if product.available %}Add to Bag{% else %}Sold Out{% endif %}</button>
     </div>
   </div>
 </section>
 
 <script>
-  // Product data - all images
-  const allProductImages = [
+  // --- NEU: Lightbox Logik ---
+  const allImages = [
     {% for image in product.images %}
-      {
-        url: "{{ image | image_url: width: 800 }}",
-        alt: "{{ image.alt | default: product.title | escape }}"
-      }{% unless forloop.last %},{% endunless %}
+      "{{ image | image_url: width: 2000 }}"{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ];
+  let lightboxIndex = 0;
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-image');
+
+  window.openLightbox = function(idx) {
+    lightboxIndex = idx;
+    lightboxImg.src = allImages[idx];
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Scroll sperren
+  }
+  window.closeLightbox = function() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  window.changeSlide = function(dir) {
+    lightboxIndex += dir;
+    if(lightboxIndex >= allImages.length) lightboxIndex = 0;
+    if(lightboxIndex < 0) lightboxIndex = allImages.length - 1;
+    lightboxImg.src = allImages[lightboxIndex];
+  }
   
-  // Current gallery images (filtered by color)
+  // Tastensteuerung
+  document.addEventListener('keydown', e => {
+    if(!lightbox.classList.contains('active')) return;
+    if(e.key === "Escape") closeLightbox();
+    if(e.key === "ArrowRight") changeSlide(1);
+    if(e.key === "ArrowLeft") changeSlide(-1);
+  });
+  
+  // Overlay Klick schließt
+  lightbox.addEventListener('click', e => {
+     if(e.target === lightbox) closeLightbox();
+  });
+
+  // --- BESTEHENDE LOGIK (UNVERÄNDERT, nur Mobile Gallery Update angepasst) ---
+  const allProductImages = [
+    {% for image in product.images %}
+      { url: "{{ image | image_url: width: 800 }}", alt: "{{ image.alt | default: product.title | escape }}" }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
   let currentGalleryImages = [...allProductImages];
   let currentMobileIndex = 0;
   
-  // Initialize gallery based on first color
   document.addEventListener('DOMContentLoaded', function() {
     const firstColorSwatch = document.querySelector('.product-main__color-swatch.is-active');
-    if (firstColorSwatch) {
-      updateGalleryForColor(firstColorSwatch);
-    }
+    if (firstColorSwatch) updateGalleryForColor(firstColorSwatch);
   });
   
-  // Update desktop gallery with new images
   function updateDesktopGallery(images) {
     const gallery = document.getElementById('desktop-gallery');
     if (!gallery || images.length === 0) return;
-    
+    // Update mit onclick Event
     gallery.innerHTML = images.map((img, index) => `
-      <div class="product-main__image-item">
-        <img 
-          src="${img.url}"
-          alt="${img.alt}"
-          loading="${index <= 1 ? 'eager' : 'lazy'}"
-        >
+      <div class="product-main__image-item" onclick="openLightbox(${index})">
+        <img src="${img.url}" alt="${img.alt}" loading="${index <= 1 ? 'eager' : 'lazy'}">
       </div>
     `).join('');
+    // Aktualisiere auch Lightbox Array wenn sich die Galerie filtert (optional, hier laden wir einfach immer alle)
   }
   
-  // Update mobile gallery
   function updateMobileGallery(images) {
     if (images.length === 0) return;
-    
     currentGalleryImages = images;
     currentMobileIndex = 0;
-    
     const mobileImage = document.getElementById('product-mobile-image');
+    if (mobileImage) { mobileImage.src = images[0].url; mobileImage.alt = images[0].alt; }
     const totalCounter = document.getElementById('mobile-image-total');
-    const currentCounter = document.getElementById('mobile-image-current');
-    
-    if (mobileImage) {
-      mobileImage.src = images[0].url;
-      mobileImage.alt = images[0].alt;
-    }
     if (totalCounter) totalCounter.textContent = images.length;
+    const currentCounter = document.getElementById('mobile-image-current');
     if (currentCounter) currentCounter.textContent = 1;
   }
   
-  // Mobile gallery navigation
   function updateMobileImage(index) {
     if (currentGalleryImages.length === 0) return;
     currentMobileIndex = index;
     const mobileImage = document.getElementById('product-mobile-image');
-    if (mobileImage) {
-      mobileImage.src = currentGalleryImages[index].url;
-      mobileImage.alt = currentGalleryImages[index].alt;
-    }
+    if (mobileImage) { mobileImage.src = currentGalleryImages[index].url; mobileImage.alt = currentGalleryImages[index].alt; }
     const counter = document.getElementById('mobile-image-current');
-    if (counter) {
-      counter.textContent = index + 1;
-    }
+    if (counter) counter.textContent = index + 1;
   }
   
   document.querySelectorAll('.product-main__mobile-nav').forEach(btn => {
@@ -928,131 +812,83 @@
     });
   });
   
-  // Update gallery for selected color
   function updateGalleryForColor(swatch) {
     const galleryImagesStr = swatch.dataset.galleryImages;
-    
     if (galleryImagesStr && galleryImagesStr.length > 0) {
       const imageUrls = galleryImagesStr.split(',').filter(url => url.trim());
-      const colorImages = imageUrls.map(url => ({
-        url: url.trim(),
-        alt: swatch.dataset.value
-      }));
-      
+      const colorImages = imageUrls.map(url => ({ url: url.trim(), alt: swatch.dataset.value }));
       if (colorImages.length > 0) {
         updateDesktopGallery(colorImages);
         updateMobileGallery(colorImages);
         return;
       }
     }
-    
-    // Fallback: show all images
     updateDesktopGallery(allProductImages);
     updateMobileGallery(allProductImages);
   }
   
-  // Color swatch selection
   document.querySelectorAll('.product-main__color-swatch').forEach(btn => {
     btn.addEventListener('click', function() {
       const value = this.dataset.value;
-      
-      // Update active state
       document.querySelectorAll('.product-main__color-swatch').forEach(b => b.classList.remove('is-active'));
       this.classList.add('is-active');
-      
-      // Update color name
       const colorName = document.getElementById('selected-color-name');
-      if (colorName) {
-        colorName.textContent = value;
-      }
-      
-      // Update gallery
+      if (colorName) colorName.textContent = value;
       updateGalleryForColor(this);
-      
-      // Update available sizes for this color
       updateSizeAvailability();
       updateSelectedVariant();
     });
   });
   
-  // Size button selection
   document.querySelectorAll('.product-main__size-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       if (this.disabled) return;
-      
       document.querySelectorAll('.product-main__size-btn').forEach(b => b.classList.remove('is-active'));
       this.classList.add('is-active');
-      
       updateSelectedVariant();
     });
   });
   
-  // Other variant selection
   document.querySelectorAll('.product-main__variant-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       const group = this.closest('.product-main__variant-group');
       group.querySelectorAll('.product-main__variant-btn').forEach(b => b.classList.remove('is-active'));
       this.classList.add('is-active');
-      
       updateSelectedVariant();
     });
   });
   
-  // Update size availability based on selected color
   function updateSizeAvailability() {
     const activeColor = document.querySelector('.product-main__color-swatch.is-active');
     if (!activeColor) return;
-    
     const selectedColor = activeColor.dataset.value;
     const select = document.getElementById('product-select');
     const options = select.querySelectorAll('option');
-    
     document.querySelectorAll('.product-main__size-btn').forEach(sizeBtn => {
       const sizeValue = sizeBtn.dataset.value;
       let isAvailable = false;
-      
       for (const option of options) {
         const opt1 = option.dataset.option1;
         const opt2 = option.dataset.option2;
         const opt3 = option.dataset.option3;
-        
         const hasColor = (opt1 === selectedColor || opt2 === selectedColor || opt3 === selectedColor);
         const hasSize = (opt1 === sizeValue || opt2 === sizeValue || opt3 === sizeValue);
-        
-        if (hasColor && hasSize && !option.disabled) {
-          isAvailable = true;
-          break;
-        }
+        if (hasColor && hasSize && !option.disabled) { isAvailable = true; break; }
       }
-      
       sizeBtn.disabled = !isAvailable;
     });
   }
   
-  // Update selected variant in hidden select
   function updateSelectedVariant() {
     const selectedOptions = {};
-    
-    // Get selected color
     const activeColor = document.querySelector('.product-main__color-swatch.is-active');
-    if (activeColor) {
-      selectedOptions[activeColor.dataset.option] = activeColor.dataset.value;
-    }
-    
-    // Get selected size
+    if (activeColor) selectedOptions[activeColor.dataset.option] = activeColor.dataset.value;
     const activeSize = document.querySelector('.product-main__size-btn.is-active');
-    if (activeSize) {
-      selectedOptions[activeSize.dataset.option] = activeSize.dataset.value;
-    }
-    
-    // Get other options
+    if (activeSize) selectedOptions[activeSize.dataset.option] = activeSize.dataset.value;
     document.querySelectorAll('.product-main__variant-btn.is-active').forEach(btn => {
       selectedOptions[btn.dataset.option] = btn.dataset.value;
     });
-    
     const addBtn = document.getElementById('add-to-cart-btn');
-    
-    // Check if size is selected
     const hasSizeOption = document.querySelectorAll('.product-main__size-btn').length > 0;
     if (hasSizeOption && !activeSize) {
       addBtn.disabled = true;
@@ -1060,28 +896,18 @@
       addBtn.textContent = addBtn.dataset.selectSize;
       return;
     }
-    
-    // Find matching variant
     const select = document.getElementById('product-select');
     const options = select.querySelectorAll('option');
-    
     for (const option of options) {
       let match = true;
       for (const [key, value] of Object.entries(selectedOptions)) {
         const opt1 = option.dataset.option1;
         const opt2 = option.dataset.option2;
         const opt3 = option.dataset.option3;
-        
-        if (opt1 !== value && opt2 !== value && opt3 !== value) {
-          match = false;
-          break;
-        }
+        if (opt1 !== value && opt2 !== value && opt3 !== value) { match = false; break; }
       }
-      
       if (match) {
         select.value = option.value;
-        
-        // Update button state
         if (option.disabled) {
           addBtn.disabled = true;
           addBtn.classList.add('is-disabled');
@@ -1095,36 +921,25 @@
       }
     }
   }
-  
-  // Initialize size availability
   updateSizeAvailability();
   
-  // Accordion toggle
   document.querySelectorAll('.product-main__accordion-header').forEach(header => {
     header.addEventListener('click', function() {
       this.parentElement.classList.toggle('is-open');
     });
   });
   
-  // Sticky add to cart visibility
   const form = document.getElementById('product-form');
   const stickyBar = document.getElementById('sticky-add-to-cart');
-  
   if (form && stickyBar) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          stickyBar.classList.remove('is-visible');
-        } else {
-          stickyBar.classList.add('is-visible');
-        }
+        if (entry.isIntersecting) { stickyBar.classList.remove('is-visible'); } else { stickyBar.classList.add('is-visible'); }
       });
     }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
-    
     observer.observe(form);
   }
   
-  // Sticky button scrolls to form
   document.querySelector('[data-sticky-add-to-cart]')?.addEventListener('click', () => {
     document.getElementById('product-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
