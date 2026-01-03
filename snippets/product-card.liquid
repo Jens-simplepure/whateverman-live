@@ -1,6 +1,7 @@
 {%- comment -%}
   Product Card Snippet
   Usage: {% render 'product-card', product: product %}
+  Style: Minimalist (Carhartt WIP inspired) - No Quick Add, No Sizes
 {%- endcomment -%}
 
 <article class="product-card" data-animate>
@@ -39,6 +40,10 @@
       {% endif %}
     </div>
     
+    {% comment %}
+    ----------------------------------------------------------------
+    QUICK ADD ENTFERNT (auskommentiert für Minimalismus)
+    ----------------------------------------------------------------
     <div class="product-card__quick-add">
       <button 
         type="button" 
@@ -53,6 +58,7 @@
         {% endif %}
       </button>
     </div>
+    {% endcomment %}
   </a>
   
   <div class="product-card__content">
@@ -67,6 +73,10 @@
       <span class="product-card__price-current">{{ product.price | money }}</span>
     </div>
     
+    {% comment %}
+    ----------------------------------------------------------------
+    VARIANTEN/GRÖSSEN ENTFERNT (auskommentiert für Minimalismus)
+    ----------------------------------------------------------------
     {% if product.variants.size > 1 %}
       <div class="product-card__variants">
         {% for variant in product.variants limit: 4 %}
@@ -79,10 +89,13 @@
         {% endif %}
       </div>
     {% endif %}
+    {% endcomment %}
+
   </div>
 </article>
 
 <style>
+  /* Hover Effect für das zweite Bild */
   .product-card__image-hover {
     position: absolute;
     inset: 0;
@@ -97,24 +110,32 @@
   .product-card__badge--sold-out {
     background: var(--color-text-muted);
   }
+
+  /* --- MINIMALIST STYLING ANPASSUNGEN --- */
   
-  .product-card__variants {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    flex-wrap: wrap;
+  /* Titel styling: Nicht zu fett, etwas Abstand nach oben */
+  .product-card__title {
+    font-size: 0.9rem; /* Anpassen falls zu klein */
+    font-weight: 400; /* Normal statt Bold für Carhartt Look */
+    margin-top: 0.75rem;
+    margin-bottom: 0.2rem;
+    line-height: 1.2;
   }
-  
-  .product-card__variant-option {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    background: var(--color-background);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--color-text-muted);
+
+  .product-card__title a {
+    text-decoration: none;
+    color: inherit;
   }
-  
-  .product-card__variant-more {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
+
+  /* Preis styling: Dezent darunter */
+  .product-card__price {
+    font-size: 0.9rem;
+    color: var(--color-text-muted, #666); /* Fallback Farbe */
+  }
+
+  .product-card__price-compare {
+    text-decoration: line-through;
+    margin-right: 0.5rem;
+    opacity: 0.7;
   }
 </style>
