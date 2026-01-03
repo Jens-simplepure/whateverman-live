@@ -1,80 +1,89 @@
 {%- style -%}
-  /* --- 1. LAYOUT & STRUKTUR --- */
-  .product-main-section {
-    background: #ffffff;
-    padding-bottom: 50px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Clean Font Base */
-  }
-
-  .product-container {
+  /* --- LAYOUT & STRUKTUR (Carhartt Architektur) --- */
+  
+  /* Container übernimmt Theme-Breite, erzwingt keine Hintergrundfarbe */
+  .product-section-wrapper {
     max-width: 100%;
     margin: 0 auto;
+    /* Hintergrundfarbe entfernt, damit dein Theme-Grau bleibt */
+  }
+
+  .product-grid-container {
     display: flex;
     flex-direction: column;
   }
 
-  /* Desktop Split: 65% Bilder / 35% Info */
+  /* Desktop Split: Links Bilder, Rechts Info */
   @media (min-width: 1024px) {
-    .product-container {
+    .product-grid-container {
       display: grid;
-      grid-template-columns: 65% 35%; 
+      grid-template-columns: 65% 35%; /* Carhartt Verhältnis */
       align-items: start;
+      gap: 0;
     }
   }
 
-  /* --- 2. GALERIE LINKS (Carhartt Grid) --- */
-  .gallery-wrapper {
+  /* --- LINKE SPALTE: GALERIE --- */
+  .gallery-column {
     width: 100%;
     position: relative;
   }
 
-  /* Desktop: 2 Spalten Grid */
-  .gallery-desktop {
+  /* Desktop Grid: 2 Bilder nebeneinander */
+  .gallery-desktop-grid {
     display: none;
   }
 
   @media (min-width: 1024px) {
-    .gallery-desktop {
+    .gallery-desktop-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr; /* Exakt 2 Bilder nebeneinander */
-      gap: 4px; /* Der feine weiße Abstand zwischen den Fotos */
-      padding-right: 4px; /* Kleiner Abstand zur Info-Spalte */
+      grid-template-columns: 1fr 1fr;
+      gap: 4px; /* Feiner Abstand zwischen Bildern */
+      padding-right: 20px;
     }
     
     .gallery-item {
-      cursor: zoom-in; /* Zeigt an, dass man klicken kann */
+      cursor: zoom-in;
       display: block;
-      position: relative;
-      overflow: hidden;
+      line-height: 0; /* Entfernt Lücken unter Bildern */
     }
 
     .gallery-item img {
       width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: cover;
       display: block;
-      transition: opacity 0.3s;
-    }
-    
-    .gallery-item:hover img {
-      opacity: 0.95;
     }
   }
 
-  /* Mobile: Simple Stack oder Slider (hier Stack) */
-  .gallery-mobile {
+  /* Mobile: Standard Bild */
+  .gallery-mobile-stack {
     display: block;
   }
-  @media (min-width: 1024px) { .gallery-mobile { display: none; } }
-  .gallery-mobile img { width: 100%; display: block; margin-bottom: 4px; }
+  @media (min-width: 1024px) { .gallery-mobile-stack { display: none; } }
+  .gallery-mobile-stack img { width: 100%; display: block; margin-bottom: 4px; }
 
+  /* --- RECHTE SPALTE: INFO (Sticky) --- */
+  .info-column {
+    padding: 20px;
+  }
 
-  /* --- 3. OVERLAY ZOOM (Lightbox) --- */
+  @media (min-width: 1024px) {
+    .info-column {
+      position: sticky;
+      top: 20px; /* Bleibt beim Scrollen stehen */
+      padding: 40px 50px; 
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+  }
+
+  /* --- LIGHTBOX (Zoom Overlay) --- */
   .lightbox-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(255, 255, 255, 1); /* Weißer Hintergrund wie Carhartt WIP */
-    z-index: 9999;
+    background: rgba(255, 255, 255, 0.98); /* Fast deckendes Weiß */
+    z-index: 99999;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -82,138 +91,62 @@
     pointer-events: none;
     transition: opacity 0.3s ease;
   }
+  .lightbox-overlay.active { opacity: 1; pointer-events: all; }
+  .lightbox-img { max-height: 90vh; max-width: 90vw; object-fit: contain; }
+  .lightbox-close { position: absolute; top: 20px; right: 20px; font-size: 2rem; background:none; border:none; cursor:pointer; }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2rem; background:none; border:none; cursor:pointer; padding:20px; }
+  .lightbox-prev { left: 10px; }
+  .lightbox-next { right: 10px; }
 
-  .lightbox-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .lightbox-img {
-    max-height: 90vh;
-    max-width: 90vw;
-    object-fit: contain;
-  }
-
-  .lightbox-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 10px;
-  }
-
-  .lightbox-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 20px;
-  }
-  .lightbox-prev { left: 20px; }
-  .lightbox-next { right: 20px; }
-
-
-  /* --- 4. INFO SPALTE RECHTS --- */
-  .product-info {
-    padding: 20px;
-  }
-
-  @media (min-width: 1024px) {
-    .product-info {
-      position: sticky;
-      top: 20px;
-      padding: 40px 50px; /* Viel Platz innen */
-      height: auto;
-      max-height: 100vh;
-      overflow-y: auto;
-    }
-  }
-
-  /* TYPOGRAFIE & REIHENFOLGE */
+  /* --- ELEMENTE & ABSTÄNDE --- */
   
-  /* 1. Name */
-  .product-title {
-    font-family: 'Bebas Neue', sans-serif; /* Dein Font */
-    font-size: 2.5rem;
-    margin: 0 0 5px 0;
-    line-height: 1;
-    font-weight: 400;
-    text-transform: uppercase;
+  /* Titel & Preis erben vom Theme (h1, h2...), wir regeln nur den Abstand */
+  .product-header {
+    margin-bottom: 0;
   }
+  
+  .spacer-large { height: 40px; }
+  .spacer-medium { height: 25px; }
 
-  /* 2. Preis */
-  .product-price {
-    font-size: 1.1rem;
-    color: #333;
-    margin-bottom: 0; /* Abstand kommt durch Wrapper */
-  }
-
-  /* ABSTANDSHALTER 1 */
-  .spacer-large {
-    height: 40px; /* Der definierte Abstand zwischen Preis und Farben */
-    width: 100%;
-  }
-
-  /* 3. Farb-Vorschau (Bilder) */
-  .color-swatch-container {
+  /* SWATCHES (Die Farb-Bilder) */
+  .swatch-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 10px; /* Kleiner Abstand zum Text darunter */
+    margin-bottom: 8px;
   }
 
-  .color-swatch-btn {
-    width: 45px;
-    height: 45px;
+  .swatch-item {
+    width: 48px; /* Größe der Farbbilder */
+    height: 48px;
     padding: 0;
-    border: 1px solid transparent;
+    border: 1px solid transparent; /* Unsichtbarer Rahmen */
     cursor: pointer;
-    background: #f4f4f4;
+    background: transparent;
     overflow: hidden;
+    transition: border-color 0.2s;
   }
-
-  .color-swatch-btn img {
+  
+  .swatch-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .color-swatch-btn.is-active {
-    border: 1px solid #000; /* Schwarzer Rahmen bei Auswahl */
-  }
-  
-  .color-swatch-btn:hover {
-    border-color: #999;
+  /* Border-Logik für "Whateverman" Style */
+  .swatch-item:hover { border-color: #999; }
+  .swatch-item.is-active { 
+    border-color: #000; /* Aktiv = Schwarzer Rahmen */
+    box-shadow: inset 0 0 0 1px #fff; /* Kleiner Innenabstand für Lesbarkeit */
   }
 
-  /* 4. Farb-Name (unter den Bildern) */
-  .selected-color-name {
+  .color-name-display {
     font-size: 0.9rem;
-    color: #666;
-    margin: 0;
-    display: block;
+    color: var(--color-base-text); /* Theme Textfarbe */
+    opacity: 0.8;
   }
 
-  /* ABSTANDSHALTER 2 */
-  .spacer-medium {
-    height: 30px; /* Abstand zwischen Farbname und Größen */
-    width: 100%;
-  }
-
-  /* 5. Größen */
-  .size-label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    color: #333;
-  }
-
+  /* GRÖSSEN BUTTONS */
   .size-grid {
     display: flex;
     flex-wrap: wrap;
@@ -223,50 +156,42 @@
   .size-btn {
     min-width: 50px;
     height: 40px;
-    padding: 0 15px;
-    background: white;
-    border: 1px solid #e5e5e5;
-    color: black;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid rgba(0,0,0,0.1); /* Subtiler Rahmen */
+    background: transparent; /* Theme Hintergrund durchlassen */
+    color: var(--color-base-text);
+    cursor: pointer;
     font-size: 0.9rem;
   }
 
-  .size-btn:hover { border-color: black; }
+  .size-btn:hover { border-color: #000; }
   
   .size-btn.is-active {
-    background: black;
-    color: white;
-    border-color: black;
+    background: #000; /* Oder Theme Primary Color */
+    color: #fff;
+    border-color: #000;
   }
   
   .size-btn:disabled {
-    color: #ccc;
-    background: #f9f9f9;
+    opacity: 0.4;
     text-decoration: line-through;
     cursor: not-allowed;
   }
 
-  /* Add to Cart Button */
-  .add-btn {
+  /* ADD BUTTON */
+  .add-to-cart-btn {
     width: 100%;
     margin-top: 30px;
     padding: 15px;
-    background: black;
-    color: white;
-    text-transform: uppercase;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
+    /* Style wird vom Theme Button geerbt, aber volle Breite erzwungen */
   }
-  .add-btn:disabled { background: #ccc; cursor: not-allowed; }
 
 {%- endstyle -%}
 
-
-<div class="product-main-section">
+<div class="product-section-wrapper">
+  
   <div id="lightbox" class="lightbox-overlay">
     <button class="lightbox-close" onclick="closeLightbox()">✕</button>
     <button class="lightbox-nav lightbox-prev" onclick="changeSlide(-1)">❮</button>
@@ -274,41 +199,33 @@
     <button class="lightbox-nav lightbox-next" onclick="changeSlide(1)">❯</button>
   </div>
 
-
-  <div class="product-container">
+  <div class="product-grid-container">
     
-    <div class="gallery-wrapper">
-      
-      <div class="gallery-mobile">
+    <div class="gallery-column">
+      <div class="gallery-mobile-stack">
         {% if product.featured_image %}
           <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title }}">
         {% endif %}
       </div>
-
-      <div class="gallery-desktop" id="gallery-grid">
+      <div class="gallery-desktop-grid">
         {% for image in product.images %}
           <div class="gallery-item" onclick="openLightbox({{ forloop.index0 }})">
-            <img 
-              src="{{ image | image_url: width: 1000 }}" 
-              alt="{{ image.alt | default: product.title }}"
-              loading="lazy"
-            >
+            <img src="{{ image | image_url: width: 1200 }}" alt="{{ image.alt | escape }}" loading="lazy">
           </div>
         {% endfor %}
       </div>
     </div>
 
-
-    <div class="product-info">
+    <div class="info-column">
       
       <form action="/cart/add" method="post" enctype="multipart/form-data" id="add-to-cart-form">
         
-        <h1 class="product-title">{{ product.title }}</h1>
+        <h1 class="product-title h2">{{ product.title }}</h1>
         
-        <div class="product-price">
+        <div class="product-price h4">
           {{ product.price | money }}
           {% if product.compare_at_price > product.price %}
-            <s style="color:#999; margin-left: 8px;">{{ product.compare_at_price | money }}</s>
+            <s style="opacity: 0.6; font-size: 0.9em; margin-left: 8px;">{{ product.compare_at_price | money }}</s>
           {% endif %}
         </div>
 
@@ -316,45 +233,56 @@
 
         {% unless product.has_only_default_variant %}
           
-          {%- comment -%} LOGIK: Optionen finden {%- endcomment -%}
-          {% assign color_opt = product.options_with_values | where: "name", "Color" | first %}
-          {% unless color_opt %}{% assign color_opt = product.options_with_values | where: "name", "Farbe" | first %}{% endunless %}
+          {%- comment -%} OPTIONEN FINDEN (Color & Size) {%- endcomment -%}
+          {% assign color_opt = nil %}
+          {% assign size_opt = nil %}
           
-          {% assign size_opt = product.options_with_values | where: "name", "Size" | first %}
-          {% unless size_opt %}{% assign size_opt = product.options_with_values | where: "name", "Größe" | first %}{% endunless %}
+          {% for option in product.options_with_values %}
+             {% assign opt_name = option.name | downcase %}
+             {% if opt_name contains 'color' or opt_name contains 'colour' or opt_name contains 'farbe' %}
+               {% assign color_opt = option %}
+             {% endif %}
+             {% if opt_name contains 'size' or opt_name contains 'größe' %}
+               {% assign size_opt = option %}
+             {% endif %}
+          {% endfor %}
 
           {% if color_opt %}
-            <div class="color-swatch-container">
+            <div class="swatch-grid">
               {% for value in color_opt.values %}
-                {% assign swatch_img = nil %}
+                
+                {% assign swatch_image_url = nil %}
+                
                 {% for variant in product.variants %}
-                  {% if variant.options contains value and variant.featured_image %}
-                    {% assign swatch_img = variant.featured_image %}
-                    {% break %}
+                  {% if variant.option1 == value or variant.option2 == value or variant.option3 == value %}
+                    {% if variant.featured_image %}
+                      {% assign swatch_image_url = variant.featured_image | image_url: width: 200, height: 200, crop: 'center' %}
+                      {% break %} {% endif %}
                   {% endif %}
                 {% endfor %}
 
                 <button type="button" 
-                  class="color-swatch-btn {% if forloop.first %}is-active{% endif %}" 
+                  class="swatch-item {% if forloop.first %}is-active{% endif %}" 
                   data-value="{{ value }}"
                   onclick="selectColor(this, '{{ value }}')"
+                  title="{{ value }}"
                 >
-                  {% if swatch_img %}
-                    <img src="{{ swatch_img | image_url: width: 100, height: 100, crop: 'center' }}" alt="{{ value }}">
+                  {% if swatch_image_url %}
+                    <img src="{{ swatch_image_url }}" alt="{{ value }}">
                   {% else %}
-                    <span style="display:block; width:100%; height:100%; background-color: {{ value | handle }};"></span>
+                    <span style="display:block; width:100%; height:100%; background-color: #ddd; display:flex; align-items:center; justify-content:center; font-size:0.6rem;">{{ value | slice: 0, 3 }}</span>
                   {% endif %}
                 </button>
               {% endfor %}
             </div>
-
-            <p class="selected-color-name" id="color-name-display">{{ color_opt.values.first }}</p>
+            
+            <div class="color-name-display" id="color-name-text">{{ color_opt.values.first }}</div>
           {% endif %}
 
           <div class="spacer-medium"></div>
 
           {% if size_opt %}
-            <span class="size-label">Select Size</span>
+            <div style="margin-bottom: 8px; font-size: 0.9rem;">Select Size</div>
             <div class="size-grid">
               {% for value in size_opt.values %}
                 <button type="button" class="size-btn" data-value="{{ value }}" onclick="selectSize(this, '{{ value }}')">
@@ -363,8 +291,8 @@
               {% endfor %}
             </div>
           {% endif %}
-          
-          <select name="id" id="original-select" style="display:none;">
+
+          <select name="id" id="shopify-master-select" style="display:none;">
             {% for variant in product.variants %}
               <option value="{{ variant.id }}" 
                 data-opt1="{{ variant.option1 }}" 
@@ -379,120 +307,108 @@
 
         {% endunless %}
 
-        <button type="submit" id="add-btn" class="add-btn" disabled>
+        <button type="submit" id="main-add-btn" class="add-to-cart-btn button btn btn--primary" disabled>
           Select Size
         </button>
 
-        <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+        <div style="margin-top: 40px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px;">
            <details>
-             <summary style="cursor:pointer; font-weight:bold;">Details</summary>
-             <div style="padding-top:10px; font-size:0.9rem;">{{ product.description }}</div>
+             <summary style="cursor:pointer; padding: 10px 0;">Details</summary>
+             <div style="padding: 10px 0; font-size: 0.9rem; line-height: 1.6;">{{ product.description }}</div>
            </details>
         </div>
 
       </form>
     </div>
-
   </div>
 </div>
 
 <script>
-  /* --- LIGHTBOX LOGIK --- */
-  // Alle hochauflösenden Bilder in ein Array laden
-  const lightboxImages = [
+  /* --- LIGHTBOX (Zoom) --- */
+  const lbImages = [
     {% for image in product.images %}
       "{{ image | image_url: width: 2000 }}"{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ];
-  
-  let currentSlideIndex = 0;
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-image');
+  let lbIndex = 0;
+  const lbOverlay = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-image');
 
-  function openLightbox(index) {
-    currentSlideIndex = index;
-    lightboxImg.src = lightboxImages[index];
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Scrollen verhindern
+  function openLightbox(idx) {
+    lbIndex = idx;
+    lbImg.src = lbImages[idx];
+    lbOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
   }
-
   function closeLightbox() {
-    lightbox.classList.remove('active');
+    lbOverlay.classList.remove('active');
     document.body.style.overflow = '';
   }
-
-  function changeSlide(direction) {
-    currentSlideIndex += direction;
-    // Loop
-    if (currentSlideIndex >= lightboxImages.length) currentSlideIndex = 0;
-    if (currentSlideIndex < 0) currentSlideIndex = lightboxImages.length - 1;
-    
-    lightboxImg.src = lightboxImages[currentSlideIndex];
+  function changeSlide(dir) {
+    lbIndex += dir;
+    if(lbIndex >= lbImages.length) lbIndex = 0;
+    if(lbIndex < 0) lbIndex = lbImages.length - 1;
+    lbImg.src = lbImages[lbIndex];
   }
-
-  // Schließen mit ESC Taste
-  document.addEventListener('keydown', function(event) {
-    if (event.key === "Escape") closeLightbox();
-    if (event.key === "ArrowRight") changeSlide(1);
-    if (event.key === "ArrowLeft") changeSlide(-1);
+  
+  // Tastatursteuerung
+  document.addEventListener('keydown', e => {
+    if(!lbOverlay.classList.contains('active')) return;
+    if(e.key === "Escape") closeLightbox();
+    if(e.key === "ArrowRight") changeSlide(1);
+    if(e.key === "ArrowLeft") changeSlide(-1);
   });
 
+  /* --- VARIANTEN LOGIK --- */
+  let curColor = "{{ color_opt.values.first }}";
+  let curSize = null;
 
-  /* --- VARIANTEN LOGIK (Vereinfacht) --- */
-  let selectedColor = "{{ color_opt.values.first }}";
-  let selectedSize = null;
-
-  function selectColor(btn, value) {
-    // Buttons resetten
-    document.querySelectorAll('.color-swatch-btn').forEach(b => b.classList.remove('is-active'));
+  function selectColor(btn, val) {
+    document.querySelectorAll('.swatch-item').forEach(b => b.classList.remove('is-active'));
     btn.classList.add('is-active');
-    
-    // Text ändern
-    document.getElementById('color-name-display').innerText = value;
-    selectedColor = value;
-    
-    checkVariant();
+    document.getElementById('color-name-text').textContent = val;
+    curColor = val;
+    updateState();
   }
 
-  function selectSize(btn, value) {
+  function selectSize(btn, val) {
     document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('is-active'));
     btn.classList.add('is-active');
-    selectedSize = value;
-    
-    checkVariant();
+    curSize = val;
+    updateState();
   }
 
-  function checkVariant() {
-    const select = document.getElementById('original-select');
-    const addBtn = document.getElementById('add-btn');
-    let foundVariant = null;
+  function updateState() {
+    const select = document.getElementById('shopify-master-select');
+    const btn = document.getElementById('main-add-btn');
+    let validVariant = null;
 
-    // Finde passende Variante im Select
-    for (let option of select.options) {
-      const o1 = option.getAttribute('data-opt1');
-      const o2 = option.getAttribute('data-opt2');
-      const o3 = option.getAttribute('data-opt3');
+    // Finde passende Variante
+    for(let opt of select.options) {
+      const o1 = opt.getAttribute('data-opt1');
+      const o2 = opt.getAttribute('data-opt2');
+      const o3 = opt.getAttribute('data-opt3');
       
-      // Prüfen ob Option ausgewählt ist (Color oder Size kann opt1 oder opt2 sein)
-      const matchColor = (o1 === selectedColor || o2 === selectedColor || o3 === selectedColor);
-      const matchSize = (o1 === selectedSize || o2 === selectedSize || o3 === selectedSize);
-      
-      if (matchColor && matchSize) {
-        foundVariant = option;
+      const matchC = (o1 === curColor || o2 === curColor || o3 === curColor);
+      const matchS = (o1 === curSize || o2 === curSize || o3 === curSize);
+
+      if(matchC && matchS) {
+        validVariant = opt;
         break;
       }
     }
-
-    if (foundVariant && !foundVariant.disabled) {
-      addBtn.disabled = false;
-      addBtn.innerText = "Add to Bag";
-      select.value = foundVariant.value;
+    
+    // Update Button Text & Verfügbarkeit
+    if(validVariant && !validVariant.disabled) {
+      btn.disabled = false;
+      btn.textContent = "Add to Bag";
+      select.value = validVariant.value;
     } else {
-      addBtn.disabled = true;
-      if(foundVariant && foundVariant.disabled) {
-        addBtn.innerText = "Sold Out";
+      btn.disabled = true;
+      if(validVariant && validVariant.disabled) {
+        btn.textContent = "Sold Out";
       } else {
-        addBtn.innerText = selectedSize ? "Unavailable" : "Select Size";
+        btn.textContent = curSize ? "Unavailable" : "Select Size";
       }
     }
   }
