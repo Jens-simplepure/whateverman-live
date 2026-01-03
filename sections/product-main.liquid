@@ -25,11 +25,11 @@
     }
   }
   
-  /* --- NEU: Lightbox Overlay Styles --- */
+  /* --- Lightbox Overlay Styles --- */
   .lightbox-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Punkt 3: Leicht abgedunkelt */
+    background: rgba(0, 0, 0, 0.5); /* Leicht abgedunkelt */
     z-index: 99999;
     display: flex;
     align-items: center;
@@ -60,10 +60,12 @@
   .lightbox-next { right: 10px; }
 
 
-  /* --- UPDATE: Gallery Layout (Carhartt Style) --- */
+  /* --- Gallery Layout (Carhartt Style) --- */
   .product-main__gallery {
     background: var(--color-background-secondary, #f5f5f5);
     position: relative;
+    /* ÄNDERUNG: Bilder um 30px nach unten versetzt */
+    padding-top: 30px; 
   }
   
   .product-main__desktop-gallery {
@@ -74,18 +76,16 @@
     .product-main__desktop-gallery {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      /* Punkt 1: Exakte Abstände zwischen den Bildern */
-      gap: 4px; 
+      gap: 4px; /* Exakte Abstände zwischen den Bildern */
       padding-right: 4px; /* Abstand zur Info-Spalte */
     }
   }
   
   .product-main__image-item {
-    /* Entfernt Aspect-Ratio Zwang für besseres Fitting */
     position: relative;
     background: var(--color-background-secondary, #f5f5f5);
     overflow: hidden;
-    cursor: zoom-in; /* Punkt 2: Lupen-Cursor */
+    cursor: zoom-in; /* Lupen-Cursor */
   }
   
   .product-main__image-item img {
@@ -97,7 +97,7 @@
   }
   
   .product-main__image-item:hover img {
-    opacity: 0.9; /* Leichter Hover-Effekt statt Zoom */
+    opacity: 0.9;
   }
 
   /* Mobile: Single image with arrows */
@@ -713,47 +713,45 @@
 </section>
 
 <script>
-  // --- NEU: Lightbox Logik ---
-  const allImages = [
+  // --- Lightbox JS ---
+  const lbImages = [
     {% for image in product.images %}
       "{{ image | image_url: width: 2000 }}"{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ];
-  let lightboxIndex = 0;
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-image');
+  let lbIndex = 0;
+  const lbOverlay = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-image');
 
   window.openLightbox = function(idx) {
-    lightboxIndex = idx;
-    lightboxImg.src = allImages[idx];
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Scroll sperren
+    lbIndex = idx;
+    lbImg.src = lbImages[idx];
+    lbOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
   }
   window.closeLightbox = function() {
-    lightbox.classList.remove('active');
+    lbOverlay.classList.remove('active');
     document.body.style.overflow = '';
   }
   window.changeSlide = function(dir) {
-    lightboxIndex += dir;
-    if(lightboxIndex >= allImages.length) lightboxIndex = 0;
-    if(lightboxIndex < 0) lightboxIndex = allImages.length - 1;
-    lightboxImg.src = allImages[lightboxIndex];
+    lbIndex += dir;
+    if(lbIndex >= lbImages.length) lbIndex = 0;
+    if(lbIndex < 0) lbIndex = lbImages.length - 1;
+    lbImg.src = lbImages[lbIndex];
   }
   
-  // Tastensteuerung
   document.addEventListener('keydown', e => {
-    if(!lightbox.classList.contains('active')) return;
+    if(!lbOverlay.classList.contains('active')) return;
     if(e.key === "Escape") closeLightbox();
     if(e.key === "ArrowRight") changeSlide(1);
     if(e.key === "ArrowLeft") changeSlide(-1);
   });
   
-  // Overlay Klick schließt
-  lightbox.addEventListener('click', e => {
-     if(e.target === lightbox) closeLightbox();
+  lbOverlay.addEventListener('click', e => {
+     if(e.target === lbOverlay) closeLightbox();
   });
 
-  // --- BESTEHENDE LOGIK (UNVERÄNDERT, nur Mobile Gallery Update angepasst) ---
+  // --- Existing JS (Unchanged) ---
   const allProductImages = [
     {% for image in product.images %}
       { url: "{{ image | image_url: width: 800 }}", alt: "{{ image.alt | default: product.title | escape }}" }{% unless forloop.last %},{% endunless %}
@@ -770,13 +768,12 @@
   function updateDesktopGallery(images) {
     const gallery = document.getElementById('desktop-gallery');
     if (!gallery || images.length === 0) return;
-    // Update mit onclick Event
+    // Update with onclick
     gallery.innerHTML = images.map((img, index) => `
       <div class="product-main__image-item" onclick="openLightbox(${index})">
         <img src="${img.url}" alt="${img.alt}" loading="${index <= 1 ? 'eager' : 'lazy'}">
       </div>
     `).join('');
-    // Aktualisiere auch Lightbox Array wenn sich die Galerie filtert (optional, hier laden wir einfach immer alle)
   }
   
   function updateMobileGallery(images) {
