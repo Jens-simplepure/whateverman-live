@@ -37,6 +37,29 @@
       "footer": {
         "type": "footer",
         "settings": {}
+      },
+      "collection-header": {
+        "type": "collection-header",
+        "settings": {}
+      },
+      "collection-products": {
+        "type": "collection-products",
+        "settings": {
+          "products_per_page": 12
+        }
+      },
+      "product-main": {
+        "type": "product-main",
+        "settings": {}
+      },
+      "featured-collection": {
+        "type": "featured-collection",
+        "settings": {
+          "heading_prefix": "Fresh",
+          "heading_highlight": "Drops",
+          "collection": "stuff",
+          "products_to_show": 4
+        }
       }
     },
     "content_for_index": []
