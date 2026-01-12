@@ -576,3 +576,58 @@ input::placeholder {
 .promo-card:hover .promo-title {
   color: var(--color-primary, #ff0000);
 }
+
+/* --- HEADER & LOGO FIXES --- */
+
+:root {
+  --header-height: 90px; /* Definierte Höhe erzwingen */
+}
+
+/* 1. Header Wrapper stabilisieren */
+.header__wrapper {
+  height: var(--header-height);
+  flex-wrap: nowrap; /* Verhindert Umbruch */
+}
+
+/* 2. Logo vor dem Zerquetschen schützen */
+.header__logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  flex-shrink: 0; /* WICHTIG: Verhindert Stauchen */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.header__logo-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.header__logo img, 
+.header__logo-link img {
+  height: 45px !important; /* Fixe Höhe für das Bild */
+  width: auto !important;   /* Breite passt sich an */
+  max-width: 200px;
+  object-fit: contain;
+}
+
+/* 3. Navigation anpassen, damit sie nicht ins Logo läuft */
+.header__nav--left {
+  margin-right: auto; /* Schiebt Nav nach links */
+  padding-right: 20px; /* Abstand zum Logo */
+}
+
+.header__nav--right {
+  margin-left: auto; /* Schiebt Nav nach rechts */
+  padding-left: 20px; /* Abstand zum Logo */
+}
+
+/* Falls Text-Logo statt Bild genutzt wird */
+.header__logo-text {
+  white-space: nowrap;
+}
