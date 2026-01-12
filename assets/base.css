@@ -2,9 +2,8 @@
    GEN Z STREETWEAR THEME - BASE STYLES & MEGA MENU
    ========================================================================== */
 
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+/* --- RESET & BASE --- */
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
   font-size: var(--font-size-base, 16px);
@@ -12,11 +11,9 @@ html {
 }
 
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   font-family: 'Inter', var(--font-body), sans-serif;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1rem; line-height: 1.6;
   color: var(--color-text);
   background-color: var(--color-background);
   -webkit-font-smoothing: antialiased;
@@ -26,11 +23,8 @@ body {
 /* --- TYPOGRAPHY --- */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Bebas Neue', var(--font-heading), sans-serif;
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: 0.02em;
-  margin: 0 0 1rem;
-  text-transform: uppercase;
+  font-weight: 400; line-height: 1.1; letter-spacing: 0.02em;
+  margin: 0 0 1rem; text-transform: uppercase;
 }
 
 h1 { font-size: clamp(2.5rem, 8vw, 5rem); }
@@ -38,596 +32,292 @@ h2 { font-size: clamp(2rem, 6vw, 4rem); }
 h3 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
 h4 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
 
-p {
-  margin: 0 0 1rem;
-}
+p { margin: 0 0 1rem; }
 
 a {
-  color: var(--color-primary);
-  text-decoration: none;
+  color: var(--color-primary); text-decoration: none;
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
-
-a:hover {
-  color: var(--color-accent);
-  text-shadow: var(--glow-primary);
-}
+a:hover { color: var(--color-accent); text-shadow: var(--glow-primary); }
 
 /* --- CONTAINER --- */
 .container {
-  width: 100%;
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 1.5rem;
+  width: 100%; max-width: var(--container-width);
+  margin: 0 auto; padding: 0 1.5rem;
 }
-
-@media (min-width: 768px) {
-  .container {
-    padding: 0 2rem;
-  }
-}
+@media (min-width: 768px) { .container { padding: 0 2rem; } }
 
 /* --- BUTTONS --- */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
   padding: 0.875rem 2rem;
   font-family: 'Bebas Neue', var(--font-heading), sans-serif;
-  font-size: 1.125rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border: none;
-  border-radius: 0;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-decoration: none;
+  font-size: 1.125rem; letter-spacing: 0.05em; text-transform: uppercase;
+  border: none; border-radius: 0; cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;
 }
 
-.btn-primary {
-  background: var(--color-primary);
-  color: var(--color-background);
-}
+.btn-primary { background: var(--color-primary); color: var(--color-background); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-primary); }
 
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--glow-primary);
-}
+.btn-secondary { background: var(--color-secondary); color: var(--color-background); }
+.btn-secondary:hover { transform: translateY(-2px); box-shadow: var(--glow-secondary); }
 
-.btn-secondary {
-  background: var(--color-secondary);
-  color: var(--color-background);
-}
+.btn-outline { background: transparent; color: var(--color-text); border: 2px solid var(--color-primary); }
+.btn-outline:hover { background: var(--color-primary); color: var(--color-background); box-shadow: var(--glow-primary); }
 
-.btn-secondary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--glow-secondary);
-}
+.btn-gradient { background: var(--gradient-primary); color: var(--color-background); }
+.btn-gradient:hover { transform: translateY(-2px); box-shadow: var(--glow-primary); }
 
-.btn-outline {
-  background: transparent;
-  color: var(--color-text);
-  border: 2px solid var(--color-primary);
-}
+.btn-pill { border-radius: 9999px; }
 
-.btn-outline:hover {
-  background: var(--color-primary);
-  color: var(--color-background);
-  box-shadow: var(--glow-primary);
-}
-
-.btn-gradient {
-  background: var(--gradient-primary);
-  color: var(--color-background);
-}
-
-.btn-gradient:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--glow-primary);
-}
-
-.btn-pill {
-  border-radius: 9999px;
-}
-
-/* --- CARDS --- */
+/* --- CARDS & PRODUCTS --- */
 .card {
   background: var(--color-background-secondary);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.card:hover { transform: translateY(-8px); border-color: var(--color-primary); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), var(--glow-primary); }
 
-.card:hover {
-  transform: translateY(-8px);
-  border-color: var(--color-primary);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), var(--glow-primary);
-}
-
-/* Product Card */
 .product-card {
-  position: relative;
-  background: var(--color-background-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  position: relative; background: var(--color-background-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;
 }
+.product-card:hover { border-color: var(--color-primary); box-shadow: 0 0 30px rgba(170, 255, 0, 0.2); }
 
-.product-card:hover {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 30px rgba(170, 255, 0, 0.2);
-}
-
-.product-card__image {
-  position: relative;
-  aspect-ratio: 1;
-  overflow: hidden;
-  background: var(--color-background);
-}
-
-.product-card__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.product-card:hover .product-card__image img {
-  transform: scale(1.05);
-}
+.product-card__image { position: relative; aspect-ratio: 1; overflow: hidden; background: var(--color-background); }
+.product-card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.product-card:hover .product-card__image img { transform: scale(1.05); }
 
 .product-card__badge {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  padding: 0.25rem 0.75rem;
-  background: var(--color-primary);
-  color: var(--color-background);
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 0.875rem;
-  letter-spacing: 0.05em;
-  z-index: 1;
+  position: absolute; top: 1rem; left: 1rem; padding: 0.25rem 0.75rem;
+  background: var(--color-primary); color: var(--color-background);
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.875rem; letter-spacing: 0.05em; z-index: 1;
 }
-
-.product-card__badge--sale {
-  background: var(--color-secondary);
-}
+.product-card__badge--sale { background: var(--color-secondary); }
 
 .product-card__quick-add {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem;
+  position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem;
   background: linear-gradient(to top, var(--color-background), transparent);
-  opacity: 0;
-  transform: translateY(100%);
-  transition: all 0.3s ease;
+  opacity: 0; transform: translateY(100%); transition: all 0.3s ease;
 }
+.product-card:hover .product-card__quick-add { opacity: 1; transform: translateY(0); }
 
-.product-card:hover .product-card__quick-add {
-  opacity: 1;
-  transform: translateY(0);
-}
+.product-card__content { padding: 1rem; }
+.product-card__title { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+.product-card__price { display: flex; align-items: center; gap: 0.5rem; }
+.product-card__price-current { color: var(--color-primary); font-weight: 600; }
+.product-card__price-compare { color: var(--color-text-muted); text-decoration: line-through; font-size: 0.875rem; }
 
-.product-card__content {
-  padding: 1rem;
-}
-
-.product-card__title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.02em;
-}
-
-.product-card__price {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.product-card__price-current {
-  color: var(--color-primary);
-  font-weight: 600;
-}
-
-.product-card__price-compare {
-  color: var(--color-text-muted);
-  text-decoration: line-through;
-  font-size: 0.875rem;
-}
-
-/* --- BADGES --- */
+/* --- BADGES & FORMS --- */
 .badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  display: inline-flex; align-items: center; padding: 0.25rem 0.5rem;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
 }
+.badge-new { background: var(--gradient-primary); color: var(--color-background); animation: pulse-glow 2s ease-in-out infinite; }
+.badge-sale { background: var(--color-secondary); color: var(--color-background); }
+.badge-hot { background: var(--color-accent); color: var(--color-background); }
 
-.badge-new {
-  background: var(--gradient-primary);
-  color: var(--color-background);
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.badge-sale {
-  background: var(--color-secondary);
-  color: var(--color-background);
-}
-
-.badge-hot {
-  background: var(--color-accent);
-  color: var(--color-background);
-}
-
-/* --- FORMS --- */
 input, textarea, select {
-  width: 100%;
-  padding: 0.875rem 1rem;
-  font-family: inherit;
-  font-size: 1rem;
-  color: var(--color-text);
-  background: var(--color-background-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%; padding: 0.875rem 1rem;
+  font-family: inherit; font-size: 1rem; color: var(--color-text);
+  background: var(--color-background-secondary); border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
 }
-
 input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--color-primary);
+  outline: none; border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(170, 255, 0, 0.2);
 }
+input::placeholder { color: var(--color-text-muted); }
 
-input::placeholder {
-  color: var(--color-text-muted);
-}
-
-/* --- GRID --- */
-.grid {
-  display: grid;
-  gap: 1.5rem;
-}
-
+/* --- GRID & UTILS --- */
+.grid { display: grid; gap: 1.5rem; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 1024px) { .grid-4 { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
 
-@media (max-width: 1024px) {
-  .grid-4 { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 768px) {
-  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 480px) {
-  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-}
-
-/* --- UTILITY CLASSES --- */
-.text-gradient {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-glow {
-  text-shadow: var(--glow-primary);
-}
-
-.glow {
-  box-shadow: var(--glow-primary);
-}
-
-.handwritten {
-  font-family: 'Permanent Marker', var(--font-accent), cursive;
-}
+.text-gradient { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.text-glow { text-shadow: var(--glow-primary); }
+.glow { box-shadow: var(--glow-primary); }
+.handwritten { font-family: 'Permanent Marker', var(--font-accent), cursive; }
 
 /* --- ANIMATIONS --- */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 10px var(--color-primary); }
-  50% { box-shadow: 0 0 20px var(--color-primary), 0 0 30px var(--color-primary); }
-}
-
-@keyframes slide-up {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 10px var(--color-primary); } 50% { box-shadow: 0 0 20px var(--color-primary), 0 0 30px var(--color-primary); } }
+@keyframes slide-up { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 
 .animate-float { animation: float 3s ease-in-out infinite; }
 .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
 .animate-slide-up { animation: slide-up 0.5s ease-out; }
 .animate-fade-in { animation: fade-in 0.5s ease-out; }
 
-/* Visually Hidden */
-.visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
+.visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
+.skip-to-content-link:focus { position: fixed; top: 1rem; left: 1rem; z-index: 9999; padding: 1rem 2rem; background: var(--color-primary); color: var(--color-background); clip: auto; width: auto; height: auto; }
+.main-content { min-height: 100vh; padding-top: var(--header-height); }
 
-/* Skip Link */
-.skip-to-content-link:focus {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 9999;
-  padding: 1rem 2rem;
-  background: var(--color-primary);
-  color: var(--color-background);
-  clip: auto;
-  width: auto;
-  height: auto;
-}
 
-/* Main Content */
-.main-content {
-  min-height: 100vh;
-  padding-top: var(--header-height);
-}
+/* ==========================================================================
+   LOVABLE MEGA MENU & HEADER (OPTIMIZED SPACING)
+   ========================================================================== */
 
-/* =========================================
-   MEGA MENU STYLES (Fixed & Clean)
-   ========================================= */
-
-/* Nav Item Container */
-.header__nav-item {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  position: static !important; /* Zwingend für Full-Width Menu */
-}
-
-/* Nav Link Styling */
-.header__nav-link {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.2rem;
-  letter-spacing: 0.05em;
-  color: #ffffff; /* Weißer Text */
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0 1.5rem;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  position: relative;
-  transition: color 0.2s ease;
-}
-
-.header__nav-link:hover {
-  color: var(--color-primary, #ff0000); /* Fallback Rot */
-  text-shadow: 0 0 10px rgba(255,255,255,0.2);
-}
-
-/* Badge Style */
-.badge-new {
-  background: var(--color-primary, #ff0000);
-  color: #000;
-  font-size: 0.65rem;
-  font-weight: bold;
-  padding: 2px 5px;
-  border-radius: 2px;
-  margin-left: 8px;
-  vertical-align: middle;
-}
-
-/* --- MEGA MENU CONTAINER --- */
-.mega-menu {
-  /* Positionierung */
-  position: fixed;
-  top: 80px; /* Header Höhe */
-  left: 0;
-  width: 100%;
-  
-  /* Design: Dunkel & Solide */
-  background-color: #0a0a0a !important; 
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-  padding: 3rem 0;
-  
-  /* Layering */
-  z-index: 9999;
-  
-  /* Animation: Versteckt */
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: all 0.2s ease-out;
-  pointer-events: none;
-}
-
-/* Hover: Anzeigen */
-.header__nav-item:hover .mega-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-/* Inneres Layout Grid */
-.mega-menu__container {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 0 4rem;
-  display: grid;
-  grid-template-columns: 1fr 350px; /* Content | Bild */
-  gap: 4rem;
-}
-
-/* --- SPALTEN --- */
-.mega-menu__columns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5rem;
-}
-
-.mega-menu__col {
-  min-width: 180px;
-}
-
-/* Überschriften */
-.mega-menu__heading {
-  display: block;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.4rem;
-  color: #ffffff;
-  margin-bottom: 1.5rem;
-  text-decoration: none;
-  letter-spacing: 0.05em;
-}
-
-.mega-menu__heading:hover {
-  color: var(--color-primary, #ff0000);
-}
-
-/* Link Listen */
-.mega-menu__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.mega-menu__item {
-  font-family: 'Inter', sans-serif;
-  color: #aaaaaa; /* Hellgrau */
-  text-decoration: none;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  display: block;
-}
-
-.mega-menu__item:hover {
-  color: #ffffff;
-  transform: translateX(5px);
-}
-
-/* --- PROMO BILD RECHTS --- */
-.mega-menu__promo {
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  padding-left: 4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.promo-card {
-  text-decoration: none;
-  display: block;
-}
-
-.promo-image {
-  width: 100%;
-  aspect-ratio: 3/4;
-  overflow: hidden;
-  border-radius: 4px;
-  background: #1a1a1a;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.promo-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-  opacity: 0.9;
-}
-
-.promo-card:hover .promo-image img {
-  transform: scale(1.05);
-  opacity: 1;
-}
-
-.promo-title {
-  font-family: 'Bebas Neue', sans-serif;
-  color: #ffffff;
-  font-size: 1.2rem;
-  letter-spacing: 0.05em;
-  display: inline-block;
-  transition: color 0.2s;
-}
-
-.promo-card:hover .promo-title {
-  color: var(--color-primary, #ff0000);
-}
-
-/* --- HEADER & LOGO FIXES --- */
-
+/* --- HEADER FIXES (Logo & Layout) --- */
 :root {
-  --header-height: 90px; /* Definierte Höhe erzwingen */
+  --header-height: 90px; /* Fixe Höhe erzwingen */
 }
 
-/* 1. Header Wrapper stabilisieren */
+/* 1. Header Wrapper: Stabilisierung */
 .header__wrapper {
   height: var(--header-height);
   flex-wrap: nowrap; /* Verhindert Umbruch */
+  padding: 0 1rem; /* Reduziertes Padding außen */
 }
 
-/* 2. Logo vor dem Zerquetschen schützen */
+/* 2. Logo: Schutz vor Stauchung */
 .header__logo {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
-  flex-shrink: 0; /* WICHTIG: Verhindert Stauchen */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-shrink: 0; 
+  display: flex; align-items: center; justify-content: center;
   height: 100%;
 }
 
-.header__logo-link {
-  display: flex;
-  align-items: center;
+.header__logo-link { display: flex; align-items: center; height: 100%; }
+.header__logo img, .header__logo-link img {
+  height: 40px !important; width: auto !important; max-width: 200px; object-fit: contain;
+}
+
+/* 3. Navigation Bereiche */
+.header__nav--left { margin-right: auto; padding-right: 10px; }
+.header__nav--right { margin-left: auto; padding-left: 10px; }
+
+
+/* --- NAVIGATION LINKS (Carhartt Style: Compact) --- */
+.header__nav-item {
+  position: static !important; /* Full Width Trigger */
   height: 100%;
+  display: flex; align-items: center;
 }
 
-.header__logo img, 
-.header__logo-link img {
-  height: 45px !important; /* Fixe Höhe für das Bild */
-  width: auto !important;   /* Breite passt sich an */
-  max-width: 200px;
-  object-fit: contain;
+.header__nav-link {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-decoration: none;
+  /* OPTIMIERUNG: Enge Abstände */
+  padding: 0 0.75rem; 
+  height: 100%;
+  display: flex; align-items: center;
+  position: relative;
+  transition: color 0.2s ease;
 }
 
-/* 3. Navigation anpassen, damit sie nicht ins Logo läuft */
-.header__nav--left {
-  margin-right: auto; /* Schiebt Nav nach links */
-  padding-right: 20px; /* Abstand zum Logo */
+/* Erstes Element links bündig */
+.header__nav--left .header__nav-item:first-child .header__nav-link { padding-left: 0; }
+
+.header__nav-link:hover { color: var(--color-primary, #ff0000); text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+
+/* Badge (NEW) */
+.badge-new {
+  background: var(--color-primary, #ff0000); color: #000;
+  font-size: 0.6em; padding: 1px 4px; border-radius: 2px;
+  margin-left: 4px; vertical-align: middle; font-weight: bold; position: relative; top: -1px;
 }
 
-.header__nav--right {
-  margin-left: auto; /* Schiebt Nav nach rechts */
-  padding-left: 20px; /* Abstand zum Logo */
+
+/* --- RECHTE SEITE (Icons & Text Links) --- */
+.header__icons {
+  display: flex; align-items: center;
+  gap: 0.8rem; /* Sehr eng, wie Carhartt */
 }
 
-/* Falls Text-Logo statt Bild genutzt wird */
-.header__logo-text {
-  white-space: nowrap;
+.header__text-link {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem; /* Kompakter */
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: transparent; border: none; cursor: pointer;
+  padding: 0 0.4rem; /* Minimales Padding */
+  display: flex; align-items: center; height: 100%;
+  transition: color 0.3s ease;
 }
+
+.header__text-link:hover { color: var(--color-primary, #ff0000); }
+
+/* Bag Icon adjustments */
+.header__text-link--bag { padding-right: 0; gap: 4px; }
+
+.header__cart-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 16px; height: 16px; padding: 0 4px;
+  background: var(--color-primary); color: #000;
+  font-size: 0.65rem; font-weight: 700; border-radius: 50%;
+  margin-left: 2px;
+}
+
+
+/* --- MEGA MENU CONTAINER (FIXED POSITION) --- */
+.mega-menu {
+  position: fixed;
+  top: 90px; /* Header Height */
+  top: var(--header-height, 90px);
+  left: 0; width: 100vw;
+  height: auto; max-height: calc(100vh - 90px); overflow-y: auto;
+  
+  background-color: #050505 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  padding: 2.5rem 0;
+  
+  z-index: 9999; opacity: 0; visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.2s ease-out; /* Schnelle Transition */
+  pointer-events: none;
+}
+
+.header__nav-item:hover .mega-menu {
+  opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
+}
+
+.mega-menu__container {
+  max-width: 1600px; margin: 0 auto; padding: 0 2rem;
+  display: grid; grid-template-columns: 1fr 300px; gap: 3rem;
+}
+
+.mega-menu__columns { display: flex; flex-wrap: wrap; gap: 3rem; }
+.mega-menu__col { min-width: 140px; }
+
+.mega-menu__heading {
+  display: block; font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem;
+  color: #ffffff; margin-bottom: 1rem; text-decoration: none; letter-spacing: 0.05em;
+}
+.mega-menu__heading:hover { color: var(--color-primary, #ff0000); }
+
+.mega-menu__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.mega-menu__item {
+  font-family: 'Inter', sans-serif; color: #b0b0b0; text-decoration: none;
+  font-size: 0.9rem; transition: all 0.2s ease; display: block;
+}
+.mega-menu__item:hover { color: #ffffff; transform: translateX(3px); }
+
+/* Promo Image */
+.mega-menu__promo { border-left: 1px solid rgba(255, 255, 255, 0.1); padding-left: 3rem; display: flex; flex-direction: column; justify-content: center; }
+.promo-card { text-decoration: none; display: block; }
+.promo-image {
+  width: 100%; aspect-ratio: 4/5; overflow: hidden; border-radius: 2px;
+  background: #1a1a1a; margin-bottom: 0.75rem; border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.promo-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; opacity: 0.9; }
+.promo-card:hover .promo-image img { transform: scale(1.05); opacity: 1; }
+.promo-title { font-family: 'Bebas Neue', sans-serif; color: #ffffff; font-size: 1.1rem; letter-spacing: 0.05em; display: inline-block; transition: color 0.2s; }
+.promo-card:hover .promo-title { color: var(--color-primary, #ff0000); text-shadow: var(--glow-primary); }
