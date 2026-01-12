@@ -16,7 +16,10 @@
       "custom_css": [
         ".site-header,.header-section {padding-top: 10px !important; padding-bottom: 5px !important; height: auto !important; /* Overrides fixed heights */}"
       ],
-      "settings": {}
+      "settings": {
+        "logo": "shopify://shop_images/Logo-Whateverman.png",
+        "logo_width": 150
+      }
     }
   },
   "order": [
