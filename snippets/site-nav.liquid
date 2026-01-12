@@ -1,6 +1,8 @@
 {% comment %}
   Renders the site navigation with Mega Menu support
-  Structure: Handles both 3-level (Columns) and 2-level (Flat Grid like Carhartt) menus.
+  Logic: 
+  - Splits Left/Right navigation based on index (6).
+  - Detects if menu is 3-Level (Columns) or 2-Level (Carhartt Grid).
 {% endcomment %}
 
 {%- assign split_index = 6 -%}
@@ -24,11 +26,12 @@
       </a>
 
       {%- if link.links != blank -%}
-        {%- comment -%} Check structure depth {%- endcomment -%}
-        {%- assign has_level_3 = false -%}
+        
+        {%- comment -%} Check depth: Does any child have children? {%- endcomment -%}
+        {%- assign is_level_3 = false -%}
         {%- for child in link.links -%}
           {%- if child.links != blank -%}
-            {%- assign has_level_3 = true -%}
+            {%- assign is_level_3 = true -%}
             {%- break -%}
           {%- endif -%}
         {%- endfor -%}
@@ -36,7 +39,7 @@
         <div class="mega-menu">
           <div class="mega-menu__container">
             
-            {%- if has_level_3 -%}
+            {%- if is_level_3 -%}
               <div class="mega-menu__columns">
                 {%- for childlink in link.links -%}
                   <div class="mega-menu__col">
@@ -63,19 +66,15 @@
             {%- endif -%}
 
             <div class="mega-menu__promo">
-               {%- assign promo_handle = link.title | handle -%}
-               {%- assign promo_collection = collections[promo_handle] -%}
-               {%- if promo_collection == empty -%}
-                 {%- assign promo_collection = collections['new-arrivals'] -%}
-               {%- endif -%}
+               {%- assign promo_collection = collections['new-arrivals'] -%}
                
                <a href="{{ promo_collection.url | default: link.url }}" class="promo-card">
                  <div class="promo-image">
                    {% if promo_collection.image %}
-                     <img src="{{ promo_collection.image | image_url: width: 600 }}" loading="lazy" alt="{{ promo_collection.title }}">
+                     <img src="{{ promo_collection.image | image_url: width: 600 }}" loading="lazy" alt="New">
                    {% else %}
-                     <div style="width:100%; height:100%; background:#1a1a1a; display:flex; align-items:center; justify-content:center; color:#555;">
-                       {{ link.title }}
+                     <div style="width:100%; height:100%; background:#1a1a1a; display:flex; align-items:center; justify-content:center;">
+                        <span style="color:#555; font-size:0.8rem; text-transform:uppercase;">{{ link.title }}</span>
                      </div>
                    {% endif %}
                  </div>
