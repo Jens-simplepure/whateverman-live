@@ -1,130 +1,75 @@
 {%- style -%}
-  /* Nur kritisches Layout-CSS inline, Rest in base.css */
-  :root {
-    --header-height: 80px; /* Anpassen falls nötig */
-  }
-  
-  .header-section {
-    position: relative;
-    z-index: 1000;
-  }
-  
-  .site-header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: var(--header-height);
-    background: var(--color-background);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: background 0.3s ease;
-  }
-  
-  .site-header.is-scrolled {
-    background: rgba(255, 255, 255, 0.98); /* Lovable ist oft weiß beim Scrollen */
-    color: #000;
-  }
-
-  .header__wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-
-  .header__nav {
-    display: none;
-  }
-
+  /* Inline-Styles wurden entfernt, da sie jetzt in base.css sind */
+  /* Nur sicherstellen, dass die Navigation sichtbar ist */
+  .header__nav { display: none; }
   @media (min-width: 1024px) {
-    .header__nav {
-      display: flex;
-      height: 100%;
-      align-items: center;
-    }
-  }
-
-  /* Logo Center Logic */
-  .header__logo { 
-    position: absolute; 
-    left: 50%; 
-    transform: translateX(-50%); 
-  }
-  
-  .header__logo-img {
-    display: block;
-    max-height: 40px; /* Anpassen */
-  }
-
-  /* Icons Right */
-  .header__icons {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  
-  .icon-btn {
-    background: none; border: none; cursor: pointer;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    color: inherit;
-    display: flex; align-items: center; gap: 5px;
-  }
-  
-  /* Mobile Menu Container (Hidden on Desktop) */
-  .mobile-menu-drawer {
-    display: none; /* Logik für Mobile Menu hier nicht enthalten für Übersichtlichkeit */
+    .header__nav { display: flex; align-items: center; gap: 2rem; height: 100%; }
   }
 {%- endstyle -%}
 
-<div class="header-section">
-  <header class="site-header" data-sticky="{{ settings.header_sticky }}">
-    <div class="header__wrapper">
-      
-      <nav class="header__nav header__nav--left">
-        {% render 'site-nav', linklist: linklists.main-menu, position: 'left' %}
+<header class="site-header" data-sticky="{{ settings.header_sticky }}">
+  <div class="header__wrapper">
+    
+    <nav class="header__nav header__nav--left">
+      {% render 'site-nav', linklist: linklists.main-menu, position: 'left' %}
+    </nav>
+    
+    <div class="header__logo">
+      <a href="/" class="header__logo-link">
+        {% if settings.logo != blank %}
+          <img 
+            src="{{ settings.logo | image_url: width: settings.logo_width }}" 
+            alt="{{ shop.name }}"
+            width="{{ settings.logo_width }}"
+            loading="eager"
+          >
+        {% else %}
+          <span class="header__logo-text">{{ shop.name }}</span>
+        {% endif %}
+      </a>
+    </div>
+    
+    <div class="header__icons">
+      <nav class="header__nav header__nav--right">
+        {% render 'site-nav', linklist: linklists.main-menu, position: 'right' %}
       </nav>
       
-      <div class="header__logo">
-        <a href="/" class="header__logo-link">
-          {% if settings.logo != blank %}
-            <img 
-              class="header__logo-img"
-              src="{{ settings.logo | image_url: width: settings.logo_width }}" 
-              alt="{{ shop.name }}"
-              width="{{ settings.logo_width }}"
-              loading="eager"
-            >
-          {% else %}
-            <span style="font-family:'Bebas Neue'; font-size:2rem;">{{ shop.name }}</span>
-          {% endif %}
-        </a>
-      </div>
+      <a href="{{ routes.search_url }}" class="header__text-link" aria-label="{{ 'general.header.search' | t }}">
+        {{ 'general.header.search' | t }}
+      </a>
       
-      <div class="header__icons">
-        <nav class="header__nav header__nav--right">
-          {% render 'site-nav', linklist: linklists.main-menu, position: 'right' %}
-        </nav>
-        
-        <a href="{{ routes.search_url }}" class="icon-btn">{{ 'general.header.search' | t }}</a>
-        <button class="icon-btn" data-login-drawer-open>{{ 'general.header.login' | t }}</button>
-        <button class="icon-btn" data-cart-drawer-open>
-          {{ 'general.header.bag' | t }} ({{ cart.item_count }})
-        </button>
-        
-        <button class="icon-btn header__mobile-toggle" data-mobile-menu-toggle style="display:none;">
-           MENU
-        </button>
-      </div>
-
+      <button class="header__text-link" data-login-drawer-open aria-label="{{ 'general.header.login' | t }}">
+        {{ 'general.header.login' | t }}
+      </button>
+      
+      <button class="header__text-link header__text-link--bag" data-cart-drawer-open aria-label="{{ 'general.header.bag' | t }}">
+        {{ 'general.header.bag' | t }}
+        <span class="header__cart-count" data-cart-count>{{ cart.item_count }}</span>
+      </button>
+      
+      <button class="header__mobile-toggle" data-mobile-menu-toggle aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-  </header>
-</div>
+  </div>
+</header>
 
 <div class="mobile-menu" data-mobile-menu>
+  <nav class="mobile-menu__nav">
+    {% for link in linklists.main-menu.links %}
+      <a href="{{ link.url }}" class="mobile-menu__link">{{ link.title }}</a>
+    {% endfor %}
+  </nav>
+  
+  <div class="mobile-menu__icons">
+    <a href="{{ routes.search_url }}" class="mobile-menu__icon-link">
+      {{ 'general.header.search' | t }}
+    </a>
+    <button class="mobile-menu__icon-link" data-login-drawer-open>
+      {{ 'general.header.login' | t }}
+    </button>
   </div>
+</div>
 
 {% schema %}
 {
@@ -140,11 +85,17 @@
       "type": "range",
       "id": "logo_width",
       "min": 50,
-      "max": 250,
+      "max": 300,
       "step": 10,
       "unit": "px",
       "label": "Logo Width",
-      "default": 120
+      "default": 150
+    },
+    {
+      "type": "checkbox",
+      "id": "header_sticky",
+      "label": "Enable Sticky Header",
+      "default": true
     }
   ]
 }
