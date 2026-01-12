@@ -1,5 +1,5 @@
 {% comment %}
-  Renders the site navigation with Mega Menu support (Carhartt Style - Pure Text)
+  Renders the site navigation with Mega Menu support (Carhartt Compact Style)
 {% endcomment %}
 
 {%- assign split_index = 6 -%}
@@ -44,14 +44,14 @@
             {%- else -%}
               <div class="mega-menu__flat-grid">
                 {%- for childlink in link.links -%}
-                  <a href="{{ childlink.url }}" class="mega-menu__flat-link">
+                  <a href="{{ childlink.url }}" class="mega-menu__flat-link {% if childlink.title contains 'Sale' %}is-sale{% endif %}">
                     {{ childlink.title }}
                   </a>
                 {%- endfor -%}
               </div>
             {%- endif -%}
 
-            </div>
+          </div>
         </div>
       {%- endif -%}
     </div>
