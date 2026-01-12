@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - CLEAN BASE & HEADER
+   GEN Z STREETWEAR THEME - BASE STYLES & HEADER
    ========================================================================== */
 
 /* --- RESET & BASE --- */
@@ -114,11 +114,10 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 
 
 /* ==========================================================================
-   HEADER & NAVIGATION (CARHARTT STYLE - FIXED)
+   HEADER & NAVIGATION (CARHARTT STYLE - ALIGNED)
    ========================================================================== */
 
 :root {
-  --header-height: 90px; /* FIXIERTE HÖHE */
   --nav-text-color: #ffffff;
   --mega-bg: #181818; 
   --mega-border: rgba(255,255,255,0.1);
@@ -126,20 +125,28 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 }
 
 /* 1. HEADER WRAPPER */
+/* Wichtig: Position relative für das Mega Menu */
 .header__wrapper {
-  height: var(--header-height);
+  height: auto; min-height: 80px;
   display: flex; align-items: center; justify-content: space-between;
-  /* WICHTIG: KEIN vertikales Padding (0), damit Nav Items volle Höhe haben */
-  padding: 0 var(--site-padding);
+  padding: 15px var(--site-padding);
   max-width: 100%; margin: 0 auto;
   position: relative; z-index: 1001;
 }
 
-/* 2. NAVIGATION LINKS (Level 1) */
+/* 2. NAVIGATION LINKS */
 .header__nav-item {
-  height: 100%; /* Füllt den Header komplett aus */
+  height: auto;
   display: flex; align-items: center;
-  position: static !important;
+  position: static; /* Standard static */
+}
+
+/* Spezialfall: Nur das linke Menü braucht 'static' für Full-Width, 
+   aber wir wollen es relativ zum Container begrenzen. */
+.header__nav--left {
+  display: flex; gap: 0; 
+  /* Damit das Menü sich an diesem Container orientieren kann */
+  position: static; 
 }
 
 .header__nav-link {
@@ -150,10 +157,10 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   text-transform: uppercase;
   text-decoration: none;
   padding: 0 1.2rem; 
-  height: 100%; /* Klickbarer Bereich ist volle Höhe */
   display: flex; align-items: center;
   position: relative;
   transition: color 0.2s ease;
+  height: 60px; /* Definierte Höhe für Hover-Area */
 }
 
 /* Erster Link bündig */
@@ -173,53 +180,44 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   margin-left: 5px; position: relative; top: -1px;
 }
 
-/* 3. LOGO (FORCED WIDTH) */
+/* 3. LOGO */
 .header__logo {
   position: absolute; left: 50%; transform: translateX(-50%);
   height: 100%; display: flex; align-items: center; z-index: 20;
 }
-.header__logo-link { display: flex; align-items: center; height: 100%; }
-
-.header__logo img, 
-.header__logo-link img {
-  /* TASK: Logo Größe erzwingen */
-  width: 120px !important; 
-  height: auto !important; 
-  max-height: 80px; /* Darf fast so hoch sein wie Header */
-  object-fit: contain; 
+.header__logo-link { display: flex; align-items: center; }
+.header__logo img, .header__logo-link img {
+  height: auto !important; width: auto !important; max-width: 100%; object-fit: contain; 
 }
-.header__logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #fff; white-space: nowrap; }
+.header__logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: #fff; white-space: nowrap; }
 
 /* 4. ICONS RECHTS */
 .header__icons { display: flex; align-items: center; gap: 1rem; }
-
 .header__text-link {
   font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.03em;
   color: #fff; background: none; border: none; cursor: pointer; text-decoration: none;
   padding: 0 0.5rem;
 }
 .header__text-link:hover { color: var(--color-primary); }
-
 .header__cart-count {
   display: inline-flex; align-items: center; justify-content: center;
-  min-width: 16px; height: 16px;
-  background: var(--color-primary); color: #000;
+  min-width: 16px; height: 16px; background: var(--color-primary); color: #000;
   font-size: 0.65rem; font-weight: bold; border-radius: 50%; margin-left: 3px;
 }
 
 
 /* ==========================================================================
-   MEGA MENU (CARHARTT STYLE)
+   MEGA MENU (ALIGNED LEFT UNDER LINK)
    ========================================================================== */
 
+/* Container: Positioniert relativ zum Header-Wrapper */
 .mega-menu {
-  position: fixed; /* An den Viewport heften */
-  /* Beginnt exakt am Ende des Headers (90px) */
-  top: var(--header-height); 
+  position: absolute;
+  top: 100%; /* Direkt unter dem Header */
+  
+  /* FIX: Startet ganz links (bündig mit Screen), aber der INHALT wird eingerückt */
   left: 0; 
-  width: 100vw;
-  max-height: calc(100vh - var(--header-height)); 
-  overflow-y: auto;
+  width: 100vw; /* Volle Breite für den schwarzen Hintergrund */
   
   background-color: var(--mega-bg) !important;
   border-top: 1px solid var(--mega-border);
@@ -232,37 +230,33 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   pointer-events: none;
 }
 
-/* Hover Logik repariert durch Height 100% am Parent */
 .header__nav-item:hover .mega-menu {
   opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
 }
 
-/* Container */
+/* Innerer Wrapper: Sorgt für die Ausrichtung */
 .mega-menu__container {
-  max-width: 100%; 
-  margin: 0 auto;
-  padding: 0 var(--site-padding); 
-  display: block; 
+  width: 100%;
+  max-width: 100%;
+  /* WICHTIG: Padding Links identisch zum Header-Padding (40px) */
+  /* Dadurch beginnt der erste Link ("Graphic Tees") exakt unter "MENS" */
+  padding-left: var(--site-padding); 
+  padding-right: var(--site-padding);
 }
 
 /* --- VARIANTE A: SPALTEN (Level 3) --- */
 .mega-menu__columns {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  column-gap: 2.4rem; 
-  row-gap: 2rem;
+  column-gap: 2.4rem; row-gap: 2rem;
 }
-
 .mega-menu__col { break-inside: avoid; }
-
 .mega-menu__heading {
   display: block; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem;
   color: #fff; margin-bottom: 0.8rem; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase;
 }
 .mega-menu__heading:hover { color: var(--color-primary); }
-
 .mega-menu__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
-
 .mega-menu__item {
   font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #999;
   text-decoration: none; display: block; transition: color 0.2s;
@@ -276,6 +270,7 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   flex-wrap: wrap;
   gap: 2.4rem; 
   align-items: center;
+  /* Kein Padding links nötig, da Container das regelt */
 }
 
 .mega-menu__flat-link {
