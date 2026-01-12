@@ -189,7 +189,7 @@ input::placeholder { color: var(--color-text-muted); }
 
 .header__logo-link { display: flex; align-items: center; height: 100%; }
 .header__logo img, .header__logo-link img {
-  height: 40px !important; width: auto !important; max-width: 200px; object-fit: contain;
+  height: 80px !important; width: auto !important; max-width: 200px; object-fit: contain;
 }
 
 /* 3. Navigation Bereiche */
@@ -212,7 +212,7 @@ input::placeholder { color: var(--color-text-muted); }
   text-transform: uppercase;
   text-decoration: none;
   /* OPTIMIERUNG: Enge Abstände */
-  padding: 0 0.75rem; 
+  padding: 0 0.5rem; 
   height: 100%;
   display: flex; align-items: center;
   position: relative;
