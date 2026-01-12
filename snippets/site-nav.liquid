@@ -1,5 +1,5 @@
 {% comment %}
-  Renders the site navigation with Mega Menu support (Carhartt Compact Style)
+  Renders the site navigation with Mega Menu support (Carhartt Style - Pure Text)
 {% endcomment %}
 
 {%- assign split_index = 6 -%}
@@ -51,21 +51,7 @@
               </div>
             {%- endif -%}
 
-            <div class="mega-menu__promo">
-               {%- assign promo_collection = collections['new-arrivals'] -%}
-               <a href="{{ promo_collection.url | default: link.url }}" class="promo-card">
-                 <div class="promo-image">
-                   {% if promo_collection.image %}
-                     <img src="{{ promo_collection.image | image_url: width: 600 }}" loading="lazy" alt="Promo">
-                   {% else %}
-                     <div class="promo-fallback"><span>{{ link.title }}</span></div>
-                   {% endif %}
-                 </div>
-                 <span class="promo-title">Shop {{ link.title }} &rarr;</span>
-               </a>
             </div>
-
-          </div>
         </div>
       {%- endif -%}
     </div>
