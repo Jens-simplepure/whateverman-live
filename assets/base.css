@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - BASE STYLES & HEADER
+   GEN Z STREETWEAR THEME - CLEAN BASE & HEADER
    ========================================================================== */
 
 /* --- RESET & BASE --- */
@@ -110,44 +110,34 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 .text-gradient { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .text-glow { text-shadow: var(--glow-primary); }
 .visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; border: 0 !important; }
-.main-content { 
-  min-height: 100vh; 
-  /* Fallback Padding, falls JS Header Height nicht setzt. 
-     Da Header jetzt dynamisch ist, wäre es gut, dies im Theme JS zu setzen, 
-     aber 100px ist ein sicherer Startwert. */
-  padding-top: 100px; 
-}
+.main-content { min-height: 100vh; padding-top: var(--header-height); }
 
 
 /* ==========================================================================
-   HEADER & NAVIGATION (CARHARTT STYLE - DYNAMIC HEIGHT)
+   HEADER & NAVIGATION (CARHARTT STYLE - FIXED)
    ========================================================================== */
 
 :root {
+  --header-height: 90px; /* FIXIERTE HÖHE */
   --nav-text-color: #ffffff;
-  --mega-bg: #181818; /* Carhartt Dark Grey Background */
+  --mega-bg: #181818; 
   --mega-border: rgba(255,255,255,0.1);
-  --site-padding: 40px; /* Identischer Seitenabstand für Header & Menu */
+  --site-padding: 40px; 
 }
 
 /* 1. HEADER WRAPPER */
 .header__wrapper {
-  /* HÖHE: Automatisch durch Logo definiert, aber mindestens 80px */
-  height: auto;
-  min-height: 80px;
-  
+  height: var(--header-height);
   display: flex; align-items: center; justify-content: space-between;
-  
-  /* Padding Oben/Unten wichtig für dynamische Höhe */
-  padding: 15px var(--site-padding);
-  
+  /* WICHTIG: KEIN vertikales Padding (0), damit Nav Items volle Höhe haben */
+  padding: 0 var(--site-padding);
   max-width: 100%; margin: 0 auto;
   position: relative; z-index: 1001;
 }
 
 /* 2. NAVIGATION LINKS (Level 1) */
 .header__nav-item {
-  height: auto; /* Höhe passt sich an */
+  height: 100%; /* Füllt den Header komplett aus */
   display: flex; align-items: center;
   position: static !important;
 }
@@ -160,6 +150,7 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   text-transform: uppercase;
   text-decoration: none;
   padding: 0 1.2rem; 
+  height: 100%; /* Klickbarer Bereich ist volle Höhe */
   display: flex; align-items: center;
   position: relative;
   transition: color 0.2s ease;
@@ -182,27 +173,22 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   margin-left: 5px; position: relative; top: -1px;
 }
 
-/* 3. LOGO (FREIGEGABEN) */
+/* 3. LOGO (FORCED WIDTH) */
 .header__logo {
   position: absolute; left: 50%; transform: translateX(-50%);
-  /* Höhe automatisch, damit Bild-Größe entscheidet */
-  height: auto; 
-  display: flex; align-items: center; z-index: 20;
+  height: 100%; display: flex; align-items: center; z-index: 20;
 }
-.header__logo-link { display: flex; align-items: center; }
+.header__logo-link { display: flex; align-items: center; height: 100%; }
 
 .header__logo img, 
 .header__logo-link img {
-  /* FIX: Keine fixe Höhe/Breite im CSS erzwingen. 
-     Shopify "width" Einstellung im HTML wird respektiert. */
+  /* TASK: Logo Größe erzwingen */
+  width: 120px !important; 
   height: auto !important; 
-  width: auto !important; 
-  
-  /* Maximale Grenzen zur Sicherheit */
-  max-width: 100%; 
+  max-height: 80px; /* Darf fast so hoch sein wie Header */
   object-fit: contain; 
 }
-.header__logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: #fff; white-space: nowrap; }
+.header__logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #fff; white-space: nowrap; }
 
 /* 4. ICONS RECHTS */
 .header__icons { display: flex; align-items: center; gap: 1rem; }
@@ -228,15 +214,11 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 
 .mega-menu {
   position: fixed; /* An den Viewport heften */
-  /* FIX: Menü beginnt exakt unter dem Header, egal wie hoch er ist. */
-  /* Wir nutzen absolute Positionierung relativ zum fixierten Header-Element */
-  position: absolute; 
-  top: 100%; 
+  /* Beginnt exakt am Ende des Headers (90px) */
+  top: var(--header-height); 
   left: 0; 
   width: 100vw;
-  
-  /* Höhe */
-  max-height: calc(100vh - 100px); /* Sicherheitspuffer */
+  max-height: calc(100vh - var(--header-height)); 
   overflow-y: auto;
   
   background-color: var(--mega-bg) !important;
@@ -250,6 +232,7 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   pointer-events: none;
 }
 
+/* Hover Logik repariert durch Height 100% am Parent */
 .header__nav-item:hover .mega-menu {
   opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
 }
