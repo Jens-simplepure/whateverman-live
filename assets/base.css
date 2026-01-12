@@ -114,7 +114,7 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 
 
 /* ==========================================================================
-   HEADER & NAVIGATION (CARHARTT STYLE - ALIGNED)
+   HEADER & NAVIGATION (CARHARTT STYLE - LOGO LEFT)
    ========================================================================== */
 
 :root {
@@ -125,28 +125,56 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 }
 
 /* 1. HEADER WRAPPER */
-/* Wichtig: Position relative für das Mega Menu */
 .header__wrapper {
-  height: auto; min-height: 80px;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 15px var(--site-padding);
+  height: auto; min-height: 90px;
+  display: flex; 
+  align-items: center; 
+  /* WICHTIG: Flex Start, damit Logo links klebt */
+  justify-content: flex-start; 
+  padding: 0 var(--site-padding);
   max-width: 100%; margin: 0 auto;
   position: relative; z-index: 1001;
 }
 
-/* 2. NAVIGATION LINKS */
-.header__nav-item {
-  height: auto;
-  display: flex; align-items: center;
-  position: static; /* Standard static */
+/* 2. LOGO (Jetzt ganz links) */
+.header__logo {
+  /* Reset Absolute Positioning */
+  position: static; 
+  transform: none; 
+  left: auto;
+  
+  /* Flex Order: Ganz vorne */
+  order: 1;
+  margin-right: 3rem; /* Abstand zur Navi */
+  
+  height: 100%; display: flex; align-items: center; z-index: 20;
 }
 
-/* Spezialfall: Nur das linke Menü braucht 'static' für Full-Width, 
-   aber wir wollen es relativ zum Container begrenzen. */
+.header__logo-link { display: flex; align-items: center; height: 100%; }
+
+.header__logo img, 
+.header__logo-link img {
+  /* Größe aus dem Backend wird respektiert, aber begrenzt */
+  height: auto !important; 
+  width: auto !important; 
+  max-width: 180px; 
+  max-height: 60px;
+  object-fit: contain; 
+}
+.header__logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #fff; white-space: nowrap; }
+
+
+/* 3. NAVIGATION LINKS (Links neben Logo) */
 .header__nav--left {
-  display: flex; gap: 0; 
-  /* Damit das Menü sich an diesem Container orientieren kann */
-  position: static; 
+  order: 2; /* Kommt nach dem Logo */
+  margin-right: 0;
+  display: flex;
+}
+
+.header__nav-item {
+  height: 100%;
+  display: flex; align-items: center;
+  position: static !important;
 }
 
 .header__nav-link {
@@ -156,14 +184,14 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   color: var(--nav-text-color);
   text-transform: uppercase;
   text-decoration: none;
-  padding: 0 1.2rem; 
+  padding: 0 1rem; 
+  height: 100%;
   display: flex; align-items: center;
   position: relative;
   transition: color 0.2s ease;
-  height: 60px; /* Definierte Höhe für Hover-Area */
 }
 
-/* Erster Link bündig */
+/* Erster Link bündig zum vorherigen Element (Logo margin regelt den Abstand) */
 .header__nav--left .header__nav-item:first-child .header__nav-link {
   padding-left: 0;
 }
@@ -180,44 +208,47 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   margin-left: 5px; position: relative; top: -1px;
 }
 
-/* 3. LOGO */
-.header__logo {
-  position: absolute; left: 50%; transform: translateX(-50%);
-  height: 100%; display: flex; align-items: center; z-index: 20;
-}
-.header__logo-link { display: flex; align-items: center; }
-.header__logo img, .header__logo-link img {
-  height: auto !important; width: auto !important; max-width: 100%; object-fit: contain; 
-}
-.header__logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: #fff; white-space: nowrap; }
 
-/* 4. ICONS RECHTS */
-.header__icons { display: flex; align-items: center; gap: 1rem; }
+/* 4. ICONS RECHTS (Ganz rechts außen) */
+.header__icons { 
+  order: 3; /* Am Ende */
+  margin-left: auto; /* Pusht alles nach rechts */
+  display: flex; align-items: center; gap: 1rem; 
+  /* Rechte Navi-Links hier integriert */
+}
+
+/* Nav rechts (falls Links > 6 existieren) */
+.header__nav--right {
+  display: flex;
+  margin-right: 1.5rem;
+}
+
 .header__text-link {
   font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.03em;
   color: #fff; background: none; border: none; cursor: pointer; text-decoration: none;
   padding: 0 0.5rem;
 }
 .header__text-link:hover { color: var(--color-primary); }
+
 .header__cart-count {
   display: inline-flex; align-items: center; justify-content: center;
-  min-width: 16px; height: 16px; background: var(--color-primary); color: #000;
+  min-width: 16px; height: 16px;
+  background: var(--color-primary); color: #000;
   font-size: 0.65rem; font-weight: bold; border-radius: 50%; margin-left: 3px;
 }
 
 
 /* ==========================================================================
-   MEGA MENU (ALIGNED LEFT UNDER LINK)
+   MEGA MENU (CARHARTT STYLE - LEFT ALIGNED)
    ========================================================================== */
 
-/* Container: Positioniert relativ zum Header-Wrapper */
 .mega-menu {
-  position: absolute;
-  top: 100%; /* Direkt unter dem Header */
-  
-  /* FIX: Startet ganz links (bündig mit Screen), aber der INHALT wird eingerückt */
+  position: absolute; /* Relativ zum Header-Container positioniert */
+  top: 100%; 
   left: 0; 
-  width: 100vw; /* Volle Breite für den schwarzen Hintergrund */
+  width: 100vw; /* Volle Breite */
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
   
   background-color: var(--mega-bg) !important;
   border-top: 1px solid var(--mega-border);
@@ -234,14 +265,13 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
 }
 
-/* Innerer Wrapper: Sorgt für die Ausrichtung */
+/* Container */
 .mega-menu__container {
-  width: 100%;
-  max-width: 100%;
-  /* WICHTIG: Padding Links identisch zum Header-Padding (40px) */
-  /* Dadurch beginnt der erste Link ("Graphic Tees") exakt unter "MENS" */
-  padding-left: var(--site-padding); 
-  padding-right: var(--site-padding);
+  max-width: 100%; 
+  margin: 0 auto;
+  /* Padding identisch zum Header: Links bündig mit Logo */
+  padding: 0 var(--site-padding); 
+  display: block; 
 }
 
 /* --- VARIANTE A: SPALTEN (Level 3) --- */
@@ -270,7 +300,6 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   flex-wrap: wrap;
   gap: 2.4rem; 
   align-items: center;
-  /* Kein Padding links nötig, da Container das regelt */
 }
 
 .mega-menu__flat-link {
