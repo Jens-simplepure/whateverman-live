@@ -1,11 +1,9 @@
 {% comment %}
-  Renders the site navigation with Mega Menu support (Lovable Style)
-  Accepts:
-  - linklist: {Object} The linklist to render (e.g. linklists.main-menu)
-  - position: {String} 'left' (indices 1-6) or 'right' (indices > 6)
+  Renders the site navigation with Mega Menu support
+  Structure: Handles both 3-level (Columns) and 2-level (Flat Grid like Carhartt) menus.
 {% endcomment %}
 
-{%- assign split_index = 6 -%} {% comment %} <-- Hier eingestellt: Die ersten 6 Links sind links {% endcomment %}
+{%- assign split_index = 6 -%}
 
 {% for link in linklist.links %}
   {%- assign show_link = false -%}
@@ -26,13 +24,23 @@
       </a>
 
       {%- if link.links != blank -%}
+        {%- comment -%} Check structure depth {%- endcomment -%}
+        {%- assign has_level_3 = false -%}
+        {%- for child in link.links -%}
+          {%- if child.links != blank -%}
+            {%- assign has_level_3 = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+
         <div class="mega-menu">
           <div class="mega-menu__container">
-            <div class="mega-menu__columns">
-              {%- for childlink in link.links -%}
-                <div class="mega-menu__col">
-                  <a href="{{ childlink.url }}" class="mega-menu__heading">{{ childlink.title }}</a>
-                  {%- if childlink.links != blank -%}
+            
+            {%- if has_level_3 -%}
+              <div class="mega-menu__columns">
+                {%- for childlink in link.links -%}
+                  <div class="mega-menu__col">
+                    <a href="{{ childlink.url }}" class="mega-menu__heading">{{ childlink.title }}</a>
                     <ul class="mega-menu__list">
                       {%- for grandchild in childlink.links -%}
                         <li>
@@ -40,29 +48,41 @@
                         </li>
                       {%- endfor -%}
                     </ul>
-                  {%- endif -%}
-                </div>
-              {%- endfor -%}
-            </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+
+            {%- else -%}
+              <div class="mega-menu__flat-grid">
+                {%- for childlink in link.links -%}
+                  <a href="{{ childlink.url }}" class="mega-menu__flat-link {% if childlink.title == 'Sale' %}is-sale{% endif %}">
+                    {{ childlink.title }}
+                  </a>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
 
             <div class="mega-menu__promo">
-               {%- assign promo_collection = collections['new-arrivals'] -%}
-               {%- if promo_collection.image -%}
-                  <a href="{{ promo_collection.url }}" class="promo-card">
-                    <div class="promo-image">
-                      <img src="{{ promo_collection.image | image_url: width: 600 }}" loading="lazy" alt="{{ promo_collection.title }}">
-                    </div>
-                    <span class="promo-title">Shop New Arrivals &rarr;</span>
-                  </a>
-               {%- else -%}
-                  <a href="/collections/all" class="promo-card">
-                    <div class="promo-image" style="background: #222; display:flex; align-items:center; justify-content:center;">
-                       <span style="color:#666;">Collection</span>
-                    </div>
-                    <span class="promo-title">Shop All &rarr;</span>
-                  </a>
+               {%- assign promo_handle = link.title | handle -%}
+               {%- assign promo_collection = collections[promo_handle] -%}
+               {%- if promo_collection == empty -%}
+                 {%- assign promo_collection = collections['new-arrivals'] -%}
                {%- endif -%}
+               
+               <a href="{{ promo_collection.url | default: link.url }}" class="promo-card">
+                 <div class="promo-image">
+                   {% if promo_collection.image %}
+                     <img src="{{ promo_collection.image | image_url: width: 600 }}" loading="lazy" alt="{{ promo_collection.title }}">
+                   {% else %}
+                     <div style="width:100%; height:100%; background:#1a1a1a; display:flex; align-items:center; justify-content:center; color:#555;">
+                       {{ link.title }}
+                     </div>
+                   {% endif %}
+                 </div>
+                 <span class="promo-title">Shop {{ link.title }} &rarr;</span>
+               </a>
             </div>
+
           </div>
         </div>
       {%- endif -%}
