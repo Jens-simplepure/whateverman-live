@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - CLEAN BASE & HEADER
+   GEN Z STREETWEAR THEME - BASE STYLES & HEADER
    ========================================================================== */
 
 /* --- RESET & BASE --- */
@@ -110,35 +110,44 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 .text-gradient { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .text-glow { text-shadow: var(--glow-primary); }
 .visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; border: 0 !important; }
-.main-content { min-height: 100vh; padding-top: var(--header-height); }
+.main-content { 
+  min-height: 100vh; 
+  /* Fallback Padding, falls JS Header Height nicht setzt. 
+     Da Header jetzt dynamisch ist, wäre es gut, dies im Theme JS zu setzen, 
+     aber 100px ist ein sicherer Startwert. */
+  padding-top: 100px; 
+}
 
 
 /* ==========================================================================
-   HEADER & NAVIGATION (CARHARTT STYLE - EXACT ALIGNMENT & RESPONSIVE LOGO)
+   HEADER & NAVIGATION (CARHARTT STYLE - DYNAMIC HEIGHT)
    ========================================================================== */
 
 :root {
-  --header-height: 80px;
   --nav-text-color: #ffffff;
   --mega-bg: #181818; /* Carhartt Dark Grey Background */
   --mega-border: rgba(255,255,255,0.1);
-  /* TASK 1: Variable für identischen Seitenabstand (Header & Menu) */
-  --site-padding: 40px; 
+  --site-padding: 40px; /* Identischer Seitenabstand für Header & Menu */
 }
 
 /* 1. HEADER WRAPPER */
 .header__wrapper {
-  height: var(--header-height);
+  /* HÖHE: Automatisch durch Logo definiert, aber mindestens 80px */
+  height: auto;
+  min-height: 80px;
+  
   display: flex; align-items: center; justify-content: space-between;
-  /* TASK 1: Nutzt die Variable für exakten Abstand */
-  padding: 0 var(--site-padding);
+  
+  /* Padding Oben/Unten wichtig für dynamische Höhe */
+  padding: 15px var(--site-padding);
+  
   max-width: 100%; margin: 0 auto;
   position: relative; z-index: 1001;
 }
 
 /* 2. NAVIGATION LINKS (Level 1) */
 .header__nav-item {
-  height: 100%;
+  height: auto; /* Höhe passt sich an */
   display: flex; align-items: center;
   position: static !important;
 }
@@ -150,15 +159,13 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   color: var(--nav-text-color);
   text-transform: uppercase;
   text-decoration: none;
-  /* TASK 2: Abstand zwischen den Elementen im Header */
   padding: 0 1.2rem; 
-  height: 100%;
   display: flex; align-items: center;
   position: relative;
   transition: color 0.2s ease;
 }
 
-/* TASK 1 FIX: Erster Link im Header muss bündig zum Padding sein (Padding links entfernen) */
+/* Erster Link bündig */
 .header__nav--left .header__nav-item:first-child .header__nav-link {
   padding-left: 0;
 }
@@ -175,19 +182,24 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   margin-left: 5px; position: relative; top: -1px;
 }
 
-/* 3. LOGO (FIX: Breite aus Shopify Backend) */
+/* 3. LOGO (FREIGEGABEN) */
 .header__logo {
   position: absolute; left: 50%; transform: translateX(-50%);
-  height: 100%; display: flex; align-items: center; z-index: 20;
+  /* Höhe automatisch, damit Bild-Größe entscheidet */
+  height: auto; 
+  display: flex; align-items: center; z-index: 20;
 }
-.header__logo-link { display: flex; align-items: center; height: 100%; }
+.header__logo-link { display: flex; align-items: center; }
 
 .header__logo img, 
 .header__logo-link img {
-  /* WICHTIG: Keine !important Width setzen, damit Shopify Setting greift */
-  /* Maximale Höhe setzen, damit Header nicht gesprengt wird */
-  max-height: 50px; 
-  width: auto; 
+  /* FIX: Keine fixe Höhe/Breite im CSS erzwingen. 
+     Shopify "width" Einstellung im HTML wird respektiert. */
+  height: auto !important; 
+  width: auto !important; 
+  
+  /* Maximale Grenzen zur Sicherheit */
+  max-width: 100%; 
   object-fit: contain; 
 }
 .header__logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: #fff; white-space: nowrap; }
@@ -211,21 +223,26 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 
 
 /* ==========================================================================
-   MEGA MENU (CARHARTT STYLE - EXACT ALIGNMENT & SPACING)
+   MEGA MENU (CARHARTT STYLE)
    ========================================================================== */
 
 .mega-menu {
-  position: fixed;
-  top: var(--header-height);
-  left: 0; width: 100vw;
-  max-height: calc(100vh - var(--header-height));
+  position: fixed; /* An den Viewport heften */
+  /* FIX: Menü beginnt exakt unter dem Header, egal wie hoch er ist. */
+  /* Wir nutzen absolute Positionierung relativ zum fixierten Header-Element */
+  position: absolute; 
+  top: 100%; 
+  left: 0; 
+  width: 100vw;
+  
+  /* Höhe */
+  max-height: calc(100vh - 100px); /* Sicherheitspuffer */
   overflow-y: auto;
   
   background-color: var(--mega-bg) !important;
   border-top: 1px solid var(--mega-border);
   box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-  /* Padding Oben/Unten */
-  padding: 2.5rem 0; 
+  padding: 2.5rem 0;
   
   z-index: 999; opacity: 0; visibility: hidden;
   transform: translateY(5px);
@@ -237,20 +254,18 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
 }
 
-/* Container mit identischem Padding wie Header */
+/* Container */
 .mega-menu__container {
   max-width: 100%; 
   margin: 0 auto;
-  /* TASK 1: Identisches Padding wie Header Wrapper */
   padding: 0 var(--site-padding); 
   display: block; 
 }
 
-/* --- VARIANTE A: SPALTEN (Level 3 - mit Überschriften) --- */
+/* --- VARIANTE A: SPALTEN (Level 3) --- */
 .mega-menu__columns {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  /* TASK 2: Spaltenabstand entspricht ca. dem Abstand der Header-Elemente */
   column-gap: 2.4rem; 
   row-gap: 2rem;
 }
@@ -272,11 +287,10 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 .mega-menu__item:hover { color: #fff; transform: translateX(2px); }
 
 
-/* --- VARIANTE B: FLAT GRID (Level 2 - Carhartt Pure) --- */
+/* --- VARIANTE B: FLAT GRID (Level 2) --- */
 .mega-menu__flat-grid {
   display: flex;
   flex-wrap: wrap;
-  /* TASK 2: Flexbox Gap für identischen Abstand */
   gap: 2.4rem; 
   align-items: center;
 }
@@ -290,7 +304,6 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   text-transform: uppercase;
   text-decoration: none;
   transition: color 0.2s ease;
-  /* Kein Padding nötig da gap genutzt wird, evtl minimal vertikal */
   padding: 2px 0; 
 }
 
@@ -299,7 +312,6 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   text-shadow: var(--glow-primary);
 }
 
-/* Sale hervorheben */
 .mega-menu__flat-link.is-sale {
   color: var(--color-primary);
 }
