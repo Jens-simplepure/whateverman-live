@@ -1,0 +1,62 @@
+{% comment %}
+  Renders the site navigation with Mega Menu support (Lovable Style)
+  Accepts:
+  - linklist: {Object} The linklist to render (e.g. linklists.main-menu)
+  - position: {String} 'left' (indices 1-3) or 'right' (indices > 3)
+{% endcomment %}
+
+{% for link in linklist.links %}
+  {%- assign show_link = false -%}
+  
+  {%- if position == 'left' and forloop.index <= 3 -%}
+    {%- assign show_link = true -%}
+  {%- elsif position == 'right' and forloop.index > 3 -%}
+    {%- assign show_link = true -%}
+  {%- endif -%}
+
+  {%- if show_link -%}
+    <div class="nav-item">
+      <a href="{{ link.url }}" class="nav-link {% if link.active %}is-active{% endif %}">
+        {{ link.title }}
+        {% if link.title contains 'New' %}
+          <span class="nav-badge">NEW</span>
+        {% endif %}
+      </a>
+
+      {%- if link.links != blank -%}
+        <div class="mega-menu">
+          <div class="mega-menu__container">
+            <div class="mega-menu__columns">
+              {%- for childlink in link.links -%}
+                <div class="mega-menu__col">
+                  <a href="{{ childlink.url }}" class="mega-menu__heading">{{ childlink.title }}</a>
+                  {%- if childlink.links != blank -%}
+                    <ul class="mega-menu__list">
+                      {%- for grandchild in childlink.links -%}
+                        <li>
+                          <a href="{{ grandchild.url }}" class="mega-menu__item">{{ grandchild.title }}</a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+
+            <div class="mega-menu__promo">
+               {%- assign promo_collection = collections['new-arrivals'] -%}
+               {%- if promo_collection.image -%}
+                  <a href="{{ promo_collection.url }}" class="promo-card">
+                    <div class="promo-image">
+                      <img src="{{ promo_collection.image | image_url: width: 600 }}" loading="lazy" alt="{{ promo_collection.title }}">
+                    </div>
+                    <span class="promo-title">Shop New Arrivals &rarr;</span>
+                  </a>
+               {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{% endfor %}
