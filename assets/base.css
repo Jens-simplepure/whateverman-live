@@ -5,19 +5,14 @@
 /* --- RESET & BASE --- */
 *, *::before, *::after { box-sizing: border-box; }
 
-html {
-  font-size: var(--font-size-base, 16px);
-  scroll-behavior: smooth;
-}
+html { font-size: var(--font-size-base, 16px); scroll-behavior: smooth; }
 
 body {
   margin: 0; padding: 0;
   font-family: 'Inter', var(--font-body), sans-serif;
   font-size: 1rem; line-height: 1.6;
-  color: var(--color-text);
-  background-color: var(--color-background);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-text); background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
 }
 
 /* --- TYPOGRAPHY --- */
@@ -119,11 +114,14 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 
 
 /* ==========================================================================
-   HEADER & NAVIGATION (CARHARTT STYLE)
+   HEADER & NAVIGATION (CARHARTT STYLE - PURE TEXT)
    ========================================================================== */
 
 :root {
-  --header-height: 80px; /* Kompakte Höhe */
+  --header-height: 80px;
+  --nav-text-color: #ffffff;
+  --mega-bg: #181818; /* Carhartt Dark Grey */
+  --mega-border: rgba(255,255,255,0.1);
 }
 
 /* 1. HEADER WRAPPER */
@@ -139,20 +137,20 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 .header__nav-item {
   height: 100%;
   display: flex; align-items: center;
-  position: static !important; /* Wichtig für Mega Menu */
+  position: static !important; /* Full Width Trigger */
 }
 
 .header__nav-link {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 1.2rem;
-  letter-spacing: 0.05em;
-  color: #ffffff;
+  letter-spacing: 0.03em;
+  color: var(--nav-text-color);
   text-transform: uppercase;
   text-decoration: none;
-  /* Kleiner Abstand wie bei Carhartt */
-  padding: 0 0.8rem;
+  padding: 0 0.8rem; /* Engere Abstände */
   height: 100%;
   display: flex; align-items: center;
+  position: relative;
   transition: color 0.2s ease;
 }
 
@@ -178,16 +176,12 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 .header__logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: #fff; white-space: nowrap; }
 
 /* 4. ICONS RECHTS */
-.header__icons { display: flex; align-items: center; gap: 0.8rem; } /* Enge Abstände */
+.header__icons { display: flex; align-items: center; gap: 0.8rem; } /* Eng */
 
 .header__text-link {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1rem;
-  letter-spacing: 0.03em;
-  color: #fff;
-  text-transform: uppercase;
-  background: none; border: none; cursor: pointer; text-decoration: none;
-  padding: 0 0.4rem;
+  font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.03em;
+  color: #fff; background: none; border: none; cursor: pointer; text-decoration: none;
+  padding: 0 0.3rem;
   transition: color 0.2s ease;
 }
 .header__text-link:hover { color: var(--color-primary); }
@@ -196,76 +190,83 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 16px; height: 16px;
   background: var(--color-primary); color: #000;
-  font-size: 0.65rem; font-weight: bold; border-radius: 50%; margin-left: 4px;
+  font-size: 0.65rem; font-weight: bold; border-radius: 50%; margin-left: 3px;
 }
 
 
 /* ==========================================================================
-   MEGA MENU (CARHARTT STYLE - Level 2 Grid)
+   MEGA MENU (CARHARTT STYLE - NO PROMO IMAGES)
    ========================================================================== */
 
 .mega-menu {
   position: fixed;
   top: var(--header-height);
   left: 0; width: 100vw;
-  /* Höhe begrenzt, damit man nicht scrollen muss */
   max-height: calc(100vh - var(--header-height));
   overflow-y: auto;
   
-  /* Dunkler Hintergrund passend zum Header */
-  background-color: #0a0a0a !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.9);
-  padding: 2.5rem 0;
+  background-color: var(--mega-bg) !important;
+  border-top: 1px solid var(--mega-border);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  padding: 2.5rem 0; /* Kompakt */
   
-  z-index: 999;
-  opacity: 0; visibility: hidden;
+  z-index: 999; opacity: 0; visibility: hidden;
   transform: translateY(5px);
   transition: all 0.2s ease-out;
   pointer-events: none;
 }
 
-/* Anzeigen bei Hover */
 .header__nav-item:hover .mega-menu {
   opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
 }
 
-/* Layout Grid */
+/* Container ohne Bild-Spalte */
 .mega-menu__container {
-  max-width: 100%; /* Volle Breite nutzen */
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 4rem; /* Abstand links/rechts */
-  display: grid;
-  /* Links der Inhalt (flexibel), Rechts das Promo-Bild (fest) */
-  grid-template-columns: 1fr 300px;
-  gap: 4rem;
+  padding: 0 4rem; /* Abstand links/rechts zum Rand */
+  display: block; /* Kein Grid mit Bild mehr, sondern Block für volle Breite */
 }
 
-/* --- OPTION A: SPALTEN (Level 3 - mit Überschriften) --- */
+/* --- VARIANTE A: SPALTEN (Level 3 - mit Überschriften) --- */
 .mega-menu__columns {
-  display: flex; flex-wrap: wrap; gap: 3rem;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 Spalten für viele Links */
+  gap: 2rem;
 }
-.mega-menu__col { min-width: 150px; }
+
+.mega-menu__col { break-inside: avoid; }
+
 .mega-menu__heading {
-  display: block; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
-  color: #fff; margin-bottom: 0.8rem; text-decoration: none;
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem; /* Identisch zu Level 1 Optik */
+  color: #fff;
+  margin-bottom: 0.8rem;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 .mega-menu__heading:hover { color: var(--color-primary); }
-.mega-menu__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+
+.mega-menu__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+
 .mega-menu__item {
-  color: #aaa; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #999;
+  text-decoration: none;
+  display: block;
+  transition: color 0.2s;
 }
 .mega-menu__item:hover { color: #fff; transform: translateX(2px); }
 
 
-/* --- OPTION B: FLAT GRID (Level 2 - Carhartt Style) --- */
-/* Das ist der entscheidende Teil für deine 2. Ebene! */
+/* --- VARIANTE B: FLAT GRID (Level 2 - Carhartt Pure) --- */
+/* Wird genutzt wenn keine Unter-Kategorien da sind */
 .mega-menu__flat-grid {
   display: grid;
-  /* 5 Spalten Raster */
-  grid-template-columns: repeat(5, 1fr);
-  /* Gleiche Abstände wie Level 1 */
+  grid-template-columns: repeat(6, 1fr); /* 6 Spalten Raster */
   column-gap: 2rem;
   row-gap: 1rem;
   align-content: start;
@@ -273,23 +274,16 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 
 .mega-menu__flat-link {
   display: block;
-  /* Identisches Styling wie Level 1 Links */
-  font-family: 'Bebas Neue', sans-serif; 
-  font-size: 1.2rem;
+  font-family: 'Bebas Neue', sans-serif; /* Identisch zur Haupt-Navi */
+  font-size: 1.1rem; /* Größe wie bei Carhartt */
   letter-spacing: 0.05em;
-  color: #ffffff; /* Weiß */
+  color: #ffffff;
   text-transform: uppercase;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-/* Hover Effekt in der Farbe deiner Wahl */
 .mega-menu__flat-link:hover {
   color: var(--color-primary);
   text-shadow: var(--glow-primary);
-}
-
-/* Optional: "Sale" Link hervorheben */
-.mega-menu__flat-link.is-sale {
-  color: var(--color-primary);
 }
