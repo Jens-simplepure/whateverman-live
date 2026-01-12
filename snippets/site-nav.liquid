@@ -1,39 +1,27 @@
 {% comment %}
-  Renders the site navigation with Mega Menu support
-  Logic: 
-  - Splits Left/Right navigation based on index (6).
-  - Detects if menu is 3-Level (Columns) or 2-Level (Carhartt Grid).
+  Renders the site navigation with Mega Menu support (Carhartt Compact Style)
 {% endcomment %}
 
 {%- assign split_index = 6 -%}
 
 {% for link in linklist.links %}
   {%- assign show_link = false -%}
-  
-  {%- if position == 'left' and forloop.index <= split_index -%}
-    {%- assign show_link = true -%}
-  {%- elsif position == 'right' and forloop.index > split_index -%}
-    {%- assign show_link = true -%}
-  {%- endif -%}
+  {%- if position == 'left' and forloop.index <= split_index -%}{%- assign show_link = true -%}{%- endif -%}
+  {%- if position == 'right' and forloop.index > split_index -%}{%- assign show_link = true -%}{%- endif -%}
 
   {%- if show_link -%}
     <div class="header__nav-item">
       <a href="{{ link.url }}" class="header__nav-link {% if link.active %}is-active{% endif %}">
         {{ link.title }}
-        {% if link.title contains 'New' %}
-          <span class="badge-new">NEW</span>
-        {% endif %}
+        {% if link.title contains 'New' %}<span class="badge-new">NEW</span>{% endif %}
       </a>
 
       {%- if link.links != blank -%}
         
-        {%- comment -%} Check depth: Does any child have children? {%- endcomment -%}
+        {%- comment -%} Check Hierarchy Depth {%- endcomment -%}
         {%- assign is_level_3 = false -%}
         {%- for child in link.links -%}
-          {%- if child.links != blank -%}
-            {%- assign is_level_3 = true -%}
-            {%- break -%}
-          {%- endif -%}
+          {%- if child.links != blank -%}{%- assign is_level_3 = true -%}{%- break -%}{%- endif -%}
         {%- endfor -%}
 
         <div class="mega-menu">
@@ -46,9 +34,7 @@
                     <a href="{{ childlink.url }}" class="mega-menu__heading">{{ childlink.title }}</a>
                     <ul class="mega-menu__list">
                       {%- for grandchild in childlink.links -%}
-                        <li>
-                          <a href="{{ grandchild.url }}" class="mega-menu__item">{{ grandchild.title }}</a>
-                        </li>
+                        <li><a href="{{ grandchild.url }}" class="mega-menu__item">{{ grandchild.title }}</a></li>
                       {%- endfor -%}
                     </ul>
                   </div>
@@ -58,7 +44,7 @@
             {%- else -%}
               <div class="mega-menu__flat-grid">
                 {%- for childlink in link.links -%}
-                  <a href="{{ childlink.url }}" class="mega-menu__flat-link {% if childlink.title == 'Sale' %}is-sale{% endif %}">
+                  <a href="{{ childlink.url }}" class="mega-menu__flat-link">
                     {{ childlink.title }}
                   </a>
                 {%- endfor -%}
@@ -67,15 +53,12 @@
 
             <div class="mega-menu__promo">
                {%- assign promo_collection = collections['new-arrivals'] -%}
-               
                <a href="{{ promo_collection.url | default: link.url }}" class="promo-card">
                  <div class="promo-image">
                    {% if promo_collection.image %}
-                     <img src="{{ promo_collection.image | image_url: width: 600 }}" loading="lazy" alt="New">
+                     <img src="{{ promo_collection.image | image_url: width: 600 }}" loading="lazy" alt="Promo">
                    {% else %}
-                     <div style="width:100%; height:100%; background:#1a1a1a; display:flex; align-items:center; justify-content:center;">
-                        <span style="color:#555; font-size:0.8rem; text-transform:uppercase;">{{ link.title }}</span>
-                     </div>
+                     <div class="promo-fallback"><span>{{ link.title }}</span></div>
                    {% endif %}
                  </div>
                  <span class="promo-title">Shop {{ link.title }} &rarr;</span>
