@@ -1,23 +1,18 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - BASE STYLES & HEADER
+   GEN Z STREETWEAR THEME - CLEAN BASE & HEADER
    ========================================================================== */
 
 /* --- RESET & BASE --- */
 *, *::before, *::after { box-sizing: border-box; }
 
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
+html { font-size: 16px; scroll-behavior: smooth; }
 
 body {
   margin: 0; padding: 0;
   font-family: 'Inter', var(--font-body), sans-serif;
   font-size: 1rem; line-height: 1.6;
-  color: var(--color-text);
-  background-color: var(--color-background);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-text); background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
 }
 
 /* --- TYPOGRAPHY --- */
@@ -119,7 +114,7 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 
 
 /* ==========================================================================
-   HEADER & NAVIGATION (CARHARTT STYLE - EXACT ALIGNMENT)
+   HEADER & NAVIGATION (CARHARTT STYLE - EXACT ALIGNMENT & RESPONSIVE LOGO)
    ========================================================================== */
 
 :root {
@@ -180,17 +175,19 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   margin-left: 5px; position: relative; top: -1px;
 }
 
-/* 3. LOGO (FIX: Breite auf 120px) */
+/* 3. LOGO (FIX: Breite aus Shopify Backend) */
 .header__logo {
   position: absolute; left: 50%; transform: translateX(-50%);
   height: 100%; display: flex; align-items: center; z-index: 20;
 }
 .header__logo-link { display: flex; align-items: center; height: 100%; }
 
-.header__logo img { 
-  width: 120px !important; /* Exakte Breite */
-  height: auto !important; /* Höhe automatisch */
-  max-height: 70px; /* Begrenzung damit es nicht den Header sprengt */
+.header__logo img, 
+.header__logo-link img {
+  /* WICHTIG: Keine !important Width setzen, damit Shopify Setting greift */
+  /* Maximale Höhe setzen, damit Header nicht gesprengt wird */
+  max-height: 50px; 
+  width: auto; 
   object-fit: contain; 
 }
 .header__logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: #fff; white-space: nowrap; }
@@ -227,7 +224,8 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   background-color: var(--mega-bg) !important;
   border-top: 1px solid var(--mega-border);
   box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-  padding: 2.5rem 0;
+  /* Padding Oben/Unten */
+  padding: 2.5rem 0; 
   
   z-index: 999; opacity: 0; visibility: hidden;
   transform: translateY(5px);
@@ -248,10 +246,11 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   display: block; 
 }
 
-/* --- VARIANTE A: SPALTEN (Level 3) --- */
+/* --- VARIANTE A: SPALTEN (Level 3 - mit Überschriften) --- */
 .mega-menu__columns {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+  /* TASK 2: Spaltenabstand entspricht ca. dem Abstand der Header-Elemente */
   column-gap: 2.4rem; 
   row-gap: 2rem;
 }
@@ -273,11 +272,11 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
 .mega-menu__item:hover { color: #fff; transform: translateX(2px); }
 
 
-/* --- VARIANTE B: FLAT GRID (Level 2) --- */
+/* --- VARIANTE B: FLAT GRID (Level 2 - Carhartt Pure) --- */
 .mega-menu__flat-grid {
   display: flex;
   flex-wrap: wrap;
-  /* TASK 2: Abstand identisch zum Header Links (~2.4rem ist ca 2x Padding von 1.2rem) */
+  /* TASK 2: Flexbox Gap für identischen Abstand */
   gap: 2.4rem; 
   align-items: center;
 }
@@ -291,6 +290,7 @@ input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0
   text-transform: uppercase;
   text-decoration: none;
   transition: color 0.2s ease;
+  /* Kein Padding nötig da gap genutzt wird, evtl minimal vertikal */
   padding: 2px 0; 
 }
 
