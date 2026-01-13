@@ -1,14 +1,12 @@
-/* ==========================================================================
-   GEN Z STREETWEAR THEME - FINAL CARHARTT EXACT ALIGNMENT
-   ========================================================================== */
-
-/* --- RESET & VARIABLES --- */
-*, *::before, *::after { box-sizing: border-box; }
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 :root {
   --header-height: 100px;
   --site-padding: 40px; 
-  --nav-gap: 25px; /* Abstand zwischen den Links */
+  --nav-gap: 25px;
+  --logo-width: 150px;
   --color-text: #ffffff;
   --color-background: #000000;
   --mega-bg: #181818; 
@@ -17,147 +15,240 @@
   --font-body: 'Inter', sans-serif;
 }
 
-html { font-size: 16px; scroll-behavior: smooth; }
-body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--color-background); color: var(--color-text); -webkit-font-smoothing: antialiased; }
-a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
 
-/* --- HEADER CONTAINER --- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
 .site-header {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   background: var(--color-background);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header__wrapper {
   height: var(--header-height);
-  display: flex; align-items: center; justify-content: flex-start; 
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   padding: 0 var(--site-padding);
-  max-width: 100%; margin: 0 auto;
-  position: relative; /* Wichtig */
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
 }
 
-/* --- LOGO --- */
 .header__logo {
-  /* Breite vom Logo + Abstand fixieren, damit die Navi nicht springt */
+  width: var(--logo-width);
   margin-right: var(--nav-gap);
-  display: flex; align-items: center; z-index: 20; flex-shrink: 0;
-}
-.header__logo img {
-  width: 150px; /* Fixe Breite wie gewünscht */
-  height: auto; max-height: 60px; object-fit: contain;
+  display: flex;
+  align-items: center;
+  z-index: 20;
+  flex-shrink: 0;
 }
 
-/* --- NAVIGATION --- */
+.header__logo img {
+  width: 100%;
+  height: auto;
+  max-height: 60px;
+  object-fit: contain;
+}
+
 .header__nav--left {
-  display: flex; height: 100%;
+  display: flex;
+  height: 100%;
   gap: var(--nav-gap);
 }
 
 .header__nav-item {
-  height: 100%; display: flex; align-items: center;
-  /* ACHTUNG: Hier ändern wir auf relative, damit das Menü daran klebt */
-  position: relative !important; 
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative !important;
 }
 
 .header__nav-link {
-  font-family: var(--font-heading); font-size: 1.3rem; letter-spacing: 0.03em;
-  color: #ffffff; text-transform: uppercase; padding: 0; /* Kein Padding, Gap regelt Abstand */
-  height: 100%; display: flex; align-items: center; cursor: pointer;
-}
-.header__nav-link:hover, .header__nav-link.is-active {
-  color: var(--color-primary, #ff0000); text-shadow: 0 0 15px rgba(255,255,255,0.3);
-}
-
-/* --- MEGA MENU (SMART ALIGNMENT) --- */
-.mega-menu {
-  /* Positionierung relativ zum Nav-Item ("MENS") */
-  position: absolute;
-  top: 100%;
-  left: 0; /* Beginnt exakt bei der linken Kante von "MENS" */
-  
-  /* Aber wir wollen, dass der Hintergrund über den ganzen Screen geht */
-  /* Trick: Wir machen es riesig breit, aber verstecken den Overflow nicht */
-  width: 100vw; 
-  
-  /* Wir schieben es nach links zurück, basierend auf der Position im Header */
-  /* Da wir das im CSS nicht dynamisch wissen, nutzen wir einen anderen Ansatz: */
-  /* Wir positionieren es DOCH fix, aber nutzen Padding-Left intelligent. */
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
-/* NEUER ANSATZ FÜR MEGA MENU: FIXED FULL WIDTH + PADDING CALCULATION */
+.header__nav-link:hover,
+.header__nav-link.is-active {
+  color: var(--color-primary, #ff0000);
+  text-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
 .mega-menu {
-  position: fixed; 
-  top: var(--header-height); 
-  left: 0; 
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
   width: 100%;
   background-color: var(--mega-bg) !important;
   border-top: 1px solid var(--mega-border);
   padding: 2.5rem 0;
   z-index: 999;
-  
-  opacity: 0; visibility: hidden; pointer-events: none;
-  transform: translateY(5px); transition: all 0.2s ease-out;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(5px);
+  transition: all 0.2s ease-out;
 }
 
 .header__nav-item:hover .mega-menu {
-  opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .mega-menu__container {
-  width: 100%; max-width: 100%;
+  width: 100%;
+  max-width: 100%;
   display: block;
-  
-  /* HIER IST DER FIX: 
-     Wir nutzen CSS Grid oder Flexbox um den Startpunkt zu erzwingen.
-     Da wir "MENS" nicht exakt tracken können via reinem CSS in base.css (ohne JS),
-     müssen wir die Einrückung so wählen:
-     Seite Padding (40px) + Logo (120px) + Gap (25px) = 185px.
-  */
-  padding-left: calc(var(--site-padding) + 150px + var(--nav-gap)); 
+  padding-left: calc(var(--site-padding) + var(--logo-width) + var(--nav-gap));
   padding-right: var(--site-padding);
 }
 
-/* Grid Layout (2. Ebene) */
 .mega-menu__flat-grid {
-  display: flex; flex-wrap: wrap;
-  gap: var(--nav-gap); /* Identischer Abstand wie oben */
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nav-gap);
   align-items: center;
 }
 
 .mega-menu__flat-link {
-  font-family: var(--font-heading); font-size: 1.3rem; letter-spacing: 0.04em;
-  color: #fff; text-transform: uppercase; transition: color 0.2s;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  color: #fff;
+  text-transform: uppercase;
+  transition: color 0.2s;
   padding: 0;
 }
-.mega-menu__flat-link:hover { color: var(--color-primary, #ff0000); }
 
-/* --- ICONS RIGHT --- */
+.mega-menu__flat-link:hover {
+  color: var(--color-primary, #ff0000);
+}
+
 .header__icons {
-  margin-left: auto; display: flex; align-items: center; gap: var(--nav-gap);
-}
-.header__text-link {
-  font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 0.03em;
-  color: #fff; background: none; border: none; cursor: pointer; padding: 0;
-}
-.header__text-link:hover { color: var(--color-primary, #ff0000); }
-.header__cart-count {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 18px; height: 18px; background: var(--color-primary, #ff0000); color: #000;
-  font-size: 0.7rem; font-weight: bold; border-radius: 50%; margin-left: 4px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--nav-gap);
 }
 
-/* --- MOBILE --- */
-.header__mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0; margin-left: 10px; flex-direction: column; gap: 6px; }
-.header__mobile-toggle span { display: block; width: 24px; height: 2px; background: #fff; }
+.header__text-link {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.header__text-link:hover {
+  color: var(--color-primary, #ff0000);
+}
+
+.header__cart-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  background: var(--color-primary, #ff0000);
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 50%;
+  margin-left: 4px;
+}
+
+.header__mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.header__mobile-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #fff;
+}
 
 @media (max-width: 1024px) {
-  .header__nav--left, .header__text-link { display: none !important; }
-  .header__mobile-toggle { display: flex; }
-  .header__wrapper { justify-content: space-between; padding: 0 1.5rem; }
-  .header__logo { margin-right: 0; }
-  .mega-menu { display: none; } /* Kein Mega Menu auf Mobile */
+  .header__nav--left,
+  .header__text-link {
+    display: none !important;
+  }
+  .header__mobile-toggle {
+    display: flex;
+  }
+  .header__wrapper {
+    justify-content: space-between;
+    padding: 0 1.5rem;
+  }
+  .header__logo {
+    margin-right: 0;
+  }
+  .mega-menu {
+    display: none;
+  }
 }
 
-/* --- UTILS --- */
-.main-content { min-height: 100vh; padding-top: var(--header-height); }
-.badge-new { background: var(--color-primary, #ff0000); color: #000; font-size: 0.5em; padding: 1px 4px; border-radius: 2px; margin-left: 5px; position: relative; top: -2px; }
+.main-content {
+  min-height: 100vh;
+  padding-top: var(--header-height);
+}
+
+.badge-new {
+  background: var(--color-primary, #ff0000);
+  color: #000;
+  font-size: 0.5em;
+  padding: 1px 4px;
+  border-radius: 2px;
+  margin-left: 5px;
+  position: relative;
+  top: -2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+}
