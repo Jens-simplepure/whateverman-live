@@ -21,7 +21,7 @@
         "button_text": "Have a Squiz - if you want",
         "button_link": "shopify://collections/all",
         "secondary_button_text": "New, But Chill",
-        "secondary_button_link": ""
+        "secondary_button_link": "shopify://collections/new"
       }
     },
     "featured-collection": {
