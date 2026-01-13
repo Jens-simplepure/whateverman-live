@@ -28,8 +28,8 @@
       "type": "featured-collection",
       "settings": {
         "heading_prefix": "Fresh",
-        "heading_highlight": "Shirts Shirts",
-        "collection": "t-shirts",
+        "heading_highlight": "Graphics Shirts",
+        "collection": "men-tshirts-graphic-prints",
         "products_to_show": 8
       }
     },
