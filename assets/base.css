@@ -113,7 +113,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
      müssen wir die Einrückung so wählen:
      Seite Padding (40px) + Logo (120px) + Gap (25px) = 185px.
   */
-  padding-left: calc(var(--site-padding) + 120px + var(--nav-gap)); 
+  padding-left: calc(var(--site-padding) + 150px + var(--nav-gap)); 
   padding-right: var(--site-padding);
 }
 
