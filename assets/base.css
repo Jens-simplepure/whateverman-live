@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - FINAL STYLE (BADGES UPDATED)
+   GEN Z STREETWEAR THEME - FINAL STYLE (VIBRANT BADGES & TYPO)
    ========================================================================== */
 
 /* --- RESET & VARIABLES --- */
@@ -17,8 +17,9 @@
   --color-background: #000000;
   
   /* THEME ACCENTS */
-  --color-primary: #aaff00; /* NEON GREEN (für NEW / Hover) */
+  --color-primary: #aaff00; /* NEON GREEN (für NEW / Hover / Titel / Preise) */
   --color-accent: #ff4400;  /* ORANGE RED (für Buttons) */
+  --color-sold-out: #ff0033; /* NEU: Sattes NEON ROT für Sold Out */
   
   /* MEGA MENU */
   --mega-bg: #181818; 
@@ -158,30 +159,42 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   position: absolute; top: 10px; left: 10px; z-index: 5;
   font-family: var(--font-heading); font-size: 0.9rem; letter-spacing: 0.05em;
   padding: 4px 10px; border-radius: 2px;
+  text-transform: uppercase;
   
-  /* STANDARD = NEW = GREEN */
+  /* STANDARD = NEW = NEON GREEN */
   background-color: var(--color-primary); 
   color: #000000; 
   box-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
-/* SOLD OUT = BOLD RED + WHITE TEXT */
+/* SOLD OUT = NEON RED + WHITE TEXT (FIXED) */
 .product-card__badge--sold-out {
-  background-color: #cc0000; /* Starkes Rot */
+  background-color: var(--color-sold-out); /* Sattes Neon Rot */
   color: #ffffff;
 }
 
 /* SALE = WHITE */
-.product-card__badge--sale {
-  background-color: #ffffff;
-  color: #000000;
+.product-card__badge--sale { background-color: #ffffff; color: #000000; }
+/* NEW BADGE IN HEADER */
+.badge-new { background: var(--color-primary); color: #000; font-size: 0.5em; padding: 1px 4px; border-radius: 2px; margin-left: 5px; position: relative; top: -2px; }
+
+/* --- PRODUCT CARD TYPOGRAPHY (VIBRANT) --- */
+.product-card__content { padding: 1rem; text-align: left; }
+
+.product-card__title {
+  font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 0.05em;
+  margin: 0 0 0.5rem; text-transform: uppercase;
+  /* Titel in Neon Grün */
+  color: var(--color-primary); 
+}
+.product-card__link { text-decoration: none; color: inherit; }
+
+.product-card__price {
+  font-family: var(--font-body); font-size: 1rem; font-weight: bold;
+  /* Preis in Neon Grün */
+  color: var(--color-primary);
 }
 
-/* NEW BADGE IN HEADER */
-.badge-new {
-  background: var(--color-primary); color: #000;
-  font-size: 0.5em; padding: 1px 4px; border-radius: 2px; margin-left: 5px; position: relative; top: -2px;
-}
 
 /* --- GENERAL & UTILS --- */
 .main-content { min-height: 100vh; padding-top: var(--header-height); }
