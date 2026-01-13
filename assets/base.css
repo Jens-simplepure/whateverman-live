@@ -6,7 +6,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
-  --header-height: 90px;
+  --header-height: 100px;
   --site-padding: 40px; 
   --nav-gap: 25px; /* Abstand zwischen den Links */
   --color-text: #ffffff;
@@ -43,7 +43,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   display: flex; align-items: center; z-index: 20; flex-shrink: 0;
 }
 .header__logo img {
-  width: 120px; /* Fixe Breite wie gewünscht */
+  width: 150px; /* Fixe Breite wie gewünscht */
   height: auto; max-height: 60px; object-fit: contain;
 }
 
