@@ -1,319 +1,195 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+/* ==========================================================================
+   GEN Z STREETWEAR THEME - FINAL CARHARTT EXACT REPLICA + GLOW
+   ========================================================================== */
+
+/* --- VARIABLES & RESET --- */
+*, *::before, *::after { box-sizing: border-box; }
 
 :root {
-  /* CARHARTT WIP METRICS */
+  /* LAYOUT */
   --header-height: 64px; 
   --site-padding: 32px;
   --logo-width: 130px;
   --nav-gap: 24px;
   
+  /* COLORS */
   --color-text: #ffffff;
   --color-background: #000000;
   --mega-bg: #181818; 
   --mega-border: rgba(255,255,255,0.15);
   
+  /* GLOW EFFECT (Fallback, falls im Theme nicht definiert) */
+  --glow-primary: 0 0 10px var(--color-primary, #ff0000);
+  
+  /* FONTS */
   --font-heading: 'Bebas Neue', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
 
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-body);
-  background-color: var(--color-background);
-  color: var(--color-text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.2s ease;
-}
+html { font-size: 16px; scroll-behavior: smooth; }
+body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--color-background); color: var(--color-text); -webkit-font-smoothing: antialiased; }
+a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
 /* --- HEADER CONTAINER --- */
 .site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   background: var(--color-background);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header__wrapper {
   height: var(--header-height);
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  display: flex; align-items: center; justify-content: flex-start;
   padding: 0 var(--site-padding);
-  max-width: 100%;
-  margin: 0 auto;
+  max-width: 100%; margin: 0 auto;
   position: relative;
 }
 
-/* --- LOGO (Carhartt Pos: Left, 130px width) --- */
+/* --- LOGO --- */
 .header__logo {
   width: var(--logo-width);
   margin-right: var(--nav-gap);
-  display: flex;
-  align-items: center;
-  z-index: 20;
-  flex-shrink: 0;
+  display: flex; align-items: center; z-index: 20; flex-shrink: 0;
 }
 
-.header__logo-link,
-.header__logo img {
+.header__logo-link {
+  display: block;
   width: 100%;
-  height: auto;
-  max-height: 40px; /* Kompakt */
-  object-fit: contain;
-  object-position: left;
+  transition: all 0.3s ease;
 }
 
-/* --- NAVIGATION (Carhartt Pos: Next to Logo) --- */
+/* GLOW EFFECT FOR LOGO */
+.header__logo-link:hover {
+  filter: drop-shadow(0 0 8px var(--color-primary, #ff0000));
+}
+
+.header__logo img {
+  width: 100%; height: auto; max-height: 40px; 
+  object-fit: contain; object-position: left;
+}
+
+/* --- NAVIGATION --- */
 .header__nav--left {
-  display: flex;
-  height: 100%;
-  gap: var(--nav-gap);
+  display: flex; height: 100%; gap: var(--nav-gap);
 }
 
 .header__nav-item {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  position: static !important;
+  height: 100%; display: flex; align-items: center; position: static !important;
 }
 
 .header__nav-link {
-  font-family: var(--font-heading);
-  font-size: 1.15rem; /* Etwas kleiner für den Look */
-  letter-spacing: 0.04em;
-  color: #ffffff;
-  text-transform: uppercase;
-  padding: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+  font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em;
+  color: #ffffff; text-transform: uppercase; padding: 0;
+  height: 100%; display: flex; align-items: center; cursor: pointer;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
+/* GLOW EFFECT FOR LINKS */
 .header__nav-link:hover,
 .header__nav-link.is-active {
   color: var(--color-primary, #ff0000);
+  text-shadow: var(--glow-primary);
 }
 
-/* --- MEGA MENU (Aligned under first Nav Item) --- */
+/* --- MEGA MENU --- */
 .mega-menu {
-  position: fixed;
-  top: var(--header-height);
-  left: 0;
-  width: 100%;
+  position: fixed; top: var(--header-height); left: 0; width: 100%;
   background-color: var(--mega-bg) !important;
   border-top: 1px solid var(--mega-border);
-  padding: 2rem 0;
-  z-index: 999;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translateY(5px);
-  transition: all 0.2s ease-out;
+  padding: 2rem 0; z-index: 999;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(5px); transition: all 0.2s ease-out;
 }
 
 .header__nav-item:hover .mega-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
+  opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
 }
 
 .mega-menu__container {
-  width: 100%;
-  max-width: 100%;
-  display: block;
-  /* CALC: Site Padding + Logo + Gap = Startet exakt unter Navigationspunkt 1 */
+  width: 100%; max-width: 100%; display: block;
+  /* Startposition: Padding + Logo + Gap */
   padding-left: calc(var(--site-padding) + var(--logo-width) + var(--nav-gap));
   padding-right: var(--site-padding);
 }
 
-/* --- LEVEL 2 & 3 GRIDS --- */
+/* Grid Layouts */
 .mega-menu__columns {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  column-gap: var(--nav-gap);
-  row-gap: 1.5rem;
+  display: grid; grid-template-columns: repeat(6, 1fr); column-gap: var(--nav-gap); row-gap: 1.5rem;
 }
-
 .mega-menu__flat-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--nav-gap); /* Identischer Abstand wie Header */
-  align-items: center;
+  display: flex; flex-wrap: wrap; gap: var(--nav-gap); align-items: center;
 }
 
 .mega-menu__heading,
 .mega-menu__flat-link {
-  display: block;
-  font-family: var(--font-heading);
-  font-size: 1.15rem;
-  letter-spacing: 0.04em;
-  color: #fff;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0;
+  display: block; font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em;
+  color: #fff; text-transform: uppercase; text-decoration: none; padding: 0;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
 }
 
 .mega-menu__heading { margin-bottom: 0.8rem; }
 
 .mega-menu__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem;
 }
 
 .mega-menu__item {
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  color: #a0a0a0;
-  text-decoration: none;
-  transition: color 0.2s;
+  font-family: var(--font-body); font-size: 0.85rem; color: #a0a0a0; text-decoration: none; transition: color 0.2s;
 }
 
-.mega-menu__item:hover,
+/* Hover Effects Mega Menu */
+.mega-menu__item:hover { color: #fff; }
 .mega-menu__flat-link:hover,
 .mega-menu__heading:hover {
   color: var(--color-primary, #ff0000);
+  text-shadow: var(--glow-primary);
 }
 
-/* --- ICONS RIGHT (Carhartt Pos: Far right) --- */
+/* --- ICONS RIGHT --- */
 .header__icons {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 1.2rem; /* Icons etwas näher zusammen */
+  margin-left: auto; display: flex; align-items: center; gap: 1.2rem;
 }
 
 .header__text-link {
-  font-family: var(--font-heading);
-  font-size: 1rem;
-  letter-spacing: 0.05em;
-  color: #fff;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+  font-family: var(--font-heading); font-size: 1rem; letter-spacing: 0.05em;
+  color: #fff; background: none; border: none; cursor: pointer; padding: 0;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .header__text-link:hover {
   color: var(--color-primary, #ff0000);
+  text-shadow: var(--glow-primary);
 }
 
 .header__cart-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 16px;
-  height: 16px;
-  background: var(--color-primary, #ff0000);
-  color: #000;
-  font-size: 0.65rem;
-  font-weight: bold;
-  border-radius: 50%;
-  margin-left: 4px;
-  position: relative;
-  top: -1px;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 16px; height: 16px;
+  background: var(--color-primary, #ff0000); color: #000;
+  font-size: 0.65rem; font-weight: bold; border-radius: 50%;
+  margin-left: 4px; position: relative; top: -1px;
 }
 
 /* --- MOBILE --- */
 .header__mobile-toggle {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin-left: 10px;
-  flex-direction: column;
-  gap: 5px;
+  display: none; background: none; border: none; cursor: pointer; padding: 0; margin-left: 10px;
+  flex-direction: column; gap: 5px;
 }
-
-.header__mobile-toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: #fff;
-}
+.header__mobile-toggle span { display: block; width: 22px; height: 2px; background: #fff; }
 
 @media (max-width: 1024px) {
-  .header__nav--left,
-  .header__text-link {
-    display: none !important;
-  }
-  .header__mobile-toggle {
-    display: flex;
-  }
-  .header__wrapper {
-    justify-content: space-between;
-    padding: 0 1.5rem;
-  }
-  .header__logo {
-    margin-right: 0;
-    width: auto;
-  }
-  .mega-menu {
-    display: none;
-  }
+  .header__nav--left, .header__text-link { display: none !important; }
+  .header__mobile-toggle { display: flex; }
+  .header__wrapper { justify-content: space-between; padding: 0 1.5rem; }
+  .header__logo { margin-right: 0; width: auto; }
+  .mega-menu { display: none; }
 }
 
 /* --- GENERAL THEME STYLES --- */
-.main-content {
-  min-height: 100vh;
-  padding-top: var(--header-height);
-}
-
-.badge-new {
-  background: var(--color-primary, #ff0000);
-  color: #000;
-  font-size: 0.5em;
-  padding: 1px 4px;
-  border-radius: 2px;
-  margin-left: 5px;
-  position: relative;
-  top: -2px;
-}
-
-.product-card {
-  position: relative;
-  background: var(--color-background-secondary, #111);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.product-card__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-}
-
-/* Container & Grid Defaults */
+.main-content { min-height: 100vh; padding-top: var(--header-height); }
+.badge-new { background: var(--color-primary, #ff0000); color: #000; font-size: 0.5em; padding: 1px 4px; border-radius: 2px; margin-left: 5px; position: relative; top: -2px; }
+.product-card { position: relative; background: var(--color-background-secondary, #111); border: 1px solid rgba(255, 255, 255, 0.1); }
+.product-card__image img { width: 100%; height: 100%; object-fit: cover; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
 .container { width: 100%; max-width: 1600px; margin: 0 auto; padding: 0 2rem; }
 .grid { display: grid; gap: 1.5rem; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
