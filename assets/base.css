@@ -1,324 +1,147 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - BASE STYLES & HEADER
+   GEN Z STREETWEAR THEME - FINAL POLISH
    ========================================================================== */
 
-/* --- RESET & BASE --- */
+/* --- RESET & VARIABLES --- */
 *, *::before, *::after { box-sizing: border-box; }
 
+:root {
+  --header-height: 90px;
+  /* WICHTIG: Definiert die Einrückung für das Mega Menu */
+  /* Logo (ca 180px) + Gap (3rem/48px) + Padding (40px) = ca. 270px */
+  --mega-menu-indent: 270px; 
+  --site-padding: 40px;
+  --color-text: #ffffff;
+  --color-background: #000000;
+  --mega-bg: #181818; 
+  --mega-border: rgba(255,255,255,0.15);
+  --font-heading: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
 html { font-size: 16px; scroll-behavior: smooth; }
+body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--color-background); color: var(--color-text); -webkit-font-smoothing: antialiased; }
+a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
-body {
-  margin: 0; padding: 0;
-  font-family: 'Inter', var(--font-body), sans-serif;
-  font-size: 1rem; line-height: 1.6;
-  color: var(--color-text); background-color: var(--color-background);
-  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-}
-
-/* --- TYPOGRAPHY --- */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Bebas Neue', var(--font-heading), sans-serif;
-  font-weight: 400; line-height: 1.1; letter-spacing: 0.02em;
-  margin: 0 0 1rem; text-transform: uppercase;
-}
-
-h1 { font-size: clamp(2.5rem, 8vw, 5rem); }
-h2 { font-size: clamp(2rem, 6vw, 4rem); }
-h3 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
-h4 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
-
-p { margin: 0 0 1rem; }
-
-a {
-  color: var(--color-primary); text-decoration: none;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-a:hover { color: var(--color-accent); text-shadow: var(--glow-primary); }
-
-/* --- CONTAINER --- */
-.container {
-  width: 100%; max-width: var(--container-width);
-  margin: 0 auto; padding: 0 1.5rem;
-}
-@media (min-width: 768px) { .container { padding: 0 2rem; } }
-
-/* --- BUTTONS --- */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-  padding: 0.875rem 2rem;
-  font-family: 'Bebas Neue', var(--font-heading), sans-serif;
-  font-size: 1.125rem; letter-spacing: 0.05em; text-transform: uppercase;
-  border: none; border-radius: 0; cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;
-}
-.btn-primary { background: var(--color-primary); color: var(--color-background); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-primary); }
-.btn-secondary { background: var(--color-secondary); color: var(--color-background); }
-.btn-gradient { background: var(--gradient-primary); color: var(--color-background); }
-.btn-pill { border-radius: 9999px; }
-
-/* --- CARDS & PRODUCTS --- */
-.card {
-  background: var(--color-background-secondary); border: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.card:hover { transform: translateY(-8px); border-color: var(--color-primary); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), var(--glow-primary); }
-
-.product-card {
-  position: relative; background: var(--color-background-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;
-}
-.product-card:hover { border-color: var(--color-primary); box-shadow: 0 0 30px rgba(170, 255, 0, 0.2); }
-.product-card__image { position: relative; aspect-ratio: 1; overflow: hidden; background: var(--color-background); }
-.product-card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-.product-card:hover .product-card__image img { transform: scale(1.05); }
-.product-card__badge {
-  position: absolute; top: 1rem; left: 1rem; padding: 0.25rem 0.75rem;
-  background: var(--color-primary); color: var(--color-background);
-  font-family: 'Bebas Neue', sans-serif; font-size: 0.875rem; letter-spacing: 0.05em; z-index: 1;
-}
-.product-card__badge--sale { background: var(--color-secondary); }
-.product-card__quick-add {
-  position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem;
-  background: linear-gradient(to top, var(--color-background), transparent);
-  opacity: 0; transform: translateY(100%); transition: all 0.3s ease;
-}
-.product-card:hover .product-card__quick-add { opacity: 1; transform: translateY(0); }
-.product-card__content { padding: 1rem; }
-.product-card__title { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; margin-bottom: 0.5rem; letter-spacing: 0.02em; }
-.product-card__price { display: flex; align-items: center; gap: 0.5rem; }
-.product-card__price-current { color: var(--color-primary); font-weight: 600; }
-.product-card__price-compare { color: var(--color-text-muted); text-decoration: line-through; font-size: 0.875rem; }
-
-/* --- FORMS & GRID --- */
-input, textarea, select {
-  width: 100%; padding: 0.875rem 1rem;
-  font-family: inherit; font-size: 1rem; color: var(--color-text);
-  background: var(--color-background-secondary); border: 1px solid rgba(255, 255, 255, 0.2);
+/* --- HEADER CONTAINER --- */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--color-background);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
-input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(170, 255, 0, 0.2); }
-.grid { display: grid; gap: 1.5rem; }
-.grid-2 { grid-template-columns: repeat(2, 1fr); }
-.grid-3 { grid-template-columns: repeat(3, 1fr); }
-.grid-4 { grid-template-columns: repeat(4, 1fr); }
-@media (max-width: 1024px) { .grid-4 { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 768px) { .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
 
-/* --- UTILS --- */
-.text-gradient { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.text-glow { text-shadow: var(--glow-primary); }
-.visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; border: 0 !important; }
-.main-content { min-height: 100vh; padding-top: var(--header-height); }
-
-
-/* ==========================================================================
-   HEADER & NAVIGATION (CARHARTT STYLE - LOGO LEFT)
-   ========================================================================== */
-
-:root {
-  --nav-text-color: #ffffff;
-  --mega-bg: #181818; 
-  --mega-border: rgba(255,255,255,0.1);
-  --site-padding: 40px; 
-}
-
-/* 1. HEADER WRAPPER */
 .header__wrapper {
-  height: auto; min-height: 90px;
-  display: flex; 
-  align-items: center; 
-  /* WICHTIG: Flex Start, damit Logo links klebt */
-  justify-content: flex-start; 
+  display: flex; align-items: center; 
+  justify-content: flex-start; /* Alles Links bündig */
+  height: var(--header-height);
   padding: 0 var(--site-padding);
   max-width: 100%; margin: 0 auto;
-  position: relative; z-index: 1001;
-}
-
-/* 2. LOGO (Jetzt ganz links) */
-.header__logo {
-  /* Reset Absolute Positioning */
-  position: static; 
-  transform: none; 
-  left: auto;
-  
-  /* Flex Order: Ganz vorne */
-  order: 1;
-  margin-right: 3rem; /* Abstand zur Navi */
-  
-  height: 100%; display: flex; align-items: center; z-index: 20;
-}
-
-.header__logo-link { display: flex; align-items: center; height: 100%; }
-
-.header__logo img, 
-.header__logo-link img {
-  /* Größe aus dem Backend wird respektiert, aber begrenzt */
-  height: auto !important; 
-  width: auto !important; 
-  max-width: 180px; 
-  max-height: 60px;
-  object-fit: contain; 
-}
-.header__logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #fff; white-space: nowrap; }
-
-
-/* 3. NAVIGATION LINKS (Links neben Logo) */
-.header__nav--left {
-  order: 2; /* Kommt nach dem Logo */
-  margin-right: 0;
-  display: flex;
-}
-
-.header__nav-item {
-  height: 100%;
-  display: flex; align-items: center;
-  position: static !important;
-}
-
-.header__nav-link {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.2rem;
-  letter-spacing: 0.03em;
-  color: var(--nav-text-color);
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0 1rem; 
-  height: 100%;
-  display: flex; align-items: center;
   position: relative;
-  transition: color 0.2s ease;
 }
 
-/* Erster Link bündig zum vorherigen Element (Logo margin regelt den Abstand) */
-.header__nav--left .header__nav-item:first-child .header__nav-link {
-  padding-left: 0;
+/* --- LOGO --- */
+.header__logo {
+  display: flex; align-items: center;
+  margin-right: 3rem; /* Abstand zur Navigation */
+  z-index: 20; flex-shrink: 0;
+  width: 180px; /* Fixe Breite reservieren */
+}
+.header__logo img {
+  width: 100%; height: auto; object-fit: contain; max-height: 60px;
 }
 
-.header__nav-link:hover,
-.header__nav-link.is-active {
-  color: var(--color-primary);
-  text-shadow: var(--glow-primary);
+/* --- DESKTOP NAVIGATION --- */
+.header__nav {
+  display: flex; height: 100%;
+}
+.header__nav-item {
+  height: 100%; display: flex; align-items: center;
+  position: static !important; /* Wichtig für Mega Menu */
+}
+.header__nav-link {
+  font-family: var(--font-heading); font-size: 1.4rem; letter-spacing: 0.03em;
+  color: #fff; text-transform: uppercase; padding: 0 1.2rem;
+  height: 100%; display: flex; align-items: center;
+}
+.header__nav-link:hover, .header__nav-link.is-active {
+  color: var(--color-primary, #ff0000); text-shadow: 0 0 15px rgba(255,255,255,0.2);
 }
 
-.badge-new {
-  background: var(--color-primary); color: #000;
-  font-size: 0.55em; padding: 1px 4px; border-radius: 2px;
-  margin-left: 5px; position: relative; top: -1px;
+/* --- ICONS RIGHT --- */
+.header__icons {
+  margin-left: auto; display: flex; align-items: center; gap: 1rem;
 }
-
-
-/* 4. ICONS RECHTS (Ganz rechts außen) */
-.header__icons { 
-  order: 3; /* Am Ende */
-  margin-left: auto; /* Pusht alles nach rechts */
-  display: flex; align-items: center; gap: 1rem; 
-  /* Rechte Navi-Links hier integriert */
-}
-
-/* Nav rechts (falls Links > 6 existieren) */
-.header__nav--right {
-  display: flex;
-  margin-right: 1.5rem;
-}
-
 .header__text-link {
-  font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.03em;
-  color: #fff; background: none; border: none; cursor: pointer; text-decoration: none;
-  padding: 0 0.5rem;
+  font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 0.03em;
+  color: #fff; background: none; border: none; cursor: pointer; padding: 0 0.5rem;
 }
-.header__text-link:hover { color: var(--color-primary); }
-
+.header__text-link:hover { color: var(--color-primary, #ff0000); }
 .header__cart-count {
   display: inline-flex; align-items: center; justify-content: center;
-  min-width: 16px; height: 16px;
-  background: var(--color-primary); color: #000;
-  font-size: 0.65rem; font-weight: bold; border-radius: 50%; margin-left: 3px;
+  min-width: 18px; height: 18px; background: var(--color-primary, #ff0000); color: #000;
+  font-size: 0.7rem; font-weight: bold; border-radius: 50%; margin-left: 4px;
 }
 
+/* --- BURGER MENU (MOBILE) --- */
+.header__mobile-toggle {
+  display: none; /* Desktop versteckt */
+  background: none; border: none; cursor: pointer; padding: 10px; margin-left: 10px;
+  flex-direction: column; gap: 5px;
+}
+.header__mobile-toggle span {
+  display: block; width: 24px; height: 2px; background-color: #fff; transition: 0.3s;
+}
 
-/* ==========================================================================
-   MEGA MENU (CARHARTT STYLE - LEFT ALIGNED)
-   ========================================================================== */
-
+/* --- MEGA MENU (FIXED ALIGNMENT) --- */
 .mega-menu {
-  position: absolute; /* Relativ zum Header-Container positioniert */
-  top: 100%; 
-  left: 0; 
-  width: 100vw; /* Volle Breite */
-  max-height: calc(100vh - 90px);
-  overflow-y: auto;
-  
+  position: absolute; top: 100%; left: 0; width: 100vw;
   background-color: var(--mega-bg) !important;
   border-top: 1px solid var(--mega-border);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-  padding: 2.5rem 0;
-  
+  padding: 2rem 0;
   z-index: 999; opacity: 0; visibility: hidden;
-  transform: translateY(5px);
-  transition: all 0.2s ease-out;
-  pointer-events: none;
+  transform: translateY(5px); transition: all 0.2s ease-out; pointer-events: none;
 }
-
 .header__nav-item:hover .mega-menu {
   opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
 }
 
-/* Container */
+/* Container mit Einrückung */
 .mega-menu__container {
-  max-width: 100%; 
-  margin: 0 auto;
-  /* Padding identisch zum Header: Links bündig mit Logo */
-  padding: 0 var(--site-padding); 
-  display: block; 
+  width: 100%; max-width: 100%;
+  /* Hier passiert die Magie: Padding Left = Logo Breite + Site Padding */
+  padding-left: calc(var(--mega-menu-indent) + var(--site-padding)); 
+  padding-right: var(--site-padding);
 }
 
-/* --- VARIANTE A: SPALTEN (Level 3) --- */
-.mega-menu__columns {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  column-gap: 2.4rem; row-gap: 2rem;
-}
-.mega-menu__col { break-inside: avoid; }
-.mega-menu__heading {
-  display: block; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem;
-  color: #fff; margin-bottom: 0.8rem; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase;
-}
-.mega-menu__heading:hover { color: var(--color-primary); }
-.mega-menu__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
-.mega-menu__item {
-  font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #999;
-  text-decoration: none; display: block; transition: color 0.2s;
-}
-.mega-menu__item:hover { color: #fff; transform: translateX(2px); }
-
-
-/* --- VARIANTE B: FLAT GRID (Level 2) --- */
+/* Flat Grid (Level 2) */
 .mega-menu__flat-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2.4rem; 
-  align-items: center;
+  display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;
 }
-
 .mega-menu__flat-link {
-  display: block;
-  font-family: 'Bebas Neue', sans-serif; 
-  font-size: 1.1rem; 
-  letter-spacing: 0.05em;
-  color: #ffffff;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  padding: 2px 0; 
+  font-family: var(--font-heading); font-size: 1.2rem; letter-spacing: 0.04em;
+  color: #fff; text-transform: uppercase; transition: color 0.2s;
+}
+.mega-menu__flat-link:hover { color: var(--color-primary, #ff0000); }
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 1024px) {
+  /* Desktop Elemente verstecken */
+  .header__nav, .header__text-link { display: none !important; }
+  
+  /* Mobile Elemente zeigen */
+  .header__mobile-toggle { display: flex; }
+  
+  /* Logo kleiner auf Mobile */
+  .header__logo { width: 120px; margin-right: auto; }
+  
+  /* Header Padding anpassen */
+  .header__wrapper { padding: 0 1.5rem; justify-content: space-between; }
+  
+  /* Icons anpassen */
+  .header__icons { margin-left: 0; gap: 0.5rem; }
 }
 
-.mega-menu__flat-link:hover {
-  color: var(--color-primary);
-  text-shadow: var(--glow-primary);
-}
-
-.mega-menu__flat-link.is-sale {
-  color: var(--color-primary);
-}
+/* --- OTHER STYLES --- */
+.main-content { min-height: 100vh; padding-top: var(--header-height); }
+.visually-hidden { position: absolute; width: 1px; overflow: hidden; clip: rect(0,0,0,0); }
