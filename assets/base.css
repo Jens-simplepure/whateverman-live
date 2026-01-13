@@ -1,20 +1,30 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - FINAL POLISH
+   GEN Z STREETWEAR THEME - FINAL CARHARTT EXACT REPLICA
    ========================================================================== */
 
-/* --- RESET & VARIABLES --- */
+/* --- VARIABLES & RESET --- */
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
+  /* --- LAYOUT CONFIGURATION --- */
   --header-height: 90px;
-  /* WICHTIG: Definiert die Einrückung für das Mega Menu */
-  /* Logo (ca 180px) + Gap (3rem/48px) + Padding (40px) = ca. 270px */
-  --mega-menu-indent: 270px; 
-  --site-padding: 40px;
+  
+  /* 1. SEITENABSTAND (Links/Rechts vom Bildschirmrand) */
+  --site-padding: 40px; 
+  
+  /* 2. LOGO BREITE (Fixiert für exakte Berechnung) */
+  --logo-width: 120px; 
+  
+  /* 3. ABSTAND ZWISCHEN DEN ELEMENTEN (Logo <-> Mens <-> Headware) */
+  --nav-gap: 25px; 
+  
+  /* 4. FARBEN */
   --color-text: #ffffff;
   --color-background: #000000;
   --mega-bg: #181818; 
   --mega-border: rgba(255,255,255,0.15);
+  
+  /* 5. SCHRIFTEN */
   --font-heading: 'Bebas Neue', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
@@ -28,120 +38,194 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   background: var(--color-background);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
 }
 
 .header__wrapper {
-  display: flex; align-items: center; 
-  justify-content: flex-start; /* Alles Links bündig */
   height: var(--header-height);
+  display: flex; 
+  align-items: center; 
+  /* Kein Space-Between, sondern alles Start-bündig für Kontrolle */
+  justify-content: flex-start; 
   padding: 0 var(--site-padding);
   max-width: 100%; margin: 0 auto;
   position: relative;
 }
 
-/* --- LOGO --- */
+/* --- 1. LOGO --- */
 .header__logo {
-  display: flex; align-items: center;
-  margin-right: 3rem; /* Abstand zur Navigation */
-  z-index: 20; flex-shrink: 0;
-  width: 180px; /* Fixe Breite reservieren */
-}
-.header__logo img {
-  width: 100%; height: auto; object-fit: contain; max-height: 60px;
+  /* Fixe Breite für die Berechnung */
+  width: var(--logo-width);
+  /* Der Abstand nach rechts zum ersten Menüpunkt */
+  margin-right: var(--nav-gap);
+  
+  display: flex; align-items: center; justify-content: flex-start;
+  height: 100%; z-index: 20; flex-shrink: 0;
 }
 
-/* --- DESKTOP NAVIGATION --- */
-.header__nav {
-  display: flex; height: 100%;
+.header__logo-link, .header__logo img {
+  width: 100%; height: auto; max-height: 60px; object-fit: contain; object-position: left;
 }
+
+/* --- 2. NAVIGATION (Links) --- */
+.header__nav--left {
+  display: flex; 
+  align-items: center; 
+  height: 100%;
+  /* Der Abstand zwischen den Menüpunkten selbst */
+  gap: var(--nav-gap);
+}
+
 .header__nav-item {
-  height: 100%; display: flex; align-items: center;
+  height: 100%;
+  display: flex; align-items: center;
   position: static !important; /* Wichtig für Mega Menu */
 }
+
 .header__nav-link {
-  font-family: var(--font-heading); font-size: 1.4rem; letter-spacing: 0.03em;
-  color: #fff; text-transform: uppercase; padding: 0 1.2rem;
-  height: 100%; display: flex; align-items: center;
-}
-.header__nav-link:hover, .header__nav-link.is-active {
-  color: var(--color-primary, #ff0000); text-shadow: 0 0 15px rgba(255,255,255,0.2);
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  text-transform: uppercase;
+  /* Kein Padding, da wir 'gap' im Container nutzen! Das macht es exakt. */
+  padding: 0; 
+  height: 100%;
+  display: flex; align-items: center;
+  position: relative;
 }
 
-/* --- ICONS RIGHT --- */
-.header__icons {
-  margin-left: auto; display: flex; align-items: center; gap: 1rem;
+.header__nav-link:hover, .header__nav-link.is-active {
+  color: var(--color-primary, #ff0000);
+  text-shadow: 0 0 15px rgba(255,255,255,0.3);
 }
+
+.badge-new {
+  background: var(--color-primary, #ff0000); color: #000;
+  font-size: 0.5em; padding: 1px 4px; border-radius: 2px;
+  margin-left: 5px; position: relative; top: -2px;
+}
+
+/* --- 3. ICONS (Rechts) --- */
+.header__icons {
+  margin-left: auto; /* Schiebt Icons ganz nach rechts */
+  display: flex; align-items: center; 
+  gap: var(--nav-gap); /* Gleicher Abstand wie links */
+}
+
 .header__text-link {
   font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 0.03em;
-  color: #fff; background: none; border: none; cursor: pointer; padding: 0 0.5rem;
+  color: #fff; background: none; border: none; cursor: pointer; padding: 0;
 }
 .header__text-link:hover { color: var(--color-primary, #ff0000); }
+
 .header__cart-count {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 18px; height: 18px; background: var(--color-primary, #ff0000); color: #000;
   font-size: 0.7rem; font-weight: bold; border-radius: 50%; margin-left: 4px;
 }
 
-/* --- BURGER MENU (MOBILE) --- */
+/* --- BURGER MENU (Mobile Toggle) --- */
 .header__mobile-toggle {
-  display: none; /* Desktop versteckt */
-  background: none; border: none; cursor: pointer; padding: 10px; margin-left: 10px;
-  flex-direction: column; gap: 5px;
+  display: none; background: none; border: none; cursor: pointer; padding: 0; margin-left: 10px;
+  flex-direction: column; gap: 6px;
 }
-.header__mobile-toggle span {
-  display: block; width: 24px; height: 2px; background-color: #fff; transition: 0.3s;
-}
+.header__mobile-toggle span { display: block; width: 24px; height: 2px; background: #fff; }
 
-/* --- MEGA MENU (FIXED ALIGNMENT) --- */
+
+/* ==========================================================================
+   MEGA MENU (EXACT ALIGNMENT CALCULATION)
+   ========================================================================== */
+
 .mega-menu {
-  position: absolute; top: 100%; left: 0; width: 100vw;
+  position: absolute;
+  top: 100%; left: 0; width: 100vw;
   background-color: var(--mega-bg) !important;
   border-top: 1px solid var(--mega-border);
-  padding: 2rem 0;
+  padding: 2.5rem 0;
   z-index: 999; opacity: 0; visibility: hidden;
   transform: translateY(5px); transition: all 0.2s ease-out; pointer-events: none;
 }
+
 .header__nav-item:hover .mega-menu {
   opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
 }
 
-/* Container mit Einrückung */
+/* CONTAINER ALIGNMENT */
 .mega-menu__container {
-  width: 100%; max-width: 100%;
-  /* Hier passiert die Magie: Padding Left = Logo Breite + Site Padding */
-  padding-left: calc(var(--mega-menu-indent) + var(--site-padding)); 
+  width: 100%; 
+  max-width: 100%;
+  
+  /* HIER PASSIERT DIE MAGIE:
+     Startpunkt = Seitenabstand (40px) + Logo (120px) + Abstand (25px).
+     Das Menü beginnt also exakt unter dem Wort "MENS".
+  */
+  padding-left: calc(var(--site-padding) + var(--logo-width) + var(--nav-gap));
+  
+  /* Rechts einfach normalen Abstand halten */
   padding-right: var(--site-padding);
 }
 
-/* Flat Grid (Level 2) */
+/* --- LEVEL 2: FLAT GRID (Carhartt Style) --- */
 .mega-menu__flat-grid {
-  display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  /* Abstand zwischen den Items im Dropdown (identisch zum Header) */
+  gap: var(--nav-gap); 
+  align-items: center;
 }
-.mega-menu__flat-link {
-  font-family: var(--font-heading); font-size: 1.2rem; letter-spacing: 0.04em;
-  color: #fff; text-transform: uppercase; transition: color 0.2s;
-}
-.mega-menu__flat-link:hover { color: var(--color-primary, #ff0000); }
 
-/* --- MOBILE RESPONSIVENESS --- */
+.mega-menu__flat-link {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.3rem; 
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  text-transform: uppercase;
+  /* Kein Padding, da wir Gap nutzen */
+  padding: 0;
+}
+
+.mega-menu__flat-link:hover {
+  color: var(--color-primary, #ff0000);
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+/* --- LEVEL 3: SPALTEN (Falls vorhanden) --- */
+.mega-menu__columns {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: var(--nav-gap);
+  row-gap: 2rem;
+}
+.mega-menu__col { break-inside: avoid; }
+.mega-menu__heading {
+  display: block; font-family: var(--font-heading); font-size: 1.1rem;
+  color: #fff; margin-bottom: 0.8rem; text-decoration: none; letter-spacing: 0.05em;
+}
+.mega-menu__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+.mega-menu__item {
+  font-family: var(--font-body); font-size: 0.85rem; color: #999;
+  text-decoration: none; display: block; transition: color 0.2s;
+}
+.mega-menu__item:hover { color: #fff; }
+
+
+/* --- MOBILE RESPONSIVE --- */
 @media (max-width: 1024px) {
-  /* Desktop Elemente verstecken */
-  .header__nav, .header__text-link { display: none !important; }
+  /* Elemente verstecken */
+  .header__nav--left, .header__text-link { display: none !important; }
   
   /* Mobile Elemente zeigen */
   .header__mobile-toggle { display: flex; }
   
-  /* Logo kleiner auf Mobile */
-  .header__logo { width: 120px; margin-right: auto; }
-  
-  /* Header Padding anpassen */
-  .header__wrapper { padding: 0 1.5rem; justify-content: space-between; }
-  
-  /* Icons anpassen */
-  .header__icons { margin-left: 0; gap: 0.5rem; }
+  /* Layout anpassen */
+  .header__wrapper { justify-content: space-between; padding: 0 1.5rem; }
+  .header__logo { margin-right: 0; width: auto; }
+  .header__icons { margin-left: 0; gap: 1rem; }
 }
 
-/* --- OTHER STYLES --- */
+/* OTHER */
 .main-content { min-height: 100vh; padding-top: var(--header-height); }
-.visually-hidden { position: absolute; width: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.product-card { position: relative; background: #111; border: 1px solid rgba(255,255,255,0.1); }
+.product-card__image img { width: 100%; height: 100%; object-fit: cover; }
