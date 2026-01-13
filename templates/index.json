@@ -11,6 +11,7 @@
   "sections": {
     "hero": {
       "type": "hero",
+      "custom_css": [],
       "settings": {
         "background_image": "shopify://shop_images/Whateverman_Miami_White_Transparent.png",
         "badge_text": "",
@@ -20,7 +21,7 @@
         "button_text": "Have a Squiz - if you want",
         "button_link": "shopify://collections/all",
         "secondary_button_text": "New, But Chill",
-        "secondary_button_link": "shopify://collections/new-arrivals"
+        "secondary_button_link": ""
       }
     },
     "featured-collection": {
