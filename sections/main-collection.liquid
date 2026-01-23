@@ -1,5 +1,84 @@
 {{ 'base.css' | asset_url | stylesheet_tag }}
 
+{%- style -%}
+  /* Spezifische Styles für diese Section, die auf base.css aufbauen */
+  .collection-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Rechtsbündig wie gewünscht */
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    gap: 12px;
+  }
+
+  /* CHNGE Style Pill Buttons */
+  .chnge-pill-btn {
+    appearance: none;
+    background-color: #333333;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+  }
+  .chnge-pill-btn:hover {
+    background-color: #444444;
+  }
+
+  /* Sort Popover */
+  .custom-sort-wrapper { position: relative; }
+  
+  .sort-menu-popover {
+    position: absolute;
+    top: 120%;
+    right: 0; /* Rechtsbündig am Button */
+    min-width: 220px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    padding: 8px;
+    z-index: 100;
+    opacity: 0; visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .sort-menu-popover.is-visible {
+    opacity: 1; visibility: visible; transform: translateY(0);
+  }
+
+  .sort-option {
+    display: block; width: 100%; text-align: left;
+    background: none; border: none; color: #cccccc;
+    padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+    cursor: pointer; border-radius: 6px; transition: background 0.2s, color 0.2s;
+  }
+  .sort-option:hover { background-color: #333; color: #fff; }
+  .sort-option.is-selected {
+    background-color: var(--color-primary, #aaff00);
+    color: #000; font-weight: 600;
+  }
+
+  /* Pagination */
+  .pagination-wrapper { margin-top: 4rem; display: flex; justify-content: center; gap: 0.5rem; }
+  .pagination-link {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px;
+    border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .pagination-link:hover, .pagination-link.is-current {
+    background: var(--color-primary, #aaff00); color: #000; border-color: var(--color-primary, #aaff00);
+  }
+{%- endstyle -%}
+
 <div class="collection-page main-content">
   <div class="container">
     
@@ -14,38 +93,25 @@
 
     <div class="collection-toolbar">
       
-      <div class="toolbar-group">
-        <button class="chnge-pill-btn" onclick="openFilterDrawer()">
-          Filters
+      <button class="chnge-pill-btn" onclick="openFilterDrawer()">
+        Filters
+      </button>
+
+      <div class="custom-sort-wrapper">
+        <button class="chnge-pill-btn" onclick="toggleSortMenu(event)">
+          Sort
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:8px;">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
 
-        <div class="custom-sort-wrapper">
-          <button class="chnge-pill-btn" onclick="toggleSortMenu(event)">
-            Sort
-            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:8px; display:inline-block; vertical-align:middle;">
-              <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-
-          <div id="SortMenu" class="sort-menu-popover">
-            {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
-            
-            <button class="sort-option {% if sort_by == 'manual' %}is-selected{% endif %}" onclick="applySort('manual')">
-              Default
-            </button>
-            <button class="sort-option {% if sort_by == 'created-desc' %}is-selected{% endif %}" onclick="applySort('created-desc')">
-              Newest to Oldest
-            </button>
-            <button class="sort-option {% if sort_by == 'created-asc' %}is-selected{% endif %}" onclick="applySort('created-asc')">
-              Oldest to Newest
-            </button>
-            <button class="sort-option {% if sort_by == 'price-asc' %}is-selected{% endif %}" onclick="applySort('price-asc')">
-              Price: Low to High
-            </button>
-            <button class="sort-option {% if sort_by == 'price-desc' %}is-selected{% endif %}" onclick="applySort('price-desc')">
-              Price: High to Low
-            </button>
-          </div>
+        <div id="SortMenu" class="sort-menu-popover">
+          {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+          
+          <button class="sort-option {% if sort_by == 'manual' %}is-selected{% endif %}" onclick="applySort('manual')">Featured</button>
+          <button class="sort-option {% if sort_by == 'created-desc' %}is-selected{% endif %}" onclick="applySort('created-desc')">Newest</button>
+          <button class="sort-option {% if sort_by == 'price-asc' %}is-selected{% endif %}" onclick="applySort('price-asc')">Price: Low to High</button>
+          <button class="sort-option {% if sort_by == 'price-desc' %}is-selected{% endif %}" onclick="applySort('price-desc')">Price: High to Low</button>
         </div>
       </div>
 
@@ -53,21 +119,34 @@
 
     {% paginate collection.products by section.settings.products_per_page %}
       <div class="grid grid-4" id="ProductGrid">
-        {%- for product in collection.products -%}
+        {% for product in collection.products %}
           {% render 'product-card', product_card_product: product %}
-        {%- else -%}
+        {% else %}
           <div class="grid__item" style="grid-column: 1 / -1; text-align: center; padding: 4rem 0;">
-            <p>No products found matching your selection.</p>
-            <a href="{{ collection.url }}" class="btn btn-outline">Clear Filters</a>
+            <p>No products found.</p>
           </div>
-        {%- endfor -%}
+        {% endfor %}
       </div>
 
-      {%- if paginate.pages > 1 -%}
-        <div class="pagination-wrapper" style="margin-top: 4rem; text-align: center;">
-          {{ paginate | default_pagination }}
+      {% if paginate.pages > 1 %}
+        <div class="pagination-wrapper">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" class="pagination-link">←</a>
+          {% endif %}
+          
+          {% for part in paginate.parts %}
+            {% if part.is_link %}
+              <a href="{{ part.url }}" class="pagination-link">{{ part.title }}</a>
+            {% else %}
+              <span class="pagination-link is-current">{{ part.title }}</span>
+            {% endif %}
+          {% endfor %}
+          
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" class="pagination-link">→</a>
+          {% endif %}
         </div>
-      {%- endif -%}
+      {% endif %}
     {% endpaginate %}
     
   </div>
@@ -78,8 +157,7 @@
 <script>
   function toggleSortMenu(e) {
     e.stopPropagation();
-    const menu = document.getElementById('SortMenu');
-    menu.classList.toggle('is-visible');
+    document.getElementById('SortMenu').classList.toggle('is-visible');
   }
 
   function applySort(sortValue) {
@@ -98,120 +176,18 @@
   });
 </script>
 
-<style>
-  /* Toolbar Layout */
-  .collection-toolbar {
-    display: flex; 
-    align-items: center;
-    /* ÄNDERUNG: Flex End schiebt alles nach rechts */
-    justify-content: flex-end; 
-    padding: 1rem 0;
-    margin-bottom: 2rem;
-  }
-
-  .toolbar-group {
-    display: flex;
-    gap: 12px;
-  }
-
-  /* BUTTON STYLE */
-  .chnge-pill-btn {
-    appearance: none;
-    background-color: #333333;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-  }
-
-  .chnge-pill-btn:hover {
-    background-color: #444444;
-  }
-
-  /* SORT WRAPPER & POPOVER */
-  .custom-sort-wrapper {
-    position: relative;
-  }
-
-  .sort-menu-popover {
-    position: absolute;
-    top: 120%;
-    /* ÄNDERUNG: Rechtsbündig zum Button ausrichten */
-    left: auto; 
-    right: 0; 
-    
-    min-width: 220px;
-    background-color: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    padding: 8px;
-    z-index: 100;
-    
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .sort-menu-popover.is-visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-
-  /* SORT OPTIONS */
-  .sort-option {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: none;
-    color: #cccccc;
-    padding: 10px 12px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .sort-option:hover {
-    background-color: #333;
-    color: #fff;
-  }
-
-  .sort-option.is-selected {
-    background-color: var(--color-primary, #aaff00);
-    color: #000;
-    font-weight: 600;
-  }
-
-  /* Pagination */
-  .pagination .page { padding: 0.5rem 1rem; color: #fff; text-decoration: none; }
-  .pagination .current { background: var(--color-primary); color: #000; padding: 0.5rem 1rem; }
-</style>
-
 {% schema %}
 {
-  "name": "Product Grid",
+  "name": "Collection Products",
   "settings": [
     {
       "type": "range",
       "id": "products_per_page",
+      "label": "Products per page",
       "min": 8,
       "max": 24,
       "step": 4,
-      "default": 16,
-      "label": "Products per page"
+      "default": 16
     }
   ]
 }
