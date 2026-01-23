@@ -1,13 +1,27 @@
 {{ 'base.css' | asset_url | stylesheet_tag }}
 
+{%- comment -%}
+  LOGIC: Zählen der aktiven Filter für den Button-Text
+{%- endcomment -%}
+{%- assign active_filter_count = 0 -%}
+{%- for filter in collection.filters -%}
+  {%- if filter.type == 'price_range' -%}
+    {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+      {%- assign active_filter_count = active_filter_count | plus: 1 -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign active_filter_count = active_filter_count | plus: filter.active_values.size -%}
+  {%- endif -%}
+{%- endfor -%}
+
 {%- style -%}
-  /* Spezifische Styles für diese Section, die auf base.css aufbauen */
+  /* Toolbar Layout */
   .collection-toolbar {
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Rechtsbündig wie gewünscht */
+    justify-content: flex-end; /* Rechtsbündig */
     padding: 1rem 0;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     gap: 12px;
   }
 
@@ -32,13 +46,13 @@
     background-color: #444444;
   }
 
-  /* Sort Popover */
+  /* Sort Popover Menu */
   .custom-sort-wrapper { position: relative; }
   
   .sort-menu-popover {
     position: absolute;
     top: 120%;
-    right: 0; /* Rechtsbündig am Button */
+    right: 0;
     min-width: 220px;
     background-color: #1a1a1a;
     border: 1px solid #333;
@@ -61,12 +75,37 @@
     cursor: pointer; border-radius: 6px; transition: background 0.2s, color 0.2s;
   }
   .sort-option:hover { background-color: #333; color: #fff; }
+  
   .sort-option.is-selected {
     background-color: var(--color-primary, #aaff00);
     color: #000; font-weight: 600;
   }
 
-  /* Pagination */
+  /* ACTIVE FILTERS AREA (CHNGE Style) */
+  .active-filters-wrapper {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem;
+    align-items: center; justify-content: flex-end; /* Rechtsbündig unter der Toolbar */
+  }
+
+  .active-filter-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background-color: var(--color-primary, #aaff00); /* NEON GREEN */
+    color: #000000; /* BLACK TEXT */
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .active-filter-chip:hover { opacity: 0.8; }
+  .active-filter-close { font-size: 1.1em; line-height: 1; }
+
+  .active-filters-clear {
+    color: #999; text-decoration: underline; font-size: 0.9rem; margin-left: 5px; cursor: pointer;
+  }
+  .active-filters-clear:hover { color: #fff; }
+
+  /* Pagination Styling */
   .pagination-wrapper { margin-top: 4rem; display: flex; justify-content: center; gap: 0.5rem; }
   .pagination-link {
     display: flex; align-items: center; justify-content: center;
@@ -94,7 +133,7 @@
     <div class="collection-toolbar">
       
       <button class="chnge-pill-btn" onclick="openFilterDrawer()">
-        Filters
+        Filters {% if active_filter_count > 0 %}[{{ active_filter_count }}]{% endif %}
       </button>
 
       <div class="custom-sort-wrapper">
@@ -117,6 +156,32 @@
 
     </div>
 
+    {% if active_filter_count > 0 %}
+      <div class="active-filters-wrapper">
+        {%- for filter in collection.filters -%}
+          {%- if filter.type == "price_range" -%}
+            {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+              <a class="active-filter-chip" href="{{ filter.url_to_remove }}">
+                {%- assign min_value = filter.min_value.value | default: 0 -%}
+                {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+                {{ min_value | money }} - {{ max_value | money }}
+                <span class="active-filter-close">×</span>
+              </a>
+            {%- endif -%}
+          {%- else -%}
+            {%- for value in filter.active_values -%}
+              <a class="active-filter-chip" href="{{ value.url_to_remove }}">
+                {{ value.label }}
+                <span class="active-filter-close">×</span>
+              </a>
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endfor -%}
+        
+        <a href="{{ collection.url }}?sort_by={{ collection.sort_by }}" class="active-filters-clear">Clear all</a>
+      </div>
+    {% endif %}
+
     {% paginate collection.products by section.settings.products_per_page %}
       <div class="grid grid-4" id="ProductGrid">
         {% for product in collection.products %}
@@ -124,6 +189,7 @@
         {% else %}
           <div class="grid__item" style="grid-column: 1 / -1; text-align: center; padding: 4rem 0;">
             <p>No products found.</p>
+            <a href="{{ collection.url }}" class="btn btn-outline">Clear Filters</a>
           </div>
         {% endfor %}
       </div>
