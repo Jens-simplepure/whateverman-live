@@ -1,142 +1,60 @@
-{%- comment -%}
-  Product Card Snippet
-  Usage: {% render 'product-card', product: product %}
-  Style: Minimalist (Carhartt WIP inspired) - No Quick Add, No Sizes
-{%- endcomment -%}
+{% comment %}
+  Renders a product card
+  Accepts:
+  - product_card_product: The product object
+{% endcomment %}
 
-<article class="product-card" data-animate>
-  <a href="{{ product.url }}" class="product-card__link">
+<div class="product-card">
+  <a href="{{ product_card_product.url }}" class="product-card__link">
+    
     <div class="product-card__image">
-      {% if product.featured_image != blank %}
-        <img 
-          src="{{ product.featured_image | image_url: width: 600 }}"
-          alt="{{ product.featured_image.alt | default: product.title }}"
-          width="600"
-          height="600"
+      {% if product_card_product.featured_image %}
+        <img
+          src="{{ product_card_product.featured_image | image_url: width: 800 }}"
+          alt="{{ product_card_product.featured_image.alt | escape }}"
           loading="lazy"
+          width="800"
+          height="800"
         >
-        {% if product.images[1] != blank %}
+        {% if product_card_product.images[1] != blank %}
           <img 
-            src="{{ product.images[1] | image_url: width: 600 }}"
-            alt="{{ product.images[1].alt | default: product.title }}"
-            width="600"
-            height="600"
+            src="{{ product_card_product.images[1] | image_url: width: 800 }}"
+            alt="{{ product_card_product.images[1].alt | escape }}"
             loading="lazy"
             class="product-card__image-hover"
+            style="position:absolute; inset:0; opacity:0; transition:opacity 0.4s ease;"
+            onmouseover="this.style.opacity='1'"
+            onmouseout="this.style.opacity='0'"
           >
         {% endif %}
       {% else %}
         {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
       {% endif %}
-      
+
       {%- assign thirty_days_ago = 'now' | date: '%s' | plus: 0 | minus: 2592000 -%}
-      {%- assign product_date = product.created_at | date: '%s' | plus: 0 -%}
-      
-      {% if product.available == false %}
+      {%- assign product_date = product_card_product.created_at | date: '%s' | plus: 0 -%}
+
+      {% if product_card_product.available == false %}
         <span class="product-card__badge product-card__badge--sold-out">Sold Out</span>
-      {% elsif product.compare_at_price > product.price %}
+      {% elsif product_card_product.compare_at_price > product_card_product.price %}
         <span class="product-card__badge product-card__badge--sale">Sale</span>
-      {% elsif product_date > thirty_days_ago %}
+      {% elsif product_card_product.tags contains 'New' or product_date > thirty_days_ago %}
         <span class="product-card__badge">New</span>
       {% endif %}
     </div>
-    
-    {% comment %}
-    ----------------------------------------------------------------
-    QUICK ADD ENTFERNT (auskommentiert für Minimalismus)
-    ----------------------------------------------------------------
-    <div class="product-card__quick-add">
-      <button 
-        type="button" 
-        class="btn btn-primary btn-pill"
-        data-quick-add="{{ product.variants.first.id }}"
-        {% if product.available == false %}disabled{% endif %}
-      >
-        {% if product.available %}
-          Quick Add
+
+    <div class="product-card__content">
+      <h3 class="product-card__title">{{ product_card_product.title }}</h3>
+      <div class="product-card__price">
+        {% if product_card_product.compare_at_price > product_card_product.price %}
+          <span style="text-decoration: line-through; color: #666; margin-right:5px; font-size:0.9em;">
+            {{ product_card_product.compare_at_price | money }}
+          </span>
+          <span style="color: var(--color-accent);">{{ product_card_product.price | money }}</span>
         {% else %}
-          Sold Out
-        {% endif %}
-      </button>
-    </div>
-    {% endcomment %}
-  </a>
-  
-  <div class="product-card__content">
-    <h3 class="product-card__title">
-      <a href="{{ product.url }}">{{ product.title }}</a>
-    </h3>
-    
-    <div class="product-card__price">
-      {% if product.compare_at_price > product.price %}
-        <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
-      {% endif %}
-      <span class="product-card__price-current">{{ product.price | money }}</span>
-    </div>
-    
-    {% comment %}
-    ----------------------------------------------------------------
-    VARIANTEN/GRÖSSEN ENTFERNT (auskommentiert für Minimalismus)
-    ----------------------------------------------------------------
-    {% if product.variants.size > 1 %}
-      <div class="product-card__variants">
-        {% for variant in product.variants limit: 4 %}
-          {% if variant.option1 %}
-            <span class="product-card__variant-option">{{ variant.option1 }}</span>
-          {% endif %}
-        {% endfor %}
-        {% if product.variants.size > 4 %}
-          <span class="product-card__variant-more">+{{ product.variants.size | minus: 4 }}</span>
+          <span>{{ product_card_product.price | money }}</span>
         {% endif %}
       </div>
-    {% endif %}
-    {% endcomment %}
-
-  </div>
-</article>
-
-<style>
-  /* Hover Effect für das zweite Bild */
-  .product-card__image-hover {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-  
-  .product-card:hover .product-card__image-hover {
-    opacity: 1;
-  }
-  
-  .product-card__badge--sold-out {
-    background: var(--color-text-muted);
-  }
-
-  /* --- MINIMALIST STYLING ANPASSUNGEN --- */
-  
-  /* Titel styling: Nicht zu fett, etwas Abstand nach oben */
-  .product-card__title {
-    font-size: 0.9rem; /* Anpassen falls zu klein */
-    font-weight: 400; /* Normal statt Bold für Carhartt Look */
-    margin-top: 0.75rem;
-    margin-bottom: 0.2rem;
-    line-height: 1.2;
-  }
-
-  .product-card__title a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  /* Preis styling: Dezent darunter */
-  .product-card__price {
-    font-size: 0.9rem;
-    color: var(--color-text-muted, #666); /* Fallback Farbe */
-  }
-
-  .product-card__price-compare {
-    text-decoration: line-through;
-    margin-right: 0.5rem;
-    opacity: 0.7;
-  }
-</style>
+    </div>
+  </a>
+</div>
