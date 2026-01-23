@@ -1,7 +1,5 @@
 {% comment %}
-  Renders the Filter Drawer (CHNGE Style)
-  Accepts:
-  - results: collection or search object
+  CHNGE Style Filter Drawer
 {% endcomment %}
 
 <div id="FilterDrawer" class="filter-drawer" aria-hidden="true">
@@ -9,14 +7,13 @@
   <div class="filter-drawer__content">
     
     <div class="filter-drawer__header">
-      <h2 class="filter-drawer__title">Filters <span id="FilterCount">[{{ results.filters | map: 'active_values' | map: 'size' | sum }}]</span></h2>
+      <h2 class="filter-drawer__title">FILTERS <span style="color:#999; margin-left:5px;">[{{ results.products_count }}]</span></h2>
       <button type="button" class="filter-drawer__close" onclick="closeFilterDrawer()">✕</button>
     </div>
 
     <form class="filter-drawer__form" id="FacetFiltersForm">
       {%- if results.terms -%}
         <input type="hidden" name="q" value="{{ results.terms | escape }}">
-        <input name="options[prefix]" type="hidden" value="last">
       {%- endif -%}
 
       <div class="filter-drawer__accordion-list">
@@ -24,13 +21,12 @@
           <div class="filter-group">
             <div class="filter-group__summary">
               <span>{{ filter.label }}</span>
-              <span class="filter-group__count"></span>
             </div>
             
             <div class="filter-group__display">
               {%- case filter.type -%}
                 {%- when 'boolean' or 'list' -%}
-                  <ul class="filter-list {% if filter.label == 'Color' or filter.label == 'Colour' %}filter-list--swatch{% else %}filter-list--chips{% endif %}">
+                  <ul class="filter-list {% if filter.label == 'Color' or filter.label == 'Farbe' %}filter-list--swatch{% else %}filter-list--chips{% endif %}">
                     {%- for value in filter.values -%}
                       <li class="filter-item">
                         <label class="filter-chip {% if value.active %}is-active{% endif %} {% if value.count == 0 and value.active == false %}is-disabled{% endif %}">
@@ -40,53 +36,39 @@
                             {% if value.active %}checked{% endif %}
                             {% if value.count == 0 and value.active == false %}disabled{% endif %}
                             class="visually-hidden"
-                            onchange="this.form.submit()"
+                            onchange="this.closest('form').submit()"
                           >
-                          
-                          {% if filter.label == 'Color' or filter.label == 'Colour' %}
-                            <span class="color-swatch" style="background-color: {{ value.label | handle }}; background-image: url({{ value.label | handle | append: '.' | append: 'png' | file_url }})"></span>
-                            {{ value.label }}
-                          {% else %}
-                            {{ value.label }}
-                          {% endif %}
+                          {{ value.label }}
                         </label>
                       </li>
                     {%- endfor -%}
                   </ul>
 
                 {%- when 'price_range' -%}
-                  <div class="filter-price">
-                    <div class="filter-price__inputs">
-                      <div class="field">
-                        <span class="field__currency">{{ cart.currency.symbol }}</span>
-                        <input class="field__input"
-                          name="{{ filter.min_value.param_name }}"
-                          id="Filter-{{ filter.label | escape }}-GTE"
-                          {%- if filter.min_value.value -%}
-                            value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
-                          {%- endif -%}
-                          type="number"
-                          placeholder="0"
-                          min="0"
-                          max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
-                        >
-                      </div>
-                      <span class="filter-price__separator">-</span>
-                      <div class="field">
-                        <span class="field__currency">{{ cart.currency.symbol }}</span>
-                        <input class="field__input"
-                          name="{{ filter.max_value.param_name }}"
-                          id="Filter-{{ filter.label | escape }}-LTE"
-                          {%- if filter.max_value.value -%}
-                            value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
-                          {%- endif -%}
-                          type="number"
-                          placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
-                          min="0"
-                          max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
-                        >
-                      </div>
+                  <div class="filter-price-group">
+                    <div class="field">
+                      <span>{{ cart.currency.symbol }}</span>
+                      <input class="field__input"
+                        name="{{ filter.min_value.param_name }}"
+                        type="number"
+                        placeholder="0"
+                        min="0"
+                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        {% if filter.min_value.value %}value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                      >
                     </div>
+                    <span>-</span>
+                    <div class="field">
+                      <span>{{ cart.currency.symbol }}</span>
+                      <input class="field__input"
+                        name="{{ filter.max_value.param_name }}"
+                        type="number"
+                        min="0"
+                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        {% if filter.max_value.value %}value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                      >
+                    </div>
+                    <button type="submit" class="btn-filter-go">GO</button>
                   </div>
               {%- endcase -%}
             </div>
@@ -95,8 +77,8 @@
       </div>
 
       <div class="filter-drawer__footer">
-        <a href="{{ results.url }}?sort_by={{ results.sort_by }}" class="btn btn-outline btn-full">Clear Filters</a>
-        <button type="submit" class="btn btn-primary btn-full">See Results</button>
+        <a href="{{ results.url }}?sort_by={{ results.sort_by }}" class="btn btn-outline btn-full">CLEAR ALL</a>
+        <button type="button" class="btn btn-primary btn-full" onclick="closeFilterDrawer()">VIEW RESULTS</button>
       </div>
     </form>
   </div>
