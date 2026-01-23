@@ -1,5 +1,21 @@
 {{ 'base.css' | asset_url | stylesheet_tag }}
 
+{%- comment -%}
+  LOGIC: Zählen der aktiven Filter für den Button-Text (Search Context)
+{%- endcomment -%}
+{%- assign active_filter_count = 0 -%}
+{%- if search.performed -%}
+  {%- for filter in search.filters -%}
+    {%- if filter.type == 'price_range' -%}
+      {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+        {%- assign active_filter_count = active_filter_count | plus: 1 -%}
+      {%- endif -%}
+    {%- else -%}
+      {%- assign active_filter_count = active_filter_count | plus: filter.active_values.size -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
 {%- style -%}
   /* Search Specific Styles */
   .search-header {
@@ -44,7 +60,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 0 0 2rem 0;
+    padding: 0 0 1rem 0; /* Weniger Padding unten, da Chips folgen */
   }
 
   /* CHNGE Style Pill Button */
@@ -65,6 +81,30 @@
     transition: background-color 0.2s;
   }
   .chnge-pill-btn:hover { background-color: #444444; }
+
+  /* ACTIVE FILTERS AREA (CHNGE Style) */
+  .active-filters-wrapper {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem;
+    align-items: center; justify-content: flex-end; /* Rechtsbündig unter der Toolbar */
+  }
+
+  .active-filter-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background-color: var(--color-primary, #aaff00); /* NEON GREEN */
+    color: #000000; /* BLACK TEXT */
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .active-filter-chip:hover { opacity: 0.8; }
+  .active-filter-close { font-size: 1.1em; line-height: 1; }
+
+  .active-filters-clear {
+    color: #999; text-decoration: underline; font-size: 0.9rem; margin-left: 5px; cursor: pointer;
+  }
+  .active-filters-clear:hover { color: #fff; }
 
   /* Pagination */
   .pagination-wrapper { margin-top: 4rem; display: flex; justify-content: center; gap: 0.5rem; }
@@ -108,8 +148,34 @@
       {% if search.performed and search.results_count > 0 %}
         <div class="search-toolbar">
           <button class="chnge-pill-btn" onclick="openFilterDrawer()">
-            Filters
+            Filters {% if active_filter_count > 0 %}[{{ active_filter_count }}]{% endif %}
           </button>
+        </div>
+      {% endif %}
+
+      {% if active_filter_count > 0 %}
+        <div class="active-filters-wrapper">
+          {%- for filter in search.filters -%}
+            {%- if filter.type == "price_range" -%}
+              {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+                <a class="active-filter-chip" href="{{ filter.url_to_remove }}">
+                  {%- assign min_value = filter.min_value.value | default: 0 -%}
+                  {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+                  {{ min_value | money }} - {{ max_value | money }}
+                  <span class="active-filter-close">×</span>
+                </a>
+              {%- endif -%}
+            {%- else -%}
+              {%- for value in filter.active_values -%}
+                <a class="active-filter-chip" href="{{ value.url_to_remove }}">
+                  {{ value.label }}
+                  <span class="active-filter-close">×</span>
+                </a>
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endfor -%}
+          
+          <a href="{{ routes.search_url }}?q={{ search.terms | escape }}" class="active-filters-clear">Clear all</a>
         </div>
       {% endif %}
 
