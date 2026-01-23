@@ -1,150 +1,182 @@
+{{ 'base.css' | asset_url | stylesheet_tag }}
+
 {%- style -%}
-  .collection-products {
-    padding: 2rem 0 4rem;
-  }
-  
-  .collection-products__wrapper {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-  
-  .collection-products__toolbar {
+  /* Toolbar Layout */
+  .collection-toolbar {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end; /* Rechtsbündig */
+    padding: 1rem 0;
     margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 12px;
   }
-  
-  @media (min-width: 768px) {
-    .collection-products__toolbar {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-  
-  .collection-products__sort {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: nowrap;
-    white-space: nowrap;
-  }
-  
-  .collection-products__sort-label {
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-    flex-shrink: 0;
-  }
-  
-  .collection-products__sort-select {
-    padding: 0.5rem 1rem;
-    background: var(--color-background-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--color-text);
-    font-size: 0.875rem;
-  }
-  
-  .collection-products__grid {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  @media (min-width: 768px) {
-    .collection-products__grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .collection-products__grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-  
-  .collection-products__pagination {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 3rem;
-  }
-  
-  .collection-products__pagination-link {
-    display: flex;
+
+  /* CHNGE Style Pill Buttons */
+  .chnge-pill-btn {
+    appearance: none;
+    background-color: #333333;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--color-text);
-    font-size: 0.875rem;
-    transition: all 0.3s ease;
+    transition: background-color 0.2s;
   }
+  .chnge-pill-btn:hover {
+    background-color: #444444;
+  }
+
+  /* Sort Popover Menu */
+  .custom-sort-wrapper { position: relative; }
   
-  .collection-products__pagination-link:hover,
-  .collection-products__pagination-link.is-current {
-    border-color: var(--color-primary);
-    background: var(--color-primary);
-    color: var(--color-background);
+  .sort-menu-popover {
+    position: absolute;
+    top: 120%;
+    right: 0; /* Rechtsbündig am Button */
+    min-width: 220px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    padding: 8px;
+    z-index: 100;
+    opacity: 0; visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .sort-menu-popover.is-visible {
+    opacity: 1; visibility: visible; transform: translateY(0);
+  }
+
+  .sort-option {
+    display: block; width: 100%; text-align: left;
+    background: none; border: none; color: #cccccc;
+    padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+    cursor: pointer; border-radius: 6px; transition: background 0.2s, color 0.2s;
+  }
+  .sort-option:hover { background-color: #333; color: #fff; }
+  
+  /* Active State Neon */
+  .sort-option.is-selected {
+    background-color: var(--color-primary, #aaff00);
+    color: #000; font-weight: 600;
+  }
+
+  /* Pagination Styling */
+  .pagination-wrapper { margin-top: 4rem; display: flex; justify-content: center; gap: 0.5rem; }
+  .pagination-link {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px;
+    border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .pagination-link:hover, .pagination-link.is-current {
+    background: var(--color-primary, #aaff00); color: #000; border-color: var(--color-primary, #aaff00);
   }
 {%- endstyle -%}
 
-<section class="collection-products">
-  <div class="collection-products__wrapper">
-    <div class="collection-products__toolbar">
-      <form class="collection-products__sort">
-        <label class="collection-products__sort-label" for="sort-by">Sort by:</label>
-        <select 
-          name="sort_by" 
-          id="sort-by" 
-          class="collection-products__sort-select"
-          onchange="this.form.submit()"
-        >
-          {% for option in collection.sort_options %}
-            <option 
-              value="{{ option.value }}"
-              {% if collection.sort_by == option.value %}selected{% endif %}
-            >
-              {{ option.name }}
-            </option>
-          {% endfor %}
-        </select>
-      </form>
-    </div>
+<div class="collection-page main-content">
+  <div class="container">
     
-    <div class="collection-products__grid">
-      {% for product in collection.products %}
-        {% render 'product-card', product: product %}
-      {% else %}
-        <p>No products found in this collection.</p>
-      {% endfor %}
+    <div class="collection-header" style="padding: 2rem 0; text-align: left;">
+      <h1 style="font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 0.5rem; text-transform:uppercase;">{{ collection.title }}</h1>
+      {% if collection.description != blank %}
+        <div class="rte" style="color: #ccc; max-width: 800px; font-size: 1.1rem;">
+          {{ collection.description }}
+        </div>
+      {% endif %}
     </div>
-    
-    {% if paginate.pages > 1 %}
-      <nav class="collection-products__pagination">
-        {% if paginate.previous %}
-          <a href="{{ paginate.previous.url }}" class="collection-products__pagination-link">←</a>
-        {% endif %}
-        
-        {% for part in paginate.parts %}
-          {% if part.is_link %}
-            <a href="{{ part.url }}" class="collection-products__pagination-link">{{ part.title }}</a>
-          {% else %}
-            <span class="collection-products__pagination-link is-current">{{ part.title }}</span>
-          {% endif %}
+
+    <div class="collection-toolbar">
+      
+      <button class="chnge-pill-btn" onclick="openFilterDrawer()">
+        Filters
+      </button>
+
+      <div class="custom-sort-wrapper">
+        <button class="chnge-pill-btn" onclick="toggleSortMenu(event)">
+          Sort
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:8px;">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <div id="SortMenu" class="sort-menu-popover">
+          {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+          
+          <button class="sort-option {% if sort_by == 'manual' %}is-selected{% endif %}" onclick="applySort('manual')">Featured</button>
+          <button class="sort-option {% if sort_by == 'created-desc' %}is-selected{% endif %}" onclick="applySort('created-desc')">Newest</button>
+          <button class="sort-option {% if sort_by == 'price-asc' %}is-selected{% endif %}" onclick="applySort('price-asc')">Price: Low to High</button>
+          <button class="sort-option {% if sort_by == 'price-desc' %}is-selected{% endif %}" onclick="applySort('price-desc')">Price: High to Low</button>
+        </div>
+      </div>
+
+    </div>
+
+    {% paginate collection.products by section.settings.products_per_page %}
+      <div class="grid grid-4" id="ProductGrid">
+        {% for product in collection.products %}
+          {% render 'product-card', product_card_product: product %}
+        {% else %}
+          <div class="grid__item" style="grid-column: 1 / -1; text-align: center; padding: 4rem 0;">
+            <p>No products found.</p>
+          </div>
         {% endfor %}
-        
-        {% if paginate.next %}
-          <a href="{{ paginate.next.url }}" class="collection-products__pagination-link">→</a>
-        {% endif %}
-      </nav>
-    {% endif %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        <div class="pagination-wrapper">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" class="pagination-link">←</a>
+          {% endif %}
+          
+          {% for part in paginate.parts %}
+            {% if part.is_link %}
+              <a href="{{ part.url }}" class="pagination-link">{{ part.title }}</a>
+            {% else %}
+              <span class="pagination-link is-current">{{ part.title }}</span>
+            {% endif %}
+          {% endfor %}
+          
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" class="pagination-link">→</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endpaginate %}
+    
   </div>
-</section>
+</div>
+
+{% render 'facets-drawer', results: collection %}
+
+<script>
+  function toggleSortMenu(e) {
+    e.stopPropagation();
+    document.getElementById('SortMenu').classList.toggle('is-visible');
+  }
+
+  function applySort(sortValue) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('sort_by', sortValue);
+    window.location.href = url.href;
+  }
+
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('SortMenu');
+    if (menu && menu.classList.contains('is-visible')) {
+      if (!e.target.closest('.custom-sort-wrapper')) {
+        menu.classList.remove('is-visible');
+      }
+    }
+  });
+</script>
 
 {% schema %}
 {
@@ -158,7 +190,7 @@
       "min": 8,
       "max": 24,
       "step": 4,
-      "default": 12
+      "default": 16
     }
   ]
 }
