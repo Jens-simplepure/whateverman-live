@@ -15,16 +15,15 @@
           loading="lazy"
           width="800"
           height="800"
+          class="product-card__img-main"
         >
+        
         {% if product_card_product.images[1] != blank %}
           <img 
             src="{{ product_card_product.images[1] | image_url: width: 800 }}"
             alt="{{ product_card_product.images[1].alt | escape }}"
             loading="lazy"
-            class="product-card__image-hover"
-            style="position:absolute; inset:0; opacity:0; transition:opacity 0.4s ease;"
-            onmouseover="this.style.opacity='1'"
-            onmouseout="this.style.opacity='0'"
+            class="product-card__img-hover"
           >
         {% endif %}
       {% else %}
@@ -45,12 +44,15 @@
 
     <div class="product-card__content">
       <h3 class="product-card__title">{{ product_card_product.title }}</h3>
+      
       <div class="product-card__price">
         {% if product_card_product.compare_at_price > product_card_product.price %}
-          <span style="text-decoration: line-through; color: #666; margin-right:5px; font-size:0.9em;">
+          <span style="text-decoration: line-through; color: #666; margin-right:6px; font-size:0.9em;">
             {{ product_card_product.compare_at_price | money }}
           </span>
-          <span style="color: var(--color-accent);">{{ product_card_product.price | money }}</span>
+          <span style="color: var(--color-accent); font-weight:bold;">
+            {{ product_card_product.price | money }}
+          </span>
         {% else %}
           <span>{{ product_card_product.price | money }}</span>
         {% endif %}
@@ -58,3 +60,42 @@
     </div>
   </a>
 </div>
+
+<style>
+  /* Lokale Styles für den Bild-Hover Effekt */
+  .product-card__image {
+    position: relative;
+    overflow: hidden;
+    background: #111;
+  }
+
+  .product-card__img-main {
+    transition: opacity 0.4s ease;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .product-card__img-hover {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+  }
+
+  /* Beim Hover über die Karte das 2. Bild einblenden */
+  .product-card:hover .product-card__img-hover {
+    opacity: 1;
+  }
+  
+  /* Fallback SVG Style */
+  .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    background-color: #222;
+    fill: #444;
+  }
+</style>
