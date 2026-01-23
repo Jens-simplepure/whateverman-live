@@ -13,25 +13,42 @@
     </div>
 
     <div class="collection-toolbar">
-      <button class="filter-trigger-btn" onclick="openFilterDrawer()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/></svg>
-        FILTERS
-      </button>
+      
+      <div class="toolbar-group">
+        <button class="chnge-pill-btn" onclick="openFilterDrawer()">
+          Filters
+        </button>
 
-      <div class="collection-sort">
-        <label for="SortBy" class="visually-hidden">Sort by</label>
-        <div style="position: relative; display:inline-block;">
-          <select name="sort_by" id="SortBy" class="sort-by-select" onchange="location.search = '?sort_by=' + this.value">
+        <div class="custom-sort-wrapper">
+          <button class="chnge-pill-btn" onclick="toggleSortMenu(event)">
+            Sort
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:8px; display:inline-block; vertical-align:middle;">
+              <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <div id="SortMenu" class="sort-menu-popover">
             {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
-            {% for option in collection.sort_options %}
-              <option value="{{ option.value }}" {% if option.value == sort_by %}selected="selected"{% endif %}>
-                {{ option.name }}
-              </option>
-            {% endfor %}
-          </select>
-          <svg style="position:absolute; right:0; top:50%; transform:translateY(-50%); pointer-events:none;" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            
+            <button class="sort-option {% if sort_by == 'manual' %}is-selected{% endif %}" onclick="applySort('manual')">
+              Default
+            </button>
+            <button class="sort-option {% if sort_by == 'created-desc' %}is-selected{% endif %}" onclick="applySort('created-desc')">
+              Newest to Oldest
+            </button>
+            <button class="sort-option {% if sort_by == 'created-asc' %}is-selected{% endif %}" onclick="applySort('created-asc')">
+              Oldest to Newest
+            </button>
+            <button class="sort-option {% if sort_by == 'price-asc' %}is-selected{% endif %}" onclick="applySort('price-asc')">
+              Price: Low to High
+            </button>
+            <button class="sort-option {% if sort_by == 'price-desc' %}is-selected{% endif %}" onclick="applySort('price-desc')">
+              Price: High to Low
+            </button>
+          </div>
         </div>
       </div>
+
     </div>
 
     {% paginate collection.products by section.settings.products_per_page %}
@@ -58,32 +75,129 @@
 
 {% render 'facets-drawer', results: collection %}
 
+<script>
+  function toggleSortMenu(e) {
+    e.stopPropagation();
+    const menu = document.getElementById('SortMenu');
+    menu.classList.toggle('is-visible');
+  }
+
+  function applySort(sortValue) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('sort_by', sortValue);
+    window.location.href = url.href;
+  }
+
+  // Close menu when clicking outside
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('SortMenu');
+    if (menu && menu.classList.contains('is-visible')) {
+      if (!e.target.closest('.custom-sort-wrapper')) {
+        menu.classList.remove('is-visible');
+      }
+    }
+  });
+</script>
+
 <style>
+  /* Toolbar Layout */
   .collection-toolbar {
-    display: flex; justify-content: space-between; align-items: center;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex; 
+    align-items: center;
     padding: 1rem 0;
     margin-bottom: 2rem;
+    /* Optional: Border entfernen, wenn es clean sein soll wie im Screenshot */
+    /* border-bottom: 1px solid rgba(255,255,255,0.1); */
   }
-  .filter-trigger-btn {
-    background: transparent; border: 1px solid #fff; color: #fff;
-    padding: 0.6rem 1.5rem; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; font-size: 1.1rem;
-    cursor: pointer; display: flex; align-items: center; text-transform: uppercase;
-    transition: all 0.2s;
+
+  .toolbar-group {
+    display: flex;
+    gap: 12px; /* Abstand zwischen Filter und Sort Button */
   }
-  .filter-trigger-btn:hover { background: #fff; color: #000; }
-  
-  .sort-by-select {
-    background: transparent; border: none; color: #fff; 
-    font-family: 'Inter', sans-serif; font-size: 1rem; padding-right: 20px;
-    cursor: pointer; appearance: none; -webkit-appearance: none;
-    text-transform: uppercase;
+
+  /* BUTTON STYLE (The Grey Pills) */
+  .chnge-pill-btn {
+    appearance: none;
+    background-color: #333333; /* Dunkelgrau passend zum Dark Theme */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px; /* Leicht abgerundet wie im Screenshot */
+    padding: 10px 20px;
+    font-family: 'Inter', sans-serif; /* Clean Font */
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
   }
-  .sort-by-select:focus { outline: none; }
-  
+
+  .chnge-pill-btn:hover {
+    background-color: #444444; /* Etwas heller beim Hover */
+  }
+
+  /* SORT WRAPPER & POPOVER */
+  .custom-sort-wrapper {
+    position: relative;
+  }
+
+  .sort-menu-popover {
+    position: absolute;
+    top: 120%; /* Unter dem Button */
+    left: 0;
+    min-width: 220px;
+    background-color: #1a1a1a; /* Dark Popover Background */
+    border: 1px solid #333;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    padding: 8px;
+    z-index: 100;
+    
+    /* Animation & State */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .sort-menu-popover.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* SORT OPTIONS */
+  .sort-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #cccccc;
+    padding: 10px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .sort-option:hover {
+    background-color: #333;
+    color: #fff;
+  }
+
+  /* Selected State (Blue like screenshot or Neon Green theme) */
+  .sort-option.is-selected {
+    background-color: var(--color-primary, #aaff00); /* Theme Neon */
+    color: #000; /* Black Text on Neon */
+    font-weight: 600;
+  }
+
+  /* Pagination */
   .pagination .page { padding: 0.5rem 1rem; color: #fff; text-decoration: none; }
-  .pagination .current { background: #aaff00; color: #000; padding: 0.5rem 1rem; }
+  .pagination .current { background: var(--color-primary); color: #000; padding: 0.5rem 1rem; }
 </style>
 
 {% schema %}
