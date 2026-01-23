@@ -88,7 +88,6 @@
     window.location.href = url.href;
   }
 
-  // Close menu when clicking outside
   document.addEventListener('click', function(e) {
     const menu = document.getElementById('SortMenu');
     if (menu && menu.classList.contains('is-visible')) {
@@ -104,26 +103,26 @@
   .collection-toolbar {
     display: flex; 
     align-items: center;
+    /* ÄNDERUNG: Flex End schiebt alles nach rechts */
+    justify-content: flex-end; 
     padding: 1rem 0;
     margin-bottom: 2rem;
-    /* Optional: Border entfernen, wenn es clean sein soll wie im Screenshot */
-    /* border-bottom: 1px solid rgba(255,255,255,0.1); */
   }
 
   .toolbar-group {
     display: flex;
-    gap: 12px; /* Abstand zwischen Filter und Sort Button */
+    gap: 12px;
   }
 
-  /* BUTTON STYLE (The Grey Pills) */
+  /* BUTTON STYLE */
   .chnge-pill-btn {
     appearance: none;
-    background-color: #333333; /* Dunkelgrau passend zum Dark Theme */
+    background-color: #333333;
     color: #ffffff;
     border: none;
-    border-radius: 8px; /* Leicht abgerundet wie im Screenshot */
+    border-radius: 8px;
     padding: 10px 20px;
-    font-family: 'Inter', sans-serif; /* Clean Font */
+    font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
@@ -134,7 +133,7 @@
   }
 
   .chnge-pill-btn:hover {
-    background-color: #444444; /* Etwas heller beim Hover */
+    background-color: #444444;
   }
 
   /* SORT WRAPPER & POPOVER */
@@ -144,17 +143,19 @@
 
   .sort-menu-popover {
     position: absolute;
-    top: 120%; /* Unter dem Button */
-    left: 0;
+    top: 120%;
+    /* ÄNDERUNG: Rechtsbündig zum Button ausrichten */
+    left: auto; 
+    right: 0; 
+    
     min-width: 220px;
-    background-color: #1a1a1a; /* Dark Popover Background */
+    background-color: #1a1a1a;
     border: 1px solid #333;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     padding: 8px;
     z-index: 100;
     
-    /* Animation & State */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -188,10 +189,9 @@
     color: #fff;
   }
 
-  /* Selected State (Blue like screenshot or Neon Green theme) */
   .sort-option.is-selected {
-    background-color: var(--color-primary, #aaff00); /* Theme Neon */
-    color: #000; /* Black Text on Neon */
+    background-color: var(--color-primary, #aaff00);
+    color: #000;
     font-weight: 600;
   }
 
