@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - FINAL "YELLOW STYLE" HEADER FIX
+   GEN Z STREETWEAR THEME - FINAL TYPOGRAPHY & LAYOUT
    ========================================================================== */
 
 /* --- RESET & VARIABLES --- */
@@ -12,21 +12,26 @@
   --nav-gap: 15px; 
   --site-padding: 32px;
   
-  /* ABSTAND HEADER -> CONTENT (Identisch für alle Seiten) */
+  /* ABSTAND HEADER -> CONTENT */
   --content-gap: 50px; 
   
   /* COLORS */
-  --color-text: #ffffff;
+  --color-text: #ffffff; /* REINES WEISS FÜR ALLE TEXTE */
   --color-background: #000000;
   --color-primary: #aaff00; /* NEON GREEN */
   
-  /* GRADIENT DEFINITION (Der "Gelb-Style") */
+  /* GRADIENT DEFINITION (Der "Green/Yellow-Style") */
   --gradient-primary: linear-gradient(135deg, #aaff00 0%, #ddff00 100%);
   
   /* TYPO */
   --font-heading: 'Bebas Neue', sans-serif;
   --font-body: 'Inter', sans-serif;
+  
+  /* DEFINIERTE GRÖSSEN FÜR ÜBERSCHRIFTEN (Konsistenz!) */
   --h1-size: clamp(3rem, 5vw, 4.5rem); 
+  --h2-size: clamp(2rem, 4vw, 3rem);
+  --h3-size: 1.5rem;
+  --h4-size: 1.25rem;
   
   /* EFFECTS */
   --glow-primary: 0 0 10px var(--color-primary);
@@ -36,6 +41,37 @@
 html { font-size: 16px; scroll-behavior: smooth; overflow-y: scroll; }
 body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--color-background); color: var(--color-text); -webkit-font-smoothing: antialiased; line-height: 1.5; }
 a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+
+
+/* ==========================================================================
+   0. GLOBAL TYPOGRAPHY (HIER WIRD KONSISTENZ ERZWUNGEN)
+   ========================================================================== */
+
+/* Alle Überschriften sind jetzt BEBAS NEUE, UPPERCASE und WEISS */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+}
+
+h1 { font-size: var(--h1-size); }
+h2 { font-size: var(--h2-size); }
+h3 { font-size: var(--h3-size); }
+h4 { font-size: var(--h4-size); }
+
+/* Alle Fließtexte sind jetzt INTER und REINES WEISS */
+p, li, span, div {
+  color: #ffffff; /* Kontrast-Fix */
+}
+
+p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
 
 
 /* ==========================================================================
@@ -55,10 +91,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
 /* NAV LINKS */
 .header__nav--left { display: flex; height: 100%; gap: var(--nav-gap); }
-
-.header__nav-item { 
-  height: 100%; display: flex; align-items: center; position: relative; 
-}
+.header__nav-item { height: 100%; display: flex; align-items: center; position: relative; }
 
 .header__nav-link {
   font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em;
@@ -88,7 +121,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   transition: opacity 0.2s ease, visibility 0s linear 0.2s;
 }
 
-/* GAP FIX (Brücke) */
+/* GAP FIX */
 .header__nav-item::after {
   content: ''; position: absolute; top: 50%; left: -10px; right: -10px; height: 60px; 
   background: transparent; z-index: 1000; pointer-events: none;
@@ -106,11 +139,9 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   padding-left: calc(var(--site-padding) + var(--logo-width) + var(--nav-gap) + 5px); 
   padding-right: var(--site-padding); 
 }
-
 .mega-menu__flat-grid { 
   display: flex; flex-wrap: wrap; gap: 15px; align-items: center; padding-top: 5px; 
 }
-
 .mega-menu__flat-link {
   display: block; font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em;
   color: #fff; text-transform: uppercase; text-decoration: none; 
@@ -121,7 +152,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
 
 /* ==========================================================================
-   2. LAYOUT ENGINE (IDENTICAL SPACING & H1 STYLE)
+   2. LAYOUT ENGINE & H1 GRADIENT
    ========================================================================== */
 .main-content {
   padding-top: var(--header-height);
@@ -139,13 +170,11 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   margin: 0 auto !important; 
   width: 100% !important; 
   border: none !important;
-  
-  /* DER GLOBALE ABSTAND */
   padding-top: var(--content-gap) !important; 
   padding-bottom: 3rem !important;
 }
 
-/* H1 STYLING - DER "GELB-STYLE" (GRADIENT) */
+/* H1 STYLING - NUR FÜR HAUPTTITEL (Gradient) */
 .page-header h1, 
 .shopify-policy__title h1, 
 .shopify-policy__title, 
@@ -153,12 +182,12 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   font-family: var(--font-heading) !important; 
   font-size: var(--h1-size) !important; 
   
-  /* Gradient Text Magic */
+  /* Gradient Style */
   background: var(--gradient-primary) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-  color: var(--color-primary) !important; /* Fallback */
+  color: var(--color-primary) !important;
   
   text-transform: uppercase !important; 
   text-align: center !important; 
@@ -170,18 +199,43 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
 /* Policy Fixes */
 .shopify-policy__container { display: flex !important; flex-direction: column !important; align-items: center !important; }
-.shopify-policy__body { text-align: left; max-width: 800px; width: 100%; margin: 0 auto; color: #cccccc; font-size: 1.1rem; }
-.shopify-policy__body a { color: #fff; text-decoration: underline; }
+.shopify-policy__body { text-align: left; max-width: 800px; width: 100%; margin: 0 auto; color: #ffffff; font-size: 1.1rem; }
+.shopify-policy__body a { color: #ffffff; text-decoration: underline; }
+.shopify-policy__body a:hover { color: var(--color-primary); }
 
 
 /* ==========================================================================
    3. COMPONENTS
    ========================================================================== */
-.rte, .page-text-container { max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #cccccc; line-height: 1.6; }
-.rte h2, .page-text-container h2 { font-family: var(--font-heading); font-size: 2rem; color: #fff; margin-top: 3rem; margin-bottom: 1rem; text-align: left; }
-.rte a, .page-text-container a { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
-.rte a:hover { color: var(--color-primary); }
+.rte, .page-text-container { 
+  max-width: 800px; margin: 0 auto; 
+  font-size: 1.1rem; 
+  color: #ffffff; /* WEISS */
+  line-height: 1.6; 
+}
 
+/* H2 innerhalb von Texten */
+.rte h2, .page-text-container h2 { 
+  font-family: var(--font-heading); 
+  font-size: var(--h2-size); 
+  color: #ffffff; 
+  margin-top: 3rem; margin-bottom: 1rem; 
+  text-align: left; 
+}
+
+/* H3 innerhalb von Texten */
+.rte h3, .page-text-container h3 {
+  font-family: var(--font-heading);
+  font-size: var(--h3-size);
+  color: #ffffff;
+  margin-top: 2rem; margin-bottom: 0.5rem;
+}
+
+.rte a, .page-text-container a { color: #ffffff; text-decoration: underline; text-underline-offset: 4px; }
+.rte a:hover { color: var(--color-primary); }
+.rte ul, .page-text-container ul { color: #ffffff; }
+
+/* HEADER ELEMENTS */
 .header__logo { width: var(--logo-width); margin-right: var(--nav-gap); display: flex; align-items: center; z-index: 20; flex-shrink: 0; }
 .header__logo-link { display: block; width: 100%; transition: all 0.3s ease; }
 .header__logo-link:hover { filter: drop-shadow(0 0 8px var(--color-primary)); }
@@ -196,6 +250,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 .header__mobile-toggle span { display: block; width: 22px; height: 2px; background: #fff; }
 @media (max-width: 1024px) { .header__nav--left, .header__text-link { display: none !important; } .header__mobile-toggle { display: flex; } .header__wrapper { justify-content: space-between; padding: 0 1.5rem; } .header__logo { margin-right: 0; width: auto; } .mega-menu { display: none; } }
 
+/* CARDS */
 .container { width: 100%; max-width: 1600px; margin: 0 auto; padding: 0 2rem; }
 .grid { display: grid; gap: 1.5rem; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
@@ -220,6 +275,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 .btn-outline { background: transparent; border-color: var(--color-primary); color: #fff; }
 .btn-outline:hover { background: var(--color-primary); color: #000; }
 
+/* DRAWER */
 .filter-drawer { position: fixed; inset: 0; z-index: 2000; visibility: hidden; pointer-events: none; }
 .filter-drawer.is-open { visibility: visible; pointer-events: auto; }
 .filter-drawer__overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px); }
