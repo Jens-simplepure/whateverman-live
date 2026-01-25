@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - FINAL FUNCTIONAL FIX (CLICK & ALIGN)
+   GEN Z STREETWEAR THEME - FINAL "YELLOW STYLE" HEADER FIX
    ========================================================================== */
 
 /* --- RESET & VARIABLES --- */
@@ -12,15 +12,16 @@
   --nav-gap: 15px; 
   --site-padding: 32px;
   
-  /* ABSTAND HEADER -> CONTENT */
-  --content-gap: 40px; 
+  /* ABSTAND HEADER -> CONTENT (Identisch für alle Seiten) */
+  --content-gap: 50px; 
   
   /* COLORS */
   --color-text: #ffffff;
   --color-background: #000000;
   --color-primary: #aaff00; /* NEON GREEN */
-  --color-accent: #ff4400;  /* ORANGE RED */
-  --color-sold-out: #ff0033; 
+  
+  /* GRADIENT DEFINITION (Der "Gelb-Style") */
+  --gradient-primary: linear-gradient(135deg, #aaff00 0%, #ddff00 100%);
   
   /* TYPO */
   --font-heading: 'Bebas Neue', sans-serif;
@@ -52,7 +53,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   padding: 0 var(--site-padding); max-width: 100%; margin: 0 auto;
 }
 
-/* NAV LINKS (LEVEL 1) */
+/* NAV LINKS */
 .header__nav--left { display: flex; height: 100%; gap: var(--nav-gap); }
 
 .header__nav-item { 
@@ -62,11 +63,9 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 .header__nav-link {
   font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em;
   color: #ffffff; text-transform: uppercase; 
-  padding: 0 5px; /* Das sind die 5px, die wir unten ausgleichen müssen */
+  padding: 0 5px; 
   height: 100%; display: flex; align-items: center; cursor: pointer;
   transition: color 0.3s ease, text-shadow 0.3s ease;
-  
-  /* WICHTIG: Link muss über der Brücke liegen */
   position: relative; z-index: 1002; 
 }
 
@@ -77,55 +76,39 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   color: var(--color-primary); text-shadow: var(--glow-primary); 
 }
 
-/* --- MEGA MENU (LEVEL 2) --- */
+/* MEGA MENU */
 .mega-menu {
-  position: fixed; 
-  top: var(--header-height); 
-  left: 0; width: 100%;
+  position: fixed; top: var(--header-height); left: 0; width: 100%;
   background-color: var(--color-background) !important;
   border-top: none; 
-  
-  padding: 0 0 30px 0;
-  margin-top: -1px;
-  
-  /* WICHTIG: Z-Index höher als die Brücke (1000), damit klickbar! */
+  padding: 0 0 30px 0; margin-top: -1px;
   z-index: 2000; 
-  
   opacity: 0; visibility: hidden; pointer-events: none;
   transform: translateY(0); 
   transition: opacity 0.2s ease, visibility 0s linear 0.2s;
 }
 
-/* DIE UNSICHTBARE BRÜCKE (GAP FIX) */
+/* GAP FIX (Brücke) */
 .header__nav-item::after {
   content: ''; position: absolute; top: 50%; left: -10px; right: -10px; height: 60px; 
-  background: transparent; 
-  z-index: 1000; /* Liegt UNTER dem Mega Menu (2000) aber ÜBER Content */
-  pointer-events: none;
+  background: transparent; z-index: 1000; pointer-events: none;
 }
 .header__nav-item:hover::after, .header__nav-item.is-locked::after { pointer-events: auto; }
 
-/* MENÜ ÖFFNEN */
 .header__nav-item:hover .mega-menu,
 .header__nav-item.is-locked .mega-menu { 
   opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s;
 }
 
-/* INHALT MEGA MENU (ALIGNMENT FIX) */
+/* MEGA MENU CONTENT */
 .mega-menu__container { 
   width: 100%; max-width: 100%; display: block; 
-  
-  /* ALIGNMENT FIX: +5px addiert, um das Padding des Links oben auszugleichen */
   padding-left: calc(var(--site-padding) + var(--logo-width) + var(--nav-gap) + 5px); 
   padding-right: var(--site-padding); 
 }
 
-/* GRID LEVEL 2 */
 .mega-menu__flat-grid { 
-  display: flex; flex-wrap: wrap; 
-  gap: 15px; 
-  align-items: center; 
-  padding-top: 5px; 
+  display: flex; flex-wrap: wrap; gap: 15px; align-items: center; padding-top: 5px; 
 }
 
 .mega-menu__flat-link {
@@ -138,7 +121,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
 
 /* ==========================================================================
-   2. LAYOUT ENGINE
+   2. LAYOUT ENGINE (IDENTICAL SPACING & H1 STYLE)
    ========================================================================== */
 .main-content {
   padding-top: var(--header-height);
@@ -146,17 +129,46 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   display: flex; flex-direction: column;
 }
 
+/* Container für alle Seiten-Titel */
 .page-header, 
 .shopify-policy__container,
 .shopify-policy__content {
-  display: block !important; text-align: center !important; max-width: 900px !important; margin: 0 auto !important; width: 100% !important; border: none !important;
-  padding-top: var(--content-gap) !important; padding-bottom: 2rem !important;
+  display: block !important; 
+  text-align: center !important; 
+  max-width: 900px !important; 
+  margin: 0 auto !important; 
+  width: 100% !important; 
+  border: none !important;
+  
+  /* DER GLOBALE ABSTAND */
+  padding-top: var(--content-gap) !important; 
+  padding-bottom: 3rem !important;
 }
 
-.page-header h1, .shopify-policy__title h1, .shopify-policy__title, .main-page-title {
-  font-family: var(--font-heading) !important; font-size: var(--h1-size) !important; color: #ffffff !important; text-transform: uppercase !important; text-align: center !important; margin: 0 !important; padding: 0 !important; line-height: 1 !important; display: block !important; background: none !important; -webkit-text-fill-color: #ffffff !important;
+/* H1 STYLING - DER "GELB-STYLE" (GRADIENT) */
+.page-header h1, 
+.shopify-policy__title h1, 
+.shopify-policy__title, 
+.main-page-title {
+  font-family: var(--font-heading) !important; 
+  font-size: var(--h1-size) !important; 
+  
+  /* Gradient Text Magic */
+  background: var(--gradient-primary) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: var(--color-primary) !important; /* Fallback */
+  
+  text-transform: uppercase !important; 
+  text-align: center !important; 
+  margin: 0 !important; 
+  padding: 0 !important; 
+  line-height: 1 !important; 
+  display: block !important; 
 }
 
+/* Policy Fixes */
 .shopify-policy__container { display: flex !important; flex-direction: column !important; align-items: center !important; }
 .shopify-policy__body { text-align: left; max-width: 800px; width: 100%; margin: 0 auto; color: #cccccc; font-size: 1.1rem; }
 .shopify-policy__body a { color: #fff; text-decoration: underline; }
@@ -207,6 +219,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 .btn { display: inline-flex; align-items: center; justify-content: center; padding: 1rem 2.5rem; font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; }
 .btn-outline { background: transparent; border-color: var(--color-primary); color: #fff; }
 .btn-outline:hover { background: var(--color-primary); color: #000; }
+
 .filter-drawer { position: fixed; inset: 0; z-index: 2000; visibility: hidden; pointer-events: none; }
 .filter-drawer.is-open { visibility: visible; pointer-events: auto; }
 .filter-drawer__overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px); }
