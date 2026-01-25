@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - FINAL STYLE (FIXED SPACING & HEADINGS)
+   GEN Z STREETWEAR THEME - FINAL STYLE (FORCED CONSISTENCY)
    ========================================================================== */
 
 /* --- RESET & VARIABLES --- */
@@ -23,7 +23,7 @@
   --font-heading: 'Bebas Neue', sans-serif;
   --font-body: 'Inter', sans-serif;
   
-  /* UNIVERSAL H1 SIZE (Gilt für alle Seiten-Titel) */
+  /* TYPO SIZE */
   --h1-size: clamp(3rem, 5vw, 4.5rem); 
   
   /* EFFECTS */
@@ -34,91 +34,12 @@ html { font-size: 16px; scroll-behavior: smooth; }
 body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--color-background); color: var(--color-text); -webkit-font-smoothing: antialiased; line-height: 1.5; }
 a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
-/* --- GLOBAL TYPOGRAPHY --- */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 400;
-  margin: 0 0 1rem 0;
-  text-transform: uppercase;
-  line-height: 1.1;
-  letter-spacing: 0.02em;
-}
-
-h1 { font-size: var(--h1-size); color: #ffffff; }
-h2 { font-size: clamp(2rem, 4vw, 3rem); color: #ffffff; }
-h3 { font-size: 1.2rem; letter-spacing: 0.05em; }
-p { font-size: 1.1rem; margin: 0 0 1.5rem 0; color: #cccccc; }
-
-
-/* ==========================================================================
-   UNIVERSAL PAGE HEADER ALIGNMENT (THE CORE FIX)
-   ========================================================================== */
-
-/* Diese Regel gilt NUR für Collections, Text-Seiten und Policies.
-   NICHT für die Startseite (deshalb keine allgemeinen Section-Klassen hier).
-*/
-.page-header, 
-.shopify-policy__container,
-.shopify-policy__content {
-  text-align: center !important;
-  max-width: 900px !important;
-  margin: 0 auto !important;
-  
-  /* WICHTIG: Abstand identisch für alle Unterseiten */
-  padding-top: 4rem !important; 
-  padding-bottom: 3rem !important;
-}
-
-/* H1 STYLING ENFORCEMENT 
-   Zwingt alle H1 Titel (auch Policies) auf Weiß, Zentriert & Gleich Groß
-*/
-.page-header h1,
-.shopify-policy__title h1,
-.shopify-policy__title,
-.main-page-title {
-  font-family: var(--font-heading) !important;
-  font-size: var(--h1-size) !important;
-  color: #ffffff !important; /* IMMER WEISS */
-  text-transform: uppercase !important;
-  text-align: center !important;
-  margin-bottom: 1rem !important;
-  line-height: 1 !important;
-  display: block !important;
-  width: 100% !important;
-}
-
-/* POLICY PAGES FIXES (Damit sie nicht links kleben) */
-.shopify-policy__container {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  width: 100% !important;
-}
-
-.shopify-policy__body {
-  text-align: left;
-  max-width: 800px;
-  width: 100%;
-  margin: 0 auto;
-  color: #cccccc;
-  font-size: 1.1rem;
-}
-/* Links in Policies sichtbar machen */
-.shopify-policy__body a { color: #fff; text-decoration: underline; }
-.shopify-policy__body a:hover { color: var(--color-primary); }
-
-
-/* ==========================================================================
-   LAYOUT STRUCTURE
-   ========================================================================== */
-
-/* Header Container (Navigation) */
+/* --- HEADER CONTAINER --- */
 .site-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   background: var(--color-background);
   border-bottom: none;
 }
-
 .header__wrapper {
   height: var(--header-height);
   display: flex; align-items: center; justify-content: flex-start;
@@ -127,61 +48,112 @@ p { font-size: 1.1rem; margin: 0 0 1.5rem 0; color: #cccccc; }
   position: relative;
 }
 
-/* Main Content Offset */
-/* Nur das nötigste Padding, damit der Header nicht überdeckt. */
+/* --- MAIN CONTENT OFFSET --- */
+/* Das schiebt ALLES unter den Header */
 .main-content { 
   min-height: 100vh; 
   padding-top: var(--header-height); 
 }
 
-
 /* ==========================================================================
-   COMPONENTS (Nav, Cards, Etc.)
+   UNIVERSAL PAGE HEADER (THE FIX)
    ========================================================================== */
 
-/* LOGO */
+/* Dieser Container steuert den Abstand und die Ausrichtung 
+   für Collection, Page, Search und Policy 
+*/
+.page-header, 
+.shopify-policy__container,
+.shopify-policy__content {
+  text-align: center !important;
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  
+  /* WICHTIG: Abstand EXAKT definiert */
+  padding-top: 4rem !important; 
+  padding-bottom: 2rem !important;
+  
+  /* Sicherstellen, dass nichts collapsed */
+  display: block !important;
+  width: 100% !important;
+}
+
+/* H1 RESET - DER "HAMMER" 
+   Entfernt alle Farbverläufe, Transparenzen und setzt alles auf Weiß
+*/
+.page-header h1,
+.shopify-policy__title h1,
+.shopify-policy__title,
+.main-page-title,
+h1 {
+  font-family: var(--font-heading) !important;
+  font-size: var(--h1-size) !important;
+  
+  /* FARB-FIX: Alles auf Weiß zwingen */
+  color: #ffffff !important;
+  background: none !important; 
+  -webkit-text-fill-color: #ffffff !important; /* Killt den transparenten Verlauf */
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  
+  text-transform: uppercase !important;
+  text-align: center !important;
+  margin-bottom: 1rem !important;
+  line-height: 1 !important;
+  width: 100% !important;
+}
+
+/* Policy Pages Layout Fix */
+.shopify-policy__container { display: flex !important; flex-direction: column !important; align-items: center !important; }
+.shopify-policy__body { text-align: left; max-width: 800px; width: 100%; margin: 0 auto; color: #cccccc; font-size: 1.1rem; }
+.shopify-policy__body a { color: #fff; text-decoration: underline; }
+
+/* --- PAGE TEXT STYLES --- */
+.rte, .page-text-container {
+  max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #cccccc; line-height: 1.6;
+}
+.rte h2, .page-text-container h2 { font-family: var(--font-heading); font-size: 2rem; color: #fff; margin-top: 3rem; margin-bottom: 1rem; text-align: left; }
+.rte a, .page-text-container a { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+.rte a:hover { color: var(--color-primary); }
+
+
+/* ==========================================================================
+   COMPONENTS
+   ========================================================================== */
+
+/* COMPONENTS: LOGO */
 .header__logo { width: var(--logo-width); margin-right: var(--nav-gap); display: flex; align-items: center; z-index: 20; flex-shrink: 0; }
 .header__logo-link { display: block; width: 100%; transition: all 0.3s ease; }
 .header__logo-link:hover { filter: drop-shadow(0 0 8px var(--color-primary)); }
 .header__logo img { width: 100%; height: auto; max-height: 60px; object-fit: contain; object-position: left; }
 
-/* NAVIGATION */
+/* COMPONENTS: NAV */
 .header__nav--left { display: flex; height: 100%; gap: var(--nav-gap); }
 .header__nav-item { height: 100%; display: flex; align-items: center; position: static !important; }
 .header__nav-link { font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em; color: #ffffff; text-transform: uppercase; padding: 0; height: 100%; display: flex; align-items: center; cursor: pointer; transition: color 0.3s ease, text-shadow 0.3s ease; }
 .header__nav-link:hover, .header__nav-link.is-active { color: var(--color-primary); text-shadow: var(--glow-primary); }
 
-/* MEGA MENU (Compact Black) */
+/* COMPONENTS: MEGA MENU */
 .mega-menu { position: fixed; top: var(--header-height); left: 0; width: 100%; background-color: var(--color-background) !important; border-top: none; padding: 0 0 2rem 0; z-index: 999; opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(5px); transition: all 0.2s ease-out; }
 .header__nav-item:hover .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
 .mega-menu__container { width: 100%; max-width: 100%; display: block; padding-left: calc(var(--site-padding) + var(--logo-width) + var(--nav-gap)); padding-right: var(--site-padding); }
 .mega-menu__columns { display: grid; grid-template-columns: repeat(6, 1fr); column-gap: var(--nav-gap); row-gap: 1.5rem; }
 .mega-menu__flat-grid { display: flex; flex-wrap: wrap; gap: var(--nav-gap); align-items: center; }
 .mega-menu__heading, .mega-menu__flat-link { display: block; font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em; color: #fff; text-transform: uppercase; text-decoration: none; padding: 0; transition: color 0.2s ease, text-shadow 0.2s ease; }
-.mega-menu__heading { margin-bottom: 0.8rem; }
-.mega-menu__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem; }
-.mega-menu__item { font-family: var(--font-body); font-size: 0.85rem; color: #a0a0a0; text-decoration: none; transition: color 0.2s; }
-.mega-menu__item:hover { color: #fff; }
-.mega-menu__flat-link:hover, .mega-menu__heading:hover { color: var(--color-primary); text-shadow: var(--glow-primary); }
+.mega-menu__flat-link:hover { color: var(--color-primary); text-shadow: var(--glow-primary); }
 
-/* ICONS RIGHT */
+/* COMPONENTS: ICONS */
 .header__icons { margin-left: auto; display: flex; align-items: center; gap: 1.2rem; }
 .header__text-link { font-family: var(--font-heading); font-size: 1rem; letter-spacing: 0.05em; color: #fff; background: none; border: none; cursor: pointer; padding: 0; transition: color 0.3s ease, text-shadow 0.3s ease; }
 .header__text-link:hover { color: var(--color-primary); text-shadow: var(--glow-primary); }
 .header__cart-count { display: inline-flex; align-items: center; justify-content: center; min-width: 16px; height: 16px; background: var(--color-primary); color: #000; font-size: 0.65rem; font-weight: bold; border-radius: 50%; margin-left: 4px; position: relative; top: -1px; }
 
-/* MOBILE */
+/* COMPONENTS: MOBILE */
 .header__mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0; margin-left: 10px; flex-direction: column; gap: 5px; }
 .header__mobile-toggle span { display: block; width: 22px; height: 2px; background: #fff; }
-@media (max-width: 1024px) {
-  .header__nav--left, .header__text-link { display: none !important; }
-  .header__mobile-toggle { display: flex; }
-  .header__wrapper { justify-content: space-between; padding: 0 1.5rem; }
-  .header__logo { margin-right: 0; width: auto; }
-  .mega-menu { display: none; }
-}
+@media (max-width: 1024px) { .header__nav--left, .header__text-link { display: none !important; } .header__mobile-toggle { display: flex; } .header__wrapper { justify-content: space-between; padding: 0 1.5rem; } .header__logo { margin-right: 0; width: auto; } .mega-menu { display: none; } }
 
-/* PRODUCT CARDS */
+/* COMPONENTS: PRODUCT CARDS */
 .product-card { position: relative; background: var(--color-background-secondary, #111); border: 1px solid rgba(255, 255, 255, 0.1); transition: border-color 0.3s ease; }
 .product-card:hover { border-color: var(--color-primary); }
 .product-card__image { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; }
@@ -194,15 +166,7 @@ p { font-size: 1.1rem; margin: 0 0 1.5rem 0; color: #cccccc; }
 .product-card__title { font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 0.05em; margin: 0 0 0.5rem; text-transform: uppercase; color: var(--color-primary); }
 .product-card__price { font-family: var(--font-body); font-size: 1rem; font-weight: bold; color: var(--color-primary); }
 
-/* PAGE TEXT STYLES (Inner Content) */
-.page-text-container { max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #cccccc; line-height: 1.6; }
-.page-text-container h2 { font-family: var(--font-heading); font-size: 2rem; color: #fff; margin-top: 3rem; margin-bottom: 1rem; }
-.page-text-container h3 { font-family: var(--font-heading); font-size: 1.5rem; color: #fff; margin-top: 2rem; margin-bottom: 0.75rem; }
-.page-text-container a { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
-.page-text-container a:hover { color: var(--color-primary); }
-.page-text-container ul, .page-text-container ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
-
-/* GENERAL UTILS */
+/* UTILS */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
 .container { width: 100%; max-width: 1600px; margin: 0 auto; padding: 0 2rem; }
 .grid { display: grid; gap: 1.5rem; }
