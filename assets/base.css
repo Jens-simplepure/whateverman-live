@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - ULTIMATE SPACING RESET
+   GEN Z STREETWEAR THEME - FINAL SEAMLESS FIX
    ========================================================================== */
 
 /* --- RESET & VARIABLES --- */
@@ -12,45 +12,60 @@
   --nav-gap: 15px; 
   --site-padding: 32px;
   
-  /* ABSTAND HEADER -> H1 (Hier einstellen für ALLE Seiten) */
-  /* Dies ist der sichtbare Abstand zwischen der schwarzen Header-Leiste und dem Text */
-  --content-gap: 60px; 
+  /* ABSTAND HEADER -> CONTENT */
+  --content-gap: 50px; 
   
   /* COLORS */
-  --color-text: #ffffff; 
+  --color-text: #ffffff;
   --color-background: #000000;
   --color-primary: #aaff00; /* NEON GREEN */
   
-  /* GRADIENT */
+  /* GRADIENT STYLE */
   --gradient-primary: linear-gradient(135deg, #aaff00 0%, #ddff00 100%);
   
   /* TYPO */
   --font-heading: 'Bebas Neue', sans-serif;
   --font-body: 'Inter', sans-serif;
+  
+  /* SIZES */
   --h1-size: clamp(3rem, 5vw, 4.5rem); 
   --h2-size: clamp(2rem, 4vw, 3rem);
   --h3-size: 1.5rem;
+  --h4-size: 1.25rem;
   
   /* EFFECTS */
   --glow-primary: 0 0 10px var(--color-primary);
 }
 
-/* SCROLLBAR FIX */
+/* SCROLLBAR & BODY */
 html { font-size: 16px; scroll-behavior: smooth; overflow-y: scroll; }
 body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--color-background); color: var(--color-text); -webkit-font-smoothing: antialiased; line-height: 1.5; }
 a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
 
 /* ==========================================================================
-   0. SHOPIFY CONTAINER RESET (WICHTIG!)
+   0. GLOBAL TYPOGRAPHY
    ========================================================================== */
-/* Dies entfernt Abstände, die Shopify automatisch hinzufügt */
-.shopify-section { margin: 0 !important; padding: 0 !important; }
-main#MainContent { margin: 0 !important; padding: 0 !important; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+}
+
+h1 { font-size: var(--h1-size); }
+h2 { font-size: var(--h2-size); }
+h3 { font-size: var(--h3-size); }
+
+/* Force White Text */
+p, li, span, div, strong, em { color: #ffffff; }
+p { font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.6; }
 
 
 /* ==========================================================================
-   1. HEADER (FIXED)
+   1. HEADER & NAVIGATION (SEAMLESS FIX)
    ========================================================================== */
 .site-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
@@ -63,7 +78,7 @@ main#MainContent { margin: 0 !important; padding: 0 !important; }
   padding: 0 var(--site-padding); max-width: 100%; margin: 0 auto;
 }
 
-/* NAV */
+/* NAV LINKS */
 .header__nav--left { display: flex; height: 100%; gap: var(--nav-gap); }
 .header__nav-item { height: 100%; display: flex; align-items: center; position: relative; }
 
@@ -79,31 +94,54 @@ main#MainContent { margin: 0 !important; padding: 0 !important; }
   color: var(--color-primary); text-shadow: var(--glow-primary); 
 }
 
-/* MEGA MENU */
+/* --- MEGA MENU (THE STRIPE FIX) --- */
 .mega-menu {
-  position: fixed; top: var(--header-height); left: 0; width: 100%;
+  position: fixed; 
+  left: 0; width: 100%;
   background-color: var(--color-background) !important;
   border-top: none; 
-  padding: 0 0 30px 0; margin-top: -1px;
-  z-index: 2000; opacity: 0; visibility: hidden; pointer-events: none;
-  transform: translateY(0); transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+  z-index: 2000; 
+  
+  /* NAHT-FIX: Wir ziehen das Menü 2px über den Header und gleichen es innen aus */
+  top: calc(var(--header-height) - 2px); 
+  padding: 2px 0 30px 0; 
+  
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(0); 
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
 }
 
-/* GAP FIX */
+/* DOPPELTE SICHERHEIT: Ein schwarzer Streifen hinter der Naht */
+.mega-menu::before {
+  content: '';
+  position: absolute;
+  top: -10px; /* Startet weiter oben */
+  left: 0;
+  width: 100%;
+  height: 20px; /* Deckt den Übergang ab */
+  background-color: var(--color-background); /* Schwarz */
+  z-index: -1; /* Hinter dem Text */
+  pointer-events: none;
+}
+
+/* GAP FIX (Brücke für die Maus) */
 .header__nav-item::after {
   content: ''; position: absolute; top: 50%; left: -10px; right: -10px; height: 60px; 
   background: transparent; z-index: 1000; pointer-events: none;
 }
 .header__nav-item:hover::after, .header__nav-item.is-locked::after { pointer-events: auto; }
-.header__nav-item:hover .mega-menu, .header__nav-item.is-locked .mega-menu { 
+
+.header__nav-item:hover .mega-menu,
+.header__nav-item.is-locked .mega-menu { 
   opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s;
 }
 
-/* MENU CONTENT (Aligned) */
+/* MEGA MENU CONTENT */
 .mega-menu__container { 
   width: 100%; max-width: 100%; display: block; 
   padding-left: calc(var(--site-padding) + var(--logo-width) + var(--nav-gap) + 5px); 
   padding-right: var(--site-padding); 
+  position: relative; z-index: 5; /* Über dem schwarzen Streifen */
 }
 .mega-menu__flat-grid { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; padding-top: 5px; }
 .mega-menu__flat-link {
@@ -115,77 +153,52 @@ main#MainContent { margin: 0 !important; padding: 0 !important; }
 
 
 /* ==========================================================================
-   2. MAIN CONTENT & SPACING (THE FIX)
+   2. LAYOUT ENGINE
    ========================================================================== */
-
-/* Der Wrapper, der ALLES unter den Header schiebt */
 .main-content {
-  padding-top: var(--header-height); /* Exakt 70px */
+  padding-top: var(--header-height);
   min-height: 100vh;
-  display: block;
+  display: flex; flex-direction: column;
 }
 
-/* Der Header-Container für ALLE Seiten */
-.page-header, 
-.shopify-policy__container, 
-.shopify-policy__content {
-  display: block !important;
-  width: 100% !important;
-  max-width: 900px !important;
-  margin: 0 auto !important;
-  text-align: center !important;
-  border: none !important;
-  
-  /* HARTER ABSTAND */
-  margin-top: 0 !important;
-  padding-top: var(--content-gap) !important; /* Exakt 60px */
-  padding-bottom: 2rem !important;
+.page-header, .shopify-policy__container, .shopify-policy__content {
+  display: block !important; text-align: center !important; 
+  max-width: 900px !important; margin: 0 auto !important; width: 100% !important; border: none !important;
+  padding-top: var(--content-gap) !important; padding-bottom: 3rem !important;
 }
 
-/* H1 RESET (Damit die Schriftlinie exakt sitzt) */
-.page-header h1, 
-.shopify-policy__title h1, 
-.shopify-policy__title, 
-.main-page-title {
-  font-family: var(--font-heading) !important; 
-  font-size: var(--h1-size) !important; 
-  line-height: 1 !important; /* Keine Luft oben/unten */
-  margin: 0 0 1rem 0 !important; /* Nur Abstand nach unten */
-  padding: 0 !important;
-  
-  /* Gradient Style */
+/* H1 GREEN GRADIENT STYLE */
+.page-header h1, .shopify-policy__title h1, .shopify-policy__title, .main-page-title {
+  font-family: var(--font-heading) !important; font-size: var(--h1-size) !important; 
   background: var(--gradient-primary) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   color: var(--color-primary) !important;
-  
-  text-transform: uppercase !important; 
-  text-align: center !important; 
-  display: block !important; 
+  text-transform: uppercase !important; text-align: center !important; 
+  margin: 0 !important; padding: 0 !important; line-height: 1 !important; display: block !important; 
 }
 
-/* Policy Content Fix */
 .shopify-policy__container { display: flex !important; flex-direction: column !important; align-items: center !important; }
 .shopify-policy__body { text-align: left; max-width: 800px; width: 100%; margin: 0 auto; color: #ffffff !important; font-size: 1.1rem; }
+.shopify-policy__body p { color: #ffffff !important; }
 .shopify-policy__body a { color: #ffffff; text-decoration: underline; }
+.shopify-policy__body a:hover { color: var(--color-primary); }
 
 
 /* ==========================================================================
-   3. COMPONENTS & TEXT COLORS
+   3. COMPONENTS
    ========================================================================== */
-
-/* FORCE WHITE TEXT EVERYWHERE */
+/* TEXT STYLES (FORCE WHITE) */
 .rte, .page-text-container { 
   max-width: 800px; margin: 0 auto; 
   font-size: 1.1rem; line-height: 1.6; 
   color: #ffffff !important; 
 }
-.rte p, .rte li, .rte span, .rte div, 
-.page-text-container p, .page-text-container li {
-  color: #ffffff !important;
+.rte p, .rte span, .rte li, .rte div, .rte strong, .rte em, 
+.page-text-container p, .page-text-container span, .page-text-container li {
+  color: #ffffff !important; 
 }
-
 .rte h2, .page-text-container h2 { font-family: var(--font-heading); font-size: 2rem; color: #ffffff !important; margin-top: 3rem; margin-bottom: 1rem; text-align: left; }
 .rte h3, .page-text-container h3 { font-family: var(--font-heading); font-size: 1.5rem; color: #ffffff !important; margin-top: 2rem; margin-bottom: 0.5rem; }
 .rte a, .page-text-container a { color: #ffffff !important; text-decoration: underline; text-underline-offset: 4px; }
