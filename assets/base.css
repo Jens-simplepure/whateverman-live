@@ -1,15 +1,18 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - FINAL FUNCTIONAL FIX
+   GEN Z STREETWEAR THEME - FINAL STYLE (COMPACT NAV 15px)
    ========================================================================== */
 
 /* --- RESET & VARIABLES --- */
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
-  /* LAYOUT */
+  /* LAYOUT CONFIG */
   --header-height: 90px;
   --logo-width: 170px;
-  --nav-gap: 24px;
+  
+  /* NAV SPACING (HIER GEÄNDERT AUF 15px) */
+  --nav-gap: 15px;
+  
   --site-padding: 32px;
   
   /* ABSTAND HEADER -> CONTENT */
@@ -31,6 +34,7 @@
   --glow-primary: 0 0 10px var(--color-primary);
 }
 
+/* SCROLLBAR FIX */
 html { font-size: 16px; scroll-behavior: smooth; overflow-y: scroll; }
 body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--color-background); color: var(--color-text); -webkit-font-smoothing: antialiased; line-height: 1.5; }
 a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
@@ -50,10 +54,14 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   padding: 0 var(--site-padding); max-width: 100%; margin: 0 auto;
 }
 
-/* NAV LINKS */
-.header__nav--left { display: flex; height: 100%; gap: var(--nav-gap); }
+/* NAV LINKS (LEVEL 1) */
+.header__nav--left { 
+  display: flex; 
+  height: 100%; 
+  gap: var(--nav-gap); /* Nutzt jetzt 15px */
+}
 
-/* WICHTIG: Relative Position für die "Brücke" */
+/* Nav Item Wrapper */
 .header__nav-item { 
   height: 100%; 
   display: flex; 
@@ -63,22 +71,23 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
 .header__nav-link {
   font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em;
-  color: #ffffff; text-transform: uppercase; padding: 0 10px;
+  color: #ffffff; text-transform: uppercase; 
+  padding: 0 5px; /* Etwas reduziertes Padding für kompakten Look */
   height: 100%; display: flex; align-items: center; cursor: pointer;
   transition: color 0.3s ease, text-shadow 0.3s ease;
-  position: relative; z-index: 1001; /* Über der Brücke */
+  position: relative; z-index: 1001; 
 }
 
 /* HOVER & ACTIVE STATES */
 .header__nav-link:hover, 
-.header__nav-link.is-active, /* Wenn die Oberkategorie aktiv ist */
-.header__nav-item.has-active-child .header__nav-link /* Wenn ein Untermenüpunkt aktiv ist */
+.header__nav-link.is-active, 
+.header__nav-item.has-active-child .header__nav-link 
 { 
   color: var(--color-primary); 
   text-shadow: var(--glow-primary); 
 }
 
-/* --- MEGA MENU ("Die Brücke" - GAP FIX) --- */
+/* --- MEGA MENU (LEVEL 2) --- */
 .mega-menu {
   position: fixed; 
   top: var(--header-height); 
@@ -87,43 +96,34 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   border-top: none; 
   padding: 10px 0 30px 0;
   z-index: 999;
-  
-  /* Standard: Versteckt */
   opacity: 0; visibility: hidden; pointer-events: none;
-  transform: translateY(0); /* Kein Y-Transform mehr, um Flackern zu vermeiden */
+  transform: translateY(0); 
   transition: opacity 0.2s ease, visibility 0s linear 0.2s;
 }
 
-/* UNSICHTBARE BRÜCKE (Das behebt das "Zu empfindlich" Problem) */
-/* Erzeugt eine massive, unsichtbare Fläche unter dem Link bis zum Menü */
+/* UNSICHTBARE BRÜCKE (Stabilität) */
 .header__nav-item::after {
-  content: ''; 
-  position: absolute; 
-  top: 50%; /* Startet in der Mitte des Links */
-  left: -10px; right: -10px; /* Breiter als der Text */
-  height: 60px; /* Reicht tief nach unten in das Menü hinein */
-  background: transparent; 
-  z-index: 1000;
-  pointer-events: none;
+  content: ''; position: absolute; top: 50%; left: -10px; right: -10px; height: 60px; 
+  background: transparent; z-index: 1000; pointer-events: none;
 }
-/* Wenn man hovert, wird die Brücke "fest" */
-.header__nav-item:hover::after,
-.header__nav-item.is-locked::after { 
-  pointer-events: auto; 
-}
+.header__nav-item:hover::after, .header__nav-item.is-locked::after { pointer-events: auto; }
 
 /* MENÜ ÖFFNEN */
 .header__nav-item:hover .mega-menu,
 .header__nav-item.is-locked .mega-menu { 
-  opacity: 1; 
-  visibility: visible; 
-  pointer-events: auto;
-  transition-delay: 0s;
+  opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s;
 }
 
 /* INHALT MEGA MENU */
 .mega-menu__container { width: 100%; max-width: 100%; display: block; padding-left: calc(var(--site-padding) + var(--logo-width) + var(--nav-gap)); padding-right: var(--site-padding); }
-.mega-menu__flat-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+
+/* GRID LEVEL 2 (HIER AUCH 15px) */
+.mega-menu__flat-grid { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 15px; /* Kompakter Abstand */
+  align-items: center; 
+}
 
 .mega-menu__flat-link {
   display: block; font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em;
@@ -132,8 +132,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 }
 .mega-menu__flat-link:hover { color: var(--color-primary); text-shadow: var(--glow-primary); }
 
-/* --- ACTIVE CHILD LINK (Das fehlte!) --- */
-/* Wenn wir auf der Seite sind, leuchtet der Link im Menü */
+/* ACTIVE CHILD LINK */
 .mega-menu__flat-link.is-active {
   color: var(--color-primary) !important;
   text-shadow: var(--glow-primary);
