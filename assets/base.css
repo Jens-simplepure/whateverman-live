@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - FINAL STYLE (FORCED CONSISTENCY)
+   GEN Z STREETWEAR THEME - FINAL PIXEL PERFECT FIX
    ========================================================================== */
 
 /* --- RESET & VARIABLES --- */
@@ -23,117 +23,133 @@
   --font-heading: 'Bebas Neue', sans-serif;
   --font-body: 'Inter', sans-serif;
   
-  /* TYPO SIZE */
+  /* FIXED H1 SIZE */
   --h1-size: clamp(3rem, 5vw, 4.5rem); 
   
   /* EFFECTS */
   --glow-primary: 0 0 10px var(--color-primary);
 }
 
-html { font-size: 16px; scroll-behavior: smooth; }
+/* SCROLLBAR FIX: Verhindert das Springen der Navigation */
+html { 
+  font-size: 16px; 
+  scroll-behavior: smooth; 
+  overflow-y: scroll; /* Scrollbalken immer anzeigen */
+}
+
 body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--color-background); color: var(--color-text); -webkit-font-smoothing: antialiased; line-height: 1.5; }
 a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
-/* --- HEADER CONTAINER --- */
+
+/* ==========================================================================
+   HEADER & LAYOUT (ABSOLUTE POSITIONING)
+   ========================================================================== */
+
 .site-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   background: var(--color-background);
   border-bottom: none;
+  height: var(--header-height); /* Höhe fixieren */
 }
+
 .header__wrapper {
-  height: var(--header-height);
+  height: 100%;
   display: flex; align-items: center; justify-content: flex-start;
   padding: 0 var(--site-padding);
   max-width: 100%; margin: 0 auto;
-  position: relative;
 }
 
-/* --- MAIN CONTENT OFFSET --- */
-/* Das schiebt ALLES unter den Header */
+/* MAIN CONTENT OFFSET */
+/* Der Abstand von ganz oben ist IMMER: 90px (Header) + 0px */
 .main-content { 
   min-height: 100vh; 
   padding-top: var(--header-height); 
+  display: block;
 }
 
+.container { 
+  width: 100%; 
+  max-width: 1600px; 
+  margin: 0 auto; 
+  padding: 0 2rem; 
+}
+
+
 /* ==========================================================================
-   UNIVERSAL PAGE HEADER (THE FIX)
+   UNIVERSAL PAGE HEADERS (PIXEL EXACT)
    ========================================================================== */
 
-/* Dieser Container steuert den Abstand und die Ausrichtung 
-   für Collection, Page, Search und Policy 
+/* Dieser Container sorgt dafür, dass Collection Title und Page Title
+   EXAKT an der gleichen Stelle sitzen (y-Achse).
+   Abstand zum Header: 4rem (64px).
 */
 .page-header, 
 .shopify-policy__container,
 .shopify-policy__content {
+  display: block !important;
   text-align: center !important;
   max-width: 900px !important;
   margin: 0 auto !important;
   
-  /* WICHTIG: Abstand EXAKT definiert */
+  /* ABSTAND VON OBEN FIXIERT */
   padding-top: 4rem !important; 
   padding-bottom: 2rem !important;
-  
-  /* Sicherstellen, dass nichts collapsed */
-  display: block !important;
-  width: 100% !important;
+  border: none !important;
 }
 
-/* H1 RESET - DER "HAMMER" 
-   Entfernt alle Farbverläufe, Transparenzen und setzt alles auf Weiß
-*/
+/* H1 STYLING (WEISS & GLEICHE GRÖSSE) */
 .page-header h1,
 .shopify-policy__title h1,
 .shopify-policy__title,
 .main-page-title,
-h1 {
+body h1 {
   font-family: var(--font-heading) !important;
   font-size: var(--h1-size) !important;
-  
-  /* FARB-FIX: Alles auf Weiß zwingen */
-  color: #ffffff !important;
-  background: none !important; 
-  -webkit-text-fill-color: #ffffff !important; /* Killt den transparenten Verlauf */
-  background-clip: border-box !important;
-  -webkit-background-clip: border-box !important;
-  
+  color: #ffffff !important; /* Reinweiß */
   text-transform: uppercase !important;
   text-align: center !important;
-  margin-bottom: 1rem !important;
+  margin: 0 0 1rem 0 !important; /* Margin unten standardisiert */
+  padding: 0 !important;         /* Kein Padding am Text selbst */
   line-height: 1 !important;
   width: 100% !important;
+  
+  /* CSS-Hacks entfernen, falls vorhanden */
+  background: none !important; 
+  -webkit-text-fill-color: #ffffff !important;
 }
 
-/* Policy Pages Layout Fix */
-.shopify-policy__container { display: flex !important; flex-direction: column !important; align-items: center !important; }
+/* Policy Fixes */
+.shopify-policy__container { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; }
 .shopify-policy__body { text-align: left; max-width: 800px; width: 100%; margin: 0 auto; color: #cccccc; font-size: 1.1rem; }
 .shopify-policy__body a { color: #fff; text-decoration: underline; }
 
-/* --- PAGE TEXT STYLES --- */
-.rte, .page-text-container {
-  max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #cccccc; line-height: 1.6;
-}
-.rte h2, .page-text-container h2 { font-family: var(--font-heading); font-size: 2rem; color: #fff; margin-top: 3rem; margin-bottom: 1rem; text-align: left; }
+
+/* ==========================================================================
+   PAGE CONTENT STYLES
+   ========================================================================== */
+.rte, .page-text-container { max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #cccccc; line-height: 1.6; }
+.rte h2, .page-text-container h2 { font-family: var(--font-heading); font-size: 2rem; color: #fff; margin-top: 3rem; margin-bottom: 1rem; text-align: left; text-transform: uppercase; }
 .rte a, .page-text-container a { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
 .rte a:hover { color: var(--color-primary); }
 
 
 /* ==========================================================================
-   COMPONENTS
+   COMPONENTS (Menu, Cards, etc.)
    ========================================================================== */
 
-/* COMPONENTS: LOGO */
+/* LOGO */
 .header__logo { width: var(--logo-width); margin-right: var(--nav-gap); display: flex; align-items: center; z-index: 20; flex-shrink: 0; }
 .header__logo-link { display: block; width: 100%; transition: all 0.3s ease; }
 .header__logo-link:hover { filter: drop-shadow(0 0 8px var(--color-primary)); }
 .header__logo img { width: 100%; height: auto; max-height: 60px; object-fit: contain; object-position: left; }
 
-/* COMPONENTS: NAV */
+/* NAVIGATION */
 .header__nav--left { display: flex; height: 100%; gap: var(--nav-gap); }
 .header__nav-item { height: 100%; display: flex; align-items: center; position: static !important; }
 .header__nav-link { font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em; color: #ffffff; text-transform: uppercase; padding: 0; height: 100%; display: flex; align-items: center; cursor: pointer; transition: color 0.3s ease, text-shadow 0.3s ease; }
 .header__nav-link:hover, .header__nav-link.is-active { color: var(--color-primary); text-shadow: var(--glow-primary); }
 
-/* COMPONENTS: MEGA MENU */
+/* MEGA MENU */
 .mega-menu { position: fixed; top: var(--header-height); left: 0; width: 100%; background-color: var(--color-background) !important; border-top: none; padding: 0 0 2rem 0; z-index: 999; opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(5px); transition: all 0.2s ease-out; }
 .header__nav-item:hover .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
 .mega-menu__container { width: 100%; max-width: 100%; display: block; padding-left: calc(var(--site-padding) + var(--logo-width) + var(--nav-gap)); padding-right: var(--site-padding); }
@@ -142,18 +158,18 @@ h1 {
 .mega-menu__heading, .mega-menu__flat-link { display: block; font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em; color: #fff; text-transform: uppercase; text-decoration: none; padding: 0; transition: color 0.2s ease, text-shadow 0.2s ease; }
 .mega-menu__flat-link:hover { color: var(--color-primary); text-shadow: var(--glow-primary); }
 
-/* COMPONENTS: ICONS */
+/* ICONS */
 .header__icons { margin-left: auto; display: flex; align-items: center; gap: 1.2rem; }
 .header__text-link { font-family: var(--font-heading); font-size: 1rem; letter-spacing: 0.05em; color: #fff; background: none; border: none; cursor: pointer; padding: 0; transition: color 0.3s ease, text-shadow 0.3s ease; }
 .header__text-link:hover { color: var(--color-primary); text-shadow: var(--glow-primary); }
 .header__cart-count { display: inline-flex; align-items: center; justify-content: center; min-width: 16px; height: 16px; background: var(--color-primary); color: #000; font-size: 0.65rem; font-weight: bold; border-radius: 50%; margin-left: 4px; position: relative; top: -1px; }
 
-/* COMPONENTS: MOBILE */
+/* MOBILE */
 .header__mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0; margin-left: 10px; flex-direction: column; gap: 5px; }
 .header__mobile-toggle span { display: block; width: 22px; height: 2px; background: #fff; }
 @media (max-width: 1024px) { .header__nav--left, .header__text-link { display: none !important; } .header__mobile-toggle { display: flex; } .header__wrapper { justify-content: space-between; padding: 0 1.5rem; } .header__logo { margin-right: 0; width: auto; } .mega-menu { display: none; } }
 
-/* COMPONENTS: PRODUCT CARDS */
+/* CARDS */
 .product-card { position: relative; background: var(--color-background-secondary, #111); border: 1px solid rgba(255, 255, 255, 0.1); transition: border-color 0.3s ease; }
 .product-card:hover { border-color: var(--color-primary); }
 .product-card__image { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; }
@@ -168,7 +184,6 @@ h1 {
 
 /* UTILS */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
-.container { width: 100%; max-width: 1600px; margin: 0 auto; padding: 0 2rem; }
 .grid { display: grid; gap: 1.5rem; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -178,7 +193,6 @@ h1 {
 /* BUTTONS */
 .btn { display: inline-flex; align-items: center; justify-content: center; padding: 1rem 2.5rem; font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; }
 .btn-gradient { background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: #000; }
-.btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px var(--color-primary); }
 .btn-outline { background: transparent; border-color: var(--color-primary); color: #fff; }
 .btn-outline:hover { background: var(--color-primary); color: #000; }
 
