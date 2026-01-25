@@ -22,7 +22,7 @@
   --color-sold-out: #ff0033; /* NEON RED */
   
   /* MEGA MENU */
-  --mega-bg: #181818; 
+  --mega-bg: #000000; /* Jetzt Schwarz, passend zum Header */
   --mega-border: rgba(255,255,255,0.15);
   
   /* FONTS */
@@ -41,8 +41,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 .site-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   background: var(--color-background);
-  /* TASK 1: LINIE ENTFERNT */
-  border-bottom: none;
+  border-bottom: none; /* Keine Linie, wie gewünscht */
 }
 
 .header__wrapper {
@@ -83,14 +82,18 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   color: var(--color-primary); text-shadow: var(--glow-primary);
 }
 
-/* --- MEGA MENU --- */
+/* --- MEGA MENU (UPDATED TASK 1 & 2) --- */
 .mega-menu {
   position: fixed; top: var(--header-height); left: 0; width: 100%;
-  /* TASK 2: HINTERGRUND TRANSPARENT & RAHMEN ENTFERNT */
-  background-color: transparent !important;
-  border-top: none;
   
-  padding: 2rem 0; z-index: 999;
+  /* TASK 2: Hintergrund Schwarz (undurchsichtig) */
+  background-color: var(--color-background) !important;
+  border-top: none; 
+  
+  /* TASK 1: Abstand reduziert (vorher 2rem/32px, jetzt 10px) */
+  padding: 10px 0 2rem 0;
+  
+  z-index: 999;
   opacity: 0; visibility: hidden; pointer-events: none;
   transform: translateY(5px); transition: all 0.2s ease-out;
 }
