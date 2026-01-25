@@ -1,15 +1,10 @@
 {{ 'base.css' | asset_url | stylesheet_tag }}
 
-{%- comment -%}
-  LOGIC: Zählen der aktiven Filter für den Button-Text (Search Context)
-{%- endcomment -%}
 {%- assign active_filter_count = 0 -%}
 {%- if search.performed -%}
   {%- for filter in search.filters -%}
     {%- if filter.type == 'price_range' -%}
-      {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
-        {%- assign active_filter_count = active_filter_count | plus: 1 -%}
-      {%- endif -%}
+      {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}{%- assign active_filter_count = active_filter_count | plus: 1 -%}{%- endif -%}
     {%- else -%}
       {%- assign active_filter_count = active_filter_count | plus: filter.active_values.size -%}
     {%- endif -%}
@@ -17,129 +12,38 @@
 {%- endif -%}
 
 {%- style -%}
-  /* Search Specific Styles */
-  .search-header {
-    text-align: center;
-    padding: 3rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 2rem;
-  }
-  
-  .search-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2rem, 5vw, 4rem);
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-  
-  .search-form {
-    max-width: 600px;
-    margin: 0 auto;
-    position: relative;
-  }
-  
-  .search-input {
-    width: 100%;
-    background: transparent;
-    border: 1px solid #fff;
-    color: #fff;
-    padding: 1rem 1.5rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
-    border-radius: 4px;
-  }
-  
-  .search-input:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 10px rgba(170, 255, 0, 0.2);
-  }
-
-  /* Toolbar (Rechtsbündig wie Collection) */
-  .search-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 0 1rem 0; /* Weniger Padding unten, da Chips folgen */
-  }
-
-  /* CHNGE Style Pill Button */
-  .chnge-pill-btn {
-    appearance: none;
-    background-color: #333333;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-  }
+  .search-form { max-width: 600px; margin: 1rem auto 0; position: relative; }
+  .search-input { width: 100%; background: transparent; border: 1px solid #fff; color: #fff; padding: 1rem 1.5rem; font-family: 'Inter', sans-serif; font-size: 1.1rem; border-radius: 4px; }
+  .search-input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 10px rgba(170, 255, 0, 0.2); }
+  .search-toolbar { display: flex; align-items: center; justify-content: flex-end; padding: 0 0 1rem 0; }
+  .chnge-pill-btn { appearance: none; background-color: #333333; color: #ffffff; border: none; border-radius: 8px; padding: 10px 20px; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
   .chnge-pill-btn:hover { background-color: #444444; }
-
-  /* ACTIVE FILTERS AREA (CHNGE Style) */
-  .active-filters-wrapper {
-    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem;
-    align-items: center; justify-content: flex-end; /* Rechtsbündig unter der Toolbar */
-  }
-
-  .active-filter-chip {
-    display: inline-flex; align-items: center; gap: 8px;
-    background-color: var(--color-primary, #aaff00); /* NEON GREEN */
-    color: #000000; /* BLACK TEXT */
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
+  .active-filters-wrapper { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem; align-items: center; justify-content: flex-end; }
+  .active-filter-chip { display: inline-flex; align-items: center; gap: 8px; background-color: var(--color-primary, #aaff00); color: #000000; padding: 6px 12px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: opacity 0.2s; }
   .active-filter-chip:hover { opacity: 0.8; }
   .active-filter-close { font-size: 1.1em; line-height: 1; }
-
-  .active-filters-clear {
-    color: #999; text-decoration: underline; font-size: 0.9rem; margin-left: 5px; cursor: pointer;
-  }
+  .active-filters-clear { color: #999; text-decoration: underline; font-size: 0.9rem; margin-left: 5px; cursor: pointer; }
   .active-filters-clear:hover { color: #fff; }
-
-  /* Pagination */
   .pagination-wrapper { margin-top: 4rem; display: flex; justify-content: center; gap: 0.5rem; }
-  .pagination-link {
-    display: flex; align-items: center; justify-content: center;
-    width: 40px; height: 40px;
-    border: 1px solid rgba(255,255,255,0.2); color: #fff;
-    text-decoration: none; transition: all 0.2s;
-  }
-  .pagination-link:hover, .pagination-link.is-current {
-    background: var(--color-primary, #aaff00); color: #000; border-color: var(--color-primary, #aaff00);
-  }
+  .pagination-link { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.2); color: #fff; text-decoration: none; transition: all 0.2s; }
+  .pagination-link:hover, .pagination-link.is-current { background: var(--color-primary, #aaff00); color: #000; border-color: var(--color-primary, #aaff00); }
 {%- endstyle -%}
 
 {% paginate search.results by 24 %}
   <div class="search-page main-content">
     <div class="container">
       
-      <div class="search-header">
-        <h1 class="search-title">
+      <div class="page-header">
+        <h1>
           {% if search.performed %}
-            Search Results for "{{ search.terms | escape }}"
+            Results for "{{ search.terms | escape }}"
           {% else %}
             Search
           {% endif %}
         </h1>
         
         <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
-          <input
-            type="search"
-            name="q"
-            value="{{ search.terms | escape }}"
-            placeholder="Search products..."
-            class="search-input"
-          >
+          <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products..." class="search-input">
           <input type="hidden" name="type" value="product">
           <input type="hidden" name="options[prefix]" value="last">
         </form>
@@ -158,23 +62,14 @@
           {%- for filter in search.filters -%}
             {%- if filter.type == "price_range" -%}
               {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
-                <a class="active-filter-chip" href="{{ filter.url_to_remove }}">
-                  {%- assign min_value = filter.min_value.value | default: 0 -%}
-                  {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
-                  {{ min_value | money }} - {{ max_value | money }}
-                  <span class="active-filter-close">×</span>
-                </a>
+                <a class="active-filter-chip" href="{{ filter.url_to_remove }}">{{ filter.min_value.value | default: 0 | money }} - {{ filter.max_value.value | default: filter.range_max | money }} <span class="active-filter-close">×</span></a>
               {%- endif -%}
             {%- else -%}
               {%- for value in filter.active_values -%}
-                <a class="active-filter-chip" href="{{ value.url_to_remove }}">
-                  {{ value.label }}
-                  <span class="active-filter-close">×</span>
-                </a>
+                <a class="active-filter-chip" href="{{ value.url_to_remove }}">{{ value.label }} <span class="active-filter-close">×</span></a>
               {%- endfor -%}
             {%- endif -%}
           {%- endfor -%}
-          
           <a href="{{ routes.search_url }}?q={{ search.terms | escape }}" class="active-filters-clear">Clear all</a>
         </div>
       {% endif %}
@@ -194,35 +89,19 @@
         
         {% if paginate.pages > 1 %}
           <div class="pagination-wrapper">
-            {% if paginate.previous %}
-              <a href="{{ paginate.previous.url }}" class="pagination-link">←</a>
-            {% endif %}
-            
+            {% if paginate.previous %}<a href="{{ paginate.previous.url }}" class="pagination-link">←</a>{% endif %}
             {% for part in paginate.parts %}
-              {% if part.is_link %}
-                <a href="{{ part.url }}" class="pagination-link">{{ part.title }}</a>
-              {% else %}
-                <span class="pagination-link is-current">{{ part.title }}</span>
-              {% endif %}
+              {% if part.is_link %}<a href="{{ part.url }}" class="pagination-link">{{ part.title }}</a>{% else %}<span class="pagination-link is-current">{{ part.title }}</span>{% endif %}
             {% endfor %}
-            
-            {% if paginate.next %}
-              <a href="{{ paginate.next.url }}" class="pagination-link">→</a>
-            {% endif %}
+            {% if paginate.next %}<a href="{{ paginate.next.url }}" class="pagination-link">→</a>{% endif %}
           </div>
         {% endif %}
-        
       {% endif %}
       
     </div>
   </div>
 {% endpaginate %}
-
 {% render 'facets-drawer', results: search %}
-
 {% schema %}
-{
-  "name": "Search Results",
-  "settings": []
-}
+{ "name": "Search Results", "settings": [] }
 {% endschema %}
