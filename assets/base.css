@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - FINAL STYLE (COMPACT NAV 15px)
+   GEN Z STREETWEAR THEME - FINAL COMPACT STYLE
    ========================================================================== */
 
 /* --- RESET & VARIABLES --- */
@@ -7,15 +7,14 @@
 
 :root {
   /* LAYOUT CONFIG */
-  --header-height: 90px;
+  /* WICHTIG: Header Höhe reduziert für weniger Abstand zur 2. Ebene */
+  --header-height: 70px; 
+  
   --logo-width: 170px;
-  
-  /* NAV SPACING (HIER GEÄNDERT AUF 15px) */
-  --nav-gap: 15px;
-  
+  --nav-gap: 15px; /* Enger Abstand 1. Ebene */
   --site-padding: 32px;
   
-  /* ABSTAND HEADER -> CONTENT */
+  /* Abstand Content von Header */
   --content-gap: 40px; 
   
   /* COLORS */
@@ -25,7 +24,7 @@
   --color-accent: #ff4400;  /* ORANGE RED */
   --color-sold-out: #ff0033; 
   
-  /* TYPO */
+  /* FONTS */
   --font-heading: 'Bebas Neue', sans-serif;
   --font-body: 'Inter', sans-serif;
   --h1-size: clamp(3rem, 5vw, 4.5rem); 
@@ -39,8 +38,9 @@ html { font-size: 16px; scroll-behavior: smooth; overflow-y: scroll; }
 body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--color-background); color: var(--color-text); -webkit-font-smoothing: antialiased; line-height: 1.5; }
 a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
+
 /* ==========================================================================
-   1. HEADER & NAVIGATION (GAP FIX & ACTIVE STATE)
+   1. HEADER & NAVIGATION (COMPACT)
    ========================================================================== */
 
 .site-header {
@@ -55,74 +55,67 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 }
 
 /* NAV LINKS (LEVEL 1) */
-.header__nav--left { 
-  display: flex; 
-  height: 100%; 
-  gap: var(--nav-gap); /* Nutzt jetzt 15px */
-}
+.header__nav--left { display: flex; height: 100%; gap: var(--nav-gap); }
 
-/* Nav Item Wrapper */
 .header__nav-item { 
-  height: 100%; 
-  display: flex; 
-  align-items: center; 
-  position: relative; 
+  height: 100%; display: flex; align-items: center; position: relative; 
 }
 
 .header__nav-link {
   font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: 0.04em;
-  color: #ffffff; text-transform: uppercase; 
-  padding: 0 5px; /* Etwas reduziertes Padding für kompakten Look */
+  color: #ffffff; text-transform: uppercase; padding: 0 5px;
   height: 100%; display: flex; align-items: center; cursor: pointer;
   transition: color 0.3s ease, text-shadow 0.3s ease;
   position: relative; z-index: 1001; 
 }
 
-/* HOVER & ACTIVE STATES */
 .header__nav-link:hover, 
 .header__nav-link.is-active, 
 .header__nav-item.has-active-child .header__nav-link 
 { 
-  color: var(--color-primary); 
-  text-shadow: var(--glow-primary); 
+  color: var(--color-primary); text-shadow: var(--glow-primary); 
 }
 
-/* --- MEGA MENU (LEVEL 2) --- */
+/* --- MEGA MENU (LEVEL 2) - COMPACT --- */
 .mega-menu {
   position: fixed; 
   top: var(--header-height); 
   left: 0; width: 100%;
   background-color: var(--color-background) !important;
   border-top: none; 
-  padding: 10px 0 30px 0;
+  
+  /* WICHTIG: Padding oben entfernt für minimalen Abstand */
+  padding: 0 0 30px 0;
+  margin-top: -1px; /* Pixel-perfekter Anschluss */
+  
   z-index: 999;
   opacity: 0; visibility: hidden; pointer-events: none;
   transform: translateY(0); 
   transition: opacity 0.2s ease, visibility 0s linear 0.2s;
 }
 
-/* UNSICHTBARE BRÜCKE (Stabilität) */
+/* Brücke für Stabilität */
 .header__nav-item::after {
   content: ''; position: absolute; top: 50%; left: -10px; right: -10px; height: 60px; 
   background: transparent; z-index: 1000; pointer-events: none;
 }
 .header__nav-item:hover::after, .header__nav-item.is-locked::after { pointer-events: auto; }
 
-/* MENÜ ÖFFNEN */
+/* Menü Öffnen */
 .header__nav-item:hover .mega-menu,
 .header__nav-item.is-locked .mega-menu { 
   opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s;
 }
 
-/* INHALT MEGA MENU */
+/* Inhalt */
 .mega-menu__container { width: 100%; max-width: 100%; display: block; padding-left: calc(var(--site-padding) + var(--logo-width) + var(--nav-gap)); padding-right: var(--site-padding); }
 
-/* GRID LEVEL 2 (HIER AUCH 15px) */
+/* LEVEL 2 GRID (15px GAP) */
 .mega-menu__flat-grid { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 15px; /* Kompakter Abstand */
+  display: flex; flex-wrap: wrap; 
+  gap: 15px; /* Enger Abstand zwischen Elementen */
   align-items: center; 
+  padding-top: 5px; /* Minimaler optischer Abstand zur Kante */
 }
 
 .mega-menu__flat-link {
@@ -131,12 +124,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
   transition: color 0.2s ease;
 }
 .mega-menu__flat-link:hover { color: var(--color-primary); text-shadow: var(--glow-primary); }
-
-/* ACTIVE CHILD LINK */
-.mega-menu__flat-link.is-active {
-  color: var(--color-primary) !important;
-  text-shadow: var(--glow-primary);
-}
+.mega-menu__flat-link.is-active { color: var(--color-primary) !important; text-shadow: var(--glow-primary); }
 
 
 /* ==========================================================================
@@ -165,6 +153,7 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 .shopify-policy__body { text-align: left; max-width: 800px; width: 100%; margin: 0 auto; color: #cccccc; font-size: 1.1rem; }
 .shopify-policy__body a { color: #fff; text-decoration: underline; }
 
+
 /* ==========================================================================
    3. COMPONENTS
    ========================================================================== */
@@ -173,20 +162,24 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 .rte a, .page-text-container a { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
 .rte a:hover { color: var(--color-primary); }
 
+/* LOGO (Angepasst auf neue Header Höhe) */
 .header__logo { width: var(--logo-width); margin-right: var(--nav-gap); display: flex; align-items: center; z-index: 20; flex-shrink: 0; }
 .header__logo-link { display: block; width: 100%; transition: all 0.3s ease; }
 .header__logo-link:hover { filter: drop-shadow(0 0 8px var(--color-primary)); }
-.header__logo img { width: 100%; height: auto; max-height: 60px; object-fit: contain; object-position: left; }
+.header__logo img { width: 100%; height: auto; max-height: 50px; /* Reduziert von 60px */ object-fit: contain; object-position: left; }
 
+/* ICONS */
 .header__icons { margin-left: auto; display: flex; align-items: center; gap: 1.2rem; }
 .header__text-link { font-family: var(--font-heading); font-size: 1rem; letter-spacing: 0.05em; color: #fff; background: none; border: none; cursor: pointer; padding: 0; }
 .header__text-link:hover { color: var(--color-primary); text-shadow: var(--glow-primary); }
 .header__cart-count { display: inline-flex; align-items: center; justify-content: center; min-width: 16px; height: 16px; background: var(--color-primary); color: #000; font-size: 0.65rem; font-weight: bold; border-radius: 50%; margin-left: 4px; position: relative; top: -1px; }
 
+/* MOBILE */
 .header__mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0; margin-left: 10px; flex-direction: column; gap: 5px; }
 .header__mobile-toggle span { display: block; width: 22px; height: 2px; background: #fff; }
 @media (max-width: 1024px) { .header__nav--left, .header__text-link { display: none !important; } .header__mobile-toggle { display: flex; } .header__wrapper { justify-content: space-between; padding: 0 1.5rem; } .header__logo { margin-right: 0; width: auto; } .mega-menu { display: none; } }
 
+/* CARDS */
 .container { width: 100%; max-width: 1600px; margin: 0 auto; padding: 0 2rem; }
 .grid { display: grid; gap: 1.5rem; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
@@ -206,10 +199,13 @@ a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 .product-card__title { font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 0.05em; margin: 0 0 0.5rem; text-transform: uppercase; color: var(--color-primary); }
 .product-card__price { font-family: var(--font-body); font-size: 1rem; font-weight: bold; color: var(--color-primary); }
 
+/* UTILS */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
 .btn { display: inline-flex; align-items: center; justify-content: center; padding: 1rem 2.5rem; font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; }
 .btn-outline { background: transparent; border-color: var(--color-primary); color: #fff; }
 .btn-outline:hover { background: var(--color-primary); color: #000; }
+
+/* DRAWER */
 .filter-drawer { position: fixed; inset: 0; z-index: 2000; visibility: hidden; pointer-events: none; }
 .filter-drawer.is-open { visibility: visible; pointer-events: auto; }
 .filter-drawer__overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px); }
