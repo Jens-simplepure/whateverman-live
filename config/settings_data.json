@@ -15,7 +15,7 @@
     "color_background": "#0A0A0A",
     "color_background_secondary": "#121212",
     "color_text": "#FFFFFF",
-    "color_text_muted": "#999999",
+    "color_text_muted": "#ffffff",
     "font_heading": "bebas_neue_n4",
     "font_body": "inter_n4",
     "font_size_base": 16,
@@ -55,10 +55,7 @@
       "featured-collection": {
         "type": "featured-collection",
         "settings": {
-          "heading_prefix": "Fresh",
-          "heading_highlight": "Drops",
-          "collection": "stuff",
-          "products_to_show": 4
+          "collection": "stuff"
         }
       }
     },
