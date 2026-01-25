@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEN Z STREETWEAR THEME - FINAL STYLE (ALL PAGES ALIGNED)
+   GEN Z STREETWEAR THEME - FINAL STYLE (ALL HEADERS IDENTICAL)
    ========================================================================== */
 
 /* --- RESET & VARIABLES --- */
@@ -27,11 +27,10 @@
   --font-heading: 'Bebas Neue', sans-serif;
   --font-body: 'Inter', sans-serif;
   
-  /* GLOBAL TYPOGRAPHY SIZES */
-  --h1-size: clamp(3rem, 6vw, 4.5rem); 
-  --h2-size: clamp(2rem, 4vw, 3rem);
-  --h3-size: 1.2rem;
-  --p-size: 1.1rem;
+  /* GLOBAL TYPOGRAPHY SIZES (FIXED) */
+  /* Diese Werte gelten für ALLE H1 auf der ganzen Seite */
+  --h1-size: clamp(3rem, 5vw, 4.5rem); 
+  --h1-color: #ffffff;
   
   /* EFFECTS */
   --glow-primary: 0 0 10px var(--color-primary);
@@ -41,71 +40,53 @@ html { font-size: 16px; scroll-behavior: smooth; }
 body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--color-background); color: var(--color-text); -webkit-font-smoothing: antialiased; line-height: 1.5; }
 a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
-/* --- GLOBAL TYPOGRAPHY --- */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 400;
-  margin: 0 0 1rem 0;
-  text-transform: uppercase;
-  line-height: 1.1;
-  letter-spacing: 0.02em;
-}
+/* --- UNIVERSAL PAGE HEADERS (THE FIX) --- */
+/* Dieser Block zwingt Collection, Page, Search UND Policies auf das gleiche Design */
 
-/* WICHTIG: H1 immer Weiß (wie Imprint) */
-h1 { font-size: var(--h1-size); color: #ffffff !important; }
-h2 { font-size: var(--h2-size); color: #ffffff; }
-h3 { font-size: var(--h3-size); letter-spacing: 0.05em; }
-p { font-size: var(--p-size); margin: 0 0 1.5rem 0; color: #cccccc; }
-
-/* --- PAGE HEADERS (Layout für Collection/Page/Search) --- */
-.page-header {
-  /* Abstand identisch für alle Seiten: Header Height + 4rem Padding */
-  padding: 4rem 0 3rem; 
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.page-header h1 {
-  margin-bottom: 1rem;
-  /* Stellt sicher, dass auch in Collections der Titel weiß ist */
-  color: #ffffff !important; 
-}
-
-.page-header .rte {
-  font-size: 1.2rem;
-  color: #999;
-}
-
-/* --- POLICY PAGES FIX (Privacy, Terms etc.) --- */
-/* Diese Klassen generiert Shopify automatisch für Policies */
-.shopify-policy__container, 
-.shopify-policy__content {
+.page-header,
+.shopify-policy__container,
+.shopify-policy__content,
+.section-header {
+  text-align: center !important;
+  padding: 4rem 0 3rem !important; /* Identischer Abstand von Oben */
   max-width: 900px !important;
   margin: 0 auto !important;
-  padding: 0 2rem !important;
 }
 
-/* Den Titel der Policy zwingen, wie unsere .page-header auszusehen */
-.shopify-policy__title {
-  text-align: center !important;
+/* Die H1 Überschrift selbst */
+.page-header h1,
+.shopify-policy__title h1, /* Policy Pages nutzen oft h1 im Title Container */
+.shopify-policy__title,    /* Manchmal ist der Container selbst der Titel */
+.main-page-title,
+h1.h2 /* Shopify Fallback */ {
   font-family: var(--font-heading) !important;
   font-size: var(--h1-size) !important;
-  color: #ffffff !important;
+  color: var(--h1-color) !important;
+  text-transform: uppercase !important;
   margin-bottom: 1rem !important;
-  
-  /* Abstand von oben erzwingen */
-  padding-top: 4rem !important; 
-  padding-bottom: 3rem !important;
+  line-height: 1 !important;
+  letter-spacing: 0.02em !important;
+  text-align: center !important;
+  display: block !important;
+  width: 100% !important;
+}
+
+/* Spezieller Fix für Policy Pages Container (damit sie nicht links kleben) */
+.shopify-policy__container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
 }
 
 .shopify-policy__body {
-  color: #cccccc !important;
-  font-size: 1.1rem !important;
-  line-height: 1.6 !important;
+  text-align: left; /* Text selbst linksbündig */
+  max-width: 800px;
+  margin: 0 auto;
+  color: #cccccc;
+  font-size: 1.1rem;
 }
 
-/* --- HEADER CONTAINER --- */
+/* --- HEADER CONTAINER (Sticky Nav) --- */
 .site-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   background: var(--color-background);
@@ -220,6 +201,20 @@ p { font-size: var(--p-size); margin: 0 0 1.5rem 0; color: #cccccc; }
 .product-card__link { text-decoration: none; color: inherit; }
 .product-card__price { font-family: var(--font-body); font-size: 1rem; font-weight: bold; color: var(--color-primary); }
 
+/* --- PAGE TEXT CONTENT STYLES (Styles for text inside pages) --- */
+.page-text-container {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  color: #cccccc;
+  line-height: 1.6;
+}
+.page-text-container h2 { font-family: var(--font-heading); font-size: 2rem; color: #fff; margin-top: 3rem; margin-bottom: 1rem; }
+.page-text-container h3 { font-family: var(--font-heading); font-size: 1.5rem; color: #fff; margin-top: 2rem; margin-bottom: 0.75rem; }
+.page-text-container a { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+.page-text-container a:hover { color: var(--color-primary); }
+.page-text-container ul, .page-text-container ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+
 /* --- GENERAL UTILS --- */
 .main-content { min-height: 100vh; padding-top: var(--header-height); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
@@ -242,7 +237,7 @@ p { font-size: var(--p-size); margin: 0 0 1.5rem 0; color: #cccccc; }
 .btn-outline { background: transparent; border-color: var(--color-primary); color: #fff; }
 .btn-outline:hover { background: var(--color-primary); color: #000; }
 
-/* DRAWER (FILTER) */
+/* DRAWER */
 .filter-drawer { position: fixed; inset: 0; z-index: 2000; visibility: hidden; pointer-events: none; }
 .filter-drawer.is-open { visibility: visible; pointer-events: auto; }
 .filter-drawer__overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px); }
