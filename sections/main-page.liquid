@@ -1,0 +1,91 @@
+{{ 'base.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  /* Wir nutzen hier nur Styles für den Textinhalt (RTE), 
+     der Header wird global über base.css (.page-header) gesteuert */
+  
+  .page-text-container {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: var(--p-size);
+    color: #cccccc; /* Helles Grau für gute Lesbarkeit auf Schwarz */
+    line-height: 1.6;
+  }
+
+  /* Überschriften im Text (H2, H3) */
+  .page-text-container h2 {
+    font-family: var(--font-heading);
+    font-size: var(--h2-size);
+    color: #ffffff;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .page-text-container h3 {
+    font-family: var(--font-heading);
+    font-size: var(--h3-size);
+    color: #ffffff;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Listen */
+  .page-text-container ul,
+  .page-text-container ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    color: #cccccc;
+  }
+  .page-text-container li {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Links im Text */
+  .page-text-container a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.2s;
+  }
+  .page-text-container a:hover {
+    color: var(--color-primary); /* Neon Green Hover */
+  }
+
+  /* Zitate */
+  .page-text-container blockquote {
+    border-left: 3px solid var(--color-primary);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #999;
+  }
+
+  /* Bilder im Text */
+  .page-text-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 2rem 0;
+  }
+{%- endstyle -%}
+
+<div class="page-content main-content">
+  <div class="container">
+    
+    <div class="page-header">
+      <h1>{{ page.title }}</h1>
+    </div>
+
+    <div class="rte page-text-container">
+      {{ page.content }}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": []
+}
+{% endschema %}
