@@ -1,159 +1,65 @@
 {{ 'base.css' | asset_url | stylesheet_tag }}
 
-{%- comment -%}
-  LOGIC: Zählen der aktiven Filter für den Button-Text
-{%- endcomment -%}
+{%- comment -%} LOGIC: Zählen der aktiven Filter {%- endcomment -%}
 {%- assign active_filter_count = 0 -%}
 {%- for filter in collection.filters -%}
   {%- if filter.type == 'price_range' -%}
-    {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
-      {%- assign active_filter_count = active_filter_count | plus: 1 -%}
-    {%- endif -%}
+    {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}{%- assign active_filter_count = active_filter_count | plus: 1 -%}{%- endif -%}
   {%- else -%}
     {%- assign active_filter_count = active_filter_count | plus: filter.active_values.size -%}
   {%- endif -%}
 {%- endfor -%}
 
 {%- style -%}
-  /* Toolbar Layout */
-  .collection-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* Rechtsbündig */
-    padding: 1rem 0;
-    margin-bottom: 1rem;
-    gap: 12px;
-  }
-
-  /* CHNGE Style Pill Buttons */
-  .chnge-pill-btn {
-    appearance: none;
-    background-color: #333333;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-  }
-  .chnge-pill-btn:hover {
-    background-color: #444444;
-  }
-
-  /* Sort Popover Menu */
+  .collection-toolbar { display: flex; align-items: center; justify-content: flex-end; padding: 1rem 0; margin-bottom: 1rem; gap: 12px; }
+  .chnge-pill-btn { appearance: none; background-color: #333333; color: #ffffff; border: none; border-radius: 8px; padding: 10px 20px; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
+  .chnge-pill-btn:hover { background-color: #444444; }
   .custom-sort-wrapper { position: relative; }
-  
-  .sort-menu-popover {
-    position: absolute;
-    top: 120%;
-    right: 0;
-    min-width: 220px;
-    background-color: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    padding: 8px;
-    z-index: 100;
-    opacity: 0; visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  .sort-menu-popover.is-visible {
-    opacity: 1; visibility: visible; transform: translateY(0);
-  }
-
-  .sort-option {
-    display: block; width: 100%; text-align: left;
-    background: none; border: none; color: #cccccc;
-    padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 0.9rem;
-    cursor: pointer; border-radius: 6px; transition: background 0.2s, color 0.2s;
-  }
+  .sort-menu-popover { position: absolute; top: 120%; right: 0; min-width: 220px; background-color: #1a1a1a; border: 1px solid #333; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); padding: 8px; z-index: 100; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .sort-menu-popover.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+  .sort-option { display: block; width: 100%; text-align: left; background: none; border: none; color: #cccccc; padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 0.9rem; cursor: pointer; border-radius: 6px; transition: background 0.2s, color 0.2s; }
   .sort-option:hover { background-color: #333; color: #fff; }
-  
-  .sort-option.is-selected {
-    background-color: var(--color-primary, #aaff00);
-    color: #000; font-weight: 600;
-  }
-
-  /* ACTIVE FILTERS AREA (CHNGE Style) */
-  .active-filters-wrapper {
-    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem;
-    align-items: center; justify-content: flex-end; /* Rechtsbündig unter der Toolbar */
-  }
-
-  .active-filter-chip {
-    display: inline-flex; align-items: center; gap: 8px;
-    background-color: var(--color-primary, #aaff00); /* NEON GREEN */
-    color: #000000; /* BLACK TEXT */
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
+  .sort-option.is-selected { background-color: var(--color-primary, #aaff00); color: #000; font-weight: 600; }
+  .active-filters-wrapper { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem; align-items: center; justify-content: flex-end; }
+  .active-filter-chip { display: inline-flex; align-items: center; gap: 8px; background-color: var(--color-primary, #aaff00); color: #000000; padding: 6px 12px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: opacity 0.2s; }
   .active-filter-chip:hover { opacity: 0.8; }
   .active-filter-close { font-size: 1.1em; line-height: 1; }
-
-  .active-filters-clear {
-    color: #999; text-decoration: underline; font-size: 0.9rem; margin-left: 5px; cursor: pointer;
-  }
+  .active-filters-clear { color: #999; text-decoration: underline; font-size: 0.9rem; margin-left: 5px; cursor: pointer; }
   .active-filters-clear:hover { color: #fff; }
-
-  /* Pagination Styling */
   .pagination-wrapper { margin-top: 4rem; display: flex; justify-content: center; gap: 0.5rem; }
-  .pagination-link {
-    display: flex; align-items: center; justify-content: center;
-    width: 40px; height: 40px;
-    border: 1px solid rgba(255,255,255,0.2); color: #fff;
-    text-decoration: none; transition: all 0.2s;
-  }
-  .pagination-link:hover, .pagination-link.is-current {
-    background: var(--color-primary, #aaff00); color: #000; border-color: var(--color-primary, #aaff00);
-  }
+  .pagination-link { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.2); color: #fff; text-decoration: none; transition: all 0.2s; }
+  .pagination-link:hover, .pagination-link.is-current { background: var(--color-primary, #aaff00); color: #000; border-color: var(--color-primary, #aaff00); }
 {%- endstyle -%}
 
 <div class="collection-page main-content">
   <div class="container">
     
-    <div class="collection-header" style="padding: 2rem 0; text-align: left;">
-      <h1 style="font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 0.5rem; text-transform:uppercase;">{{ collection.title }}</h1>
+    <div class="page-header">
+      <h1>{{ collection.title }}</h1>
       {% if collection.description != blank %}
-        <div class="rte" style="color: #ccc; max-width: 800px; font-size: 1.1rem;">
+        <div class="rte">
           {{ collection.description }}
         </div>
       {% endif %}
     </div>
 
     <div class="collection-toolbar">
-      
       <button class="chnge-pill-btn" onclick="openFilterDrawer()">
         Filters {% if active_filter_count > 0 %}[{{ active_filter_count }}]{% endif %}
       </button>
-
       <div class="custom-sort-wrapper">
         <button class="chnge-pill-btn" onclick="toggleSortMenu(event)">
           Sort
-          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:8px;">
-            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:8px;"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-
         <div id="SortMenu" class="sort-menu-popover">
           {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
-          
           <button class="sort-option {% if sort_by == 'manual' %}is-selected{% endif %}" onclick="applySort('manual')">Featured</button>
           <button class="sort-option {% if sort_by == 'created-desc' %}is-selected{% endif %}" onclick="applySort('created-desc')">Newest</button>
           <button class="sort-option {% if sort_by == 'price-asc' %}is-selected{% endif %}" onclick="applySort('price-asc')">Price: Low to High</button>
           <button class="sort-option {% if sort_by == 'price-desc' %}is-selected{% endif %}" onclick="applySort('price-desc')">Price: High to Low</button>
         </div>
       </div>
-
     </div>
 
     {% if active_filter_count > 0 %}
@@ -164,20 +70,15 @@
               <a class="active-filter-chip" href="{{ filter.url_to_remove }}">
                 {%- assign min_value = filter.min_value.value | default: 0 -%}
                 {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
-                {{ min_value | money }} - {{ max_value | money }}
-                <span class="active-filter-close">×</span>
+                {{ min_value | money }} - {{ max_value | money }} <span class="active-filter-close">×</span>
               </a>
             {%- endif -%}
           {%- else -%}
             {%- for value in filter.active_values -%}
-              <a class="active-filter-chip" href="{{ value.url_to_remove }}">
-                {{ value.label }}
-                <span class="active-filter-close">×</span>
-              </a>
+              <a class="active-filter-chip" href="{{ value.url_to_remove }}">{{ value.label }} <span class="active-filter-close">×</span></a>
             {%- endfor -%}
           {%- endif -%}
         {%- endfor -%}
-        
         <a href="{{ collection.url }}?sort_by={{ collection.sort_by }}" class="active-filters-clear">Clear all</a>
       </div>
     {% endif %}
@@ -193,68 +94,29 @@
           </div>
         {% endfor %}
       </div>
-
       {% if paginate.pages > 1 %}
         <div class="pagination-wrapper">
-          {% if paginate.previous %}
-            <a href="{{ paginate.previous.url }}" class="pagination-link">←</a>
-          {% endif %}
-          
+          {% if paginate.previous %}<a href="{{ paginate.previous.url }}" class="pagination-link">←</a>{% endif %}
           {% for part in paginate.parts %}
-            {% if part.is_link %}
-              <a href="{{ part.url }}" class="pagination-link">{{ part.title }}</a>
-            {% else %}
-              <span class="pagination-link is-current">{{ part.title }}</span>
-            {% endif %}
+            {% if part.is_link %}<a href="{{ part.url }}" class="pagination-link">{{ part.title }}</a>{% else %}<span class="pagination-link is-current">{{ part.title }}</span>{% endif %}
           {% endfor %}
-          
-          {% if paginate.next %}
-            <a href="{{ paginate.next.url }}" class="pagination-link">→</a>
-          {% endif %}
+          {% if paginate.next %}<a href="{{ paginate.next.url }}" class="pagination-link">→</a>{% endif %}
         </div>
       {% endif %}
     {% endpaginate %}
-    
   </div>
 </div>
-
 {% render 'facets-drawer', results: collection %}
-
 <script>
-  function toggleSortMenu(e) {
-    e.stopPropagation();
-    document.getElementById('SortMenu').classList.toggle('is-visible');
-  }
-
-  function applySort(sortValue) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('sort_by', sortValue);
-    window.location.href = url.href;
-  }
-
-  document.addEventListener('click', function(e) {
-    const menu = document.getElementById('SortMenu');
-    if (menu && menu.classList.contains('is-visible')) {
-      if (!e.target.closest('.custom-sort-wrapper')) {
-        menu.classList.remove('is-visible');
-      }
-    }
-  });
+  function toggleSortMenu(e) { e.stopPropagation(); document.getElementById('SortMenu').classList.toggle('is-visible'); }
+  function applySort(sortValue) { const url = new URL(window.location.href); url.searchParams.set('sort_by', sortValue); window.location.href = url.href; }
+  document.addEventListener('click', function(e) { const menu = document.getElementById('SortMenu'); if (menu && menu.classList.contains('is-visible') && !e.target.closest('.custom-sort-wrapper')) { menu.classList.remove('is-visible'); }});
 </script>
-
 {% schema %}
 {
   "name": "Collection Products",
   "settings": [
-    {
-      "type": "range",
-      "id": "products_per_page",
-      "label": "Products per page",
-      "min": 8,
-      "max": 24,
-      "step": 4,
-      "default": 16
-    }
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 24, "step": 4, "default": 16 }
   ]
 }
 {% endschema %}
