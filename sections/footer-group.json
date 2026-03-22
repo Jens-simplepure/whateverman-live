@@ -11,23 +11,12 @@
   "type": "footer",
   "name": "Footer Group",
   "sections": {
-    "featured_collection_VhtLwE": {
-      "type": "featured-collection",
-      "disabled": true,
-      "name": "Featured Collection",
-      "settings": {
-        "heading": "Best Sellers",
-        "collection": "",
-        "products_per_page": 4
-      }
-    },
     "footer": {
       "type": "footer",
       "settings": {}
     }
   },
   "order": [
-    "featured_collection_VhtLwE",
     "footer"
   ]
 }
