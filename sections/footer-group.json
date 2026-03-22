@@ -11,12 +11,22 @@
   "type": "footer",
   "name": "Footer Group",
   "sections": {
+    "featured_collection_phB4aj": {
+      "type": "featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "heading": "whateverwear",
+        "collection": "",
+        "products_per_page": 4
+      }
+    },
     "footer": {
       "type": "footer",
       "settings": {}
     }
   },
   "order": [
+    "featured_collection_phB4aj",
     "footer"
   ]
 }
