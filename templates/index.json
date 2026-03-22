@@ -23,30 +23,9 @@
         "secondary_button_text": "New, But Chill",
         "secondary_button_link": "shopify://collections/new"
       }
-    },
-    "featured-collection": {
-      "type": "featured-collection",
-      "settings": {
-        "heading_prefix": "Fresh",
-        "heading_highlight": "Graphics Shirts",
-        "collection": "men-tshirts-graphic-prints",
-        "products_to_show": 8
-      }
-    },
-    "featured_collection_az9AHD": {
-      "type": "featured-collection",
-      "name": "Featured Collection",
-      "settings": {
-        "heading_prefix": "Featured ",
-        "heading_highlight": "Headwear",
-        "collection": "headwear-beanies-caps",
-        "products_to_show": 4
-      }
     }
   },
   "order": [
-    "hero",
-    "featured-collection",
-    "featured_collection_az9AHD"
+    "hero"
   ]
 }
