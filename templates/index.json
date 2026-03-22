@@ -29,7 +29,7 @@
       "name": "Featured Collection",
       "settings": {
         "heading": "Whateverwear",
-        "collection": "",
+        "collection": "whateverwear",
         "products_per_page": 4
       }
     }
