@@ -23,9 +23,19 @@
         "secondary_button_text": "New, But Chill",
         "secondary_button_link": "shopify://collections/new"
       }
+    },
+    "featured_collection_KKL3rt": {
+      "type": "featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "heading": "Whateverwear",
+        "collection": "",
+        "products_per_page": 4
+      }
     }
   },
   "order": [
-    "hero"
+    "hero",
+    "featured_collection_KKL3rt"
   ]
 }
