@@ -1,1 +1,11 @@
-{% section 'product-main' %}
+{% section 'product-main' %}/* Portrait 3:4 product images */
+.card__media img,
+.card__inner img,
+.product-card img {
+  aspect-ratio: 3 / 4 !important;
+  object-fit: contain !important;
+  object-position: center;
+  width: 100%;
+  background-color: transparent;
+}
+
