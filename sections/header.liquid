@@ -40,7 +40,7 @@
         <div class="header__nav-item {% if has_active_child %}has-active-child{% endif %}" data-has-mega="{% if link.links != blank %}true{% else %}false{% endif %}">
           <a href="{{ link.url }}" class="header__nav-link {% if link.active %}is-active{% endif %}">
             {{ link.title }}
-            {% if link.title contains 'New' %}<span class="badge-new">NEW</span>{% endif %}
+
           </a>
 
           {% if link.links != blank %}
